@@ -1,0 +1,11 @@
+{
+  "name": "gsoc",
+  "version": "1.0.0",
+  "description": "basic boilerplate for react-redux apps",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ayush",
+  "license": "ISC"
+}

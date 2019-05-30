@@ -1,11 +1,23 @@
 {
-  "name": "gsoc",
-  "version": "1.0.0",
-  "description": "basic boilerplate for react-redux apps",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "ayush",
-  "license": "ISC"
+	"name": "dev-interface-ros",
+	"version": "1.0.0",
+	"description": "developer web interface for ReactOS",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "ayush kumar sinha",
+	"license": "ISC",
+	"devDependencies": {
+		"eslint": "^5.16.0",
+		"eslint-plugin-react": "^7.13.0"
+	},
+	"dependencies": {
+		"dotenv": "^8.0.0",
+		"express": "^4.17.1",
+		"parse-link-header": "^1.0.1",
+		"path": "^0.12.7",
+		"request": "^2.88.0",
+		"request-promise": "^4.2.4"
+	}
 }

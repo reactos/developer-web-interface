@@ -53,7 +53,6 @@ app.get('/api/commits', (req, res) => {
 
 	rp(commitReq(req.query.sha))
 		.then(body => {
-			// res.json(body);
 			let link = body.headers.link;
 			let parsed = parse(link);
 			let dataAndPage = {

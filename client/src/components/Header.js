@@ -1,37 +1,57 @@
-import './styles/Header.css';
 import React from 'react';
+import './styles/Header.css';
+import { Collapse, NavbarToggler } from 'reactstrap';
 
 class Header extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.toggle = this.toggle.bind(this);
+		this.state = {
+			isOpen: false
+		};
+	}
+	toggle() {
+		this.setState({
+			isOpen: !this.state.isOpen
+		});
+	}
 	render() {
 		return (
 			<div>
-				<nav className='navbar navbar-expand-md bg-dark navbar-dark'>
-					<a className='navbar-brand' href='https://www.reactos.org/'>
-						<img src='https://reactos.org/wiki/images/thumb/0/02/ReactOS_logo.png/300px-ReactOS_logo.png' />
+				<nav className='navbar navbar-expand-sm bg-dark navbar-dark'>
+					<a className='navbar-brand' href='https://www.reactos.org'>
+						<img
+							src='https://reactos.org/wiki/images/thumb/0/02/ReactOS_logo.png/300px-ReactOS_logo.png'
+							alt='logo'
+						/>
 					</a>
-
-					<button
-						className='navbar-toggler'
-						type='button'
-						data-toggle='collapse'
-						data-target='#collapsibleNavbar'
-					>
-						<span className='navbar-toggler-icon' />
-					</button>
-
-					<div className='collapse navbar-collapse' id='collapsibleNavbar'>
-						<ul className='navbar-nav'>
+					<span>
+						<h3>Developer Interface</h3>
+					</span>
+					<NavbarToggler onClick={this.toggle} />
+					<Collapse isOpen={this.state.isOpen} navbar>
+						<ul className='navbar-nav ml-auto'>
 							<li className='nav-item'>
-								<a className='nav-link'>Link</a>
+								<a className='nav-link' href='https://github.com/reactos'>
+									<i className='fa fa-github' />
+									Github
+								</a>
 							</li>
 							<li className='nav-item'>
-								<a className='nav-link'>Link</a>
+								<a className='nav-link' href='https://reactos.org/testman'>
+									<i className='fa fa-cog' />
+									Testman
+								</a>
 							</li>
 							<li className='nav-item'>
-								<a className='nav-link'>Link</a>
+								<a className='nav-link' href='https://build.reactos.org/'>
+									<i className='fa fa-wrench' />
+									Buildbot
+								</a>
 							</li>
 						</ul>
-					</div>
+					</Collapse>
 				</nav>
 			</div>
 		);

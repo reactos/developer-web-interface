@@ -4,7 +4,12 @@
 	"description": "developer web interface for ReactOS",
 	"main": "app.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"client-install": "npm install --prefix client",
+		"start": "node app.js",
+		"server": "nodemon app.js",
+		"client": "npm start --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"heroku-postbuild": "cd client && npm install && npm run build"
 	},
 	"author": "ayush kumar sinha",
 	"license": "ISC",

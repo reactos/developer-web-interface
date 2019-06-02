@@ -69,6 +69,40 @@ app.get('/api/commits', (req, res) => {
 		});
 });
 
+
+
+function branchReq (){
+	var branches = {
+		uri: 'https://api.github.com/repos/reactos/reactos/branches',
+		resolveWithFullResponse: false,
+		qs: {
+			// access_token: key, // -> uri + '?access_token=xxxxx%20xxxxx'
+		},
+		headers: {
+			'User-Agent': 'Request-Promise'
+		},
+		json: true
+	};
+
+	return branches;
+}
+
+app.get('/api/branches', (req, res) => {
+
+	rp(branchReq())
+		.then(body => {
+			res.json(body);
+		})
+		.catch(function(err) {
+			res.json({ error: 'oops...something went wrong' });
+		});
+});
+
+
+
+
+
+
 app.listen(PORT, () => {
 	console.log('server started');
 });

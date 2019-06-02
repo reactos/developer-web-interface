@@ -7,7 +7,17 @@ const fetchCommits = async () => {
 	return data.commits.body;
 };
 
-export { fetchCommits };
+const fetchBranches = async () => {
+	const response = await fetch('/api/branches');
+	const data = await response.json();
+	if (response.status >= 400) {
+		throw new Error(data.errors);
+	}
+	console.log(data);
+	return data;
+};
+
+export { fetchCommits, fetchBranches };
 
 // export function fetchCommits() {
 // 	fetch('/api/commits').then(res => {

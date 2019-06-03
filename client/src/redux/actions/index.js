@@ -1,7 +1,8 @@
-import { COMMITS } from '../constants';
+import { COMMITS, BRANCHES } from '../constants';
 
-const loadCommits = () => ({
-	type: COMMITS.LOAD
+const loadCommits = curr_branch => ({
+	type: COMMITS.LOAD,
+	curr_branch
 });
 
 const setCommits = commits => ({
@@ -9,9 +10,30 @@ const setCommits = commits => ({
 	commits
 });
 
-const setError = error => ({
+const setCommitsError = error => ({
 	type: COMMITS.LOAD_FAIL,
 	error
 });
 
-export { loadCommits, setCommits, setError };
+const loadBranches = () => ({
+	type: BRANCHES.LOAD
+});
+
+const setBranches = branches => ({
+	type: BRANCHES.LOAD_SUCCESS,
+	branches
+});
+
+const setBranchesError = error => ({
+	type: BRANCHES.LOAD_FAIL,
+	error
+});
+
+export {
+	loadCommits,
+	setCommits,
+	setCommitsError,
+	loadBranches,
+	setBranches,
+	setBranchesError
+};

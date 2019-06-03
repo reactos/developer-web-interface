@@ -1,5 +1,6 @@
-const fetchCommits = async () => {
-	const response = await fetch('/api/commits');
+const fetchCommits = async sha => {
+	const response = await fetch(`/api/commits?sha=${sha}`);
+	console.log(response);
 	const data = await response.json();
 	if (response.status >= 400) {
 		throw new Error(data.errors);
@@ -13,7 +14,6 @@ const fetchBranches = async () => {
 	if (response.status >= 400) {
 		throw new Error(data.errors);
 	}
-	console.log(data);
 	return data;
 };
 

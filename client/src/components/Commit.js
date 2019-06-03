@@ -3,6 +3,7 @@ import './styles/Commit.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadCommits } from '../redux/actions';
+import Branches from './Branches';
 
 class CommitsGrid extends Component {
 	componentDidMount() {
@@ -12,7 +13,7 @@ class CommitsGrid extends Component {
 		var d = new Date(commit.commit.committer.date);
 		return (
 			<tr key={commit.sha}>
-				<td>{commit.sha}</td>
+				<td>{commit.sha.substring(0, 7)}</td>
 				<td>{commit.commit.committer.name}</td>
 				<td>{d.toUTCString()}</td>
 			</tr>
@@ -23,6 +24,7 @@ class CommitsGrid extends Component {
 		return (
 			<div>
 				<div className="container">
+					<Branches />
 					<h2>Latest Commits</h2>
 					<table className="table table-bordered">
 						<thead>
@@ -47,7 +49,7 @@ const mapStateToProps = ({ isLoading, commits, error }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	loadCommits: () => dispatch(loadCommits())
+	loadCommits: data => dispatch(loadCommits(data))
 });
 
 export default connect(

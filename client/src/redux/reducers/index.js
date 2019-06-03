@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
 	isLoading: loadingReducer,
 	commits: commitsReducer,
 	error: errorReducer,
-	branch: branchReducer
+	branches: branchReducer
 });
 
 export default rootReducer;

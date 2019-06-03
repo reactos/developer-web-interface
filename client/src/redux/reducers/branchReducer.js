@@ -1,12 +1,10 @@
-import { COMMITS } from '../constants';
+import { BRANCHES } from '../constants';
 
-const branchReducer = (state = null, action) => {
-	switch (action.type) {
-	case COMMITS.LOAD_SUCCESS:
-		return state;
-	default:
-		return state;
+const branchReducer = (state = [], action) => {
+	if (action.type === BRANCHES.LOAD_SUCCESS) {
+		return [...state, ...action.branches];
 	}
+	return state;
 };
 
 export default branchReducer;

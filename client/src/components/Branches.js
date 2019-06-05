@@ -6,7 +6,7 @@ import {
 	DropdownMenu,
 	DropdownItem
 } from 'reactstrap';
-import { loadBranches } from '../redux/actions';
+import { loadBranches, loadCommits, currBranch } from '../redux/actions';
 
 class Branches extends Component {
 	constructor(props) {
@@ -18,11 +18,21 @@ class Branches extends Component {
 		};
 	}
 	componentDidMount() {
-		// this.props.loadCommits();
 		this.props.loadBranches();
 	}
+
 	renderBranches = branch => {
-		return <DropdownItem key={branch.name}>{branch.name}</DropdownItem>;
+		return (
+			<DropdownItem
+				onClick={() => {
+					this.props.currBranch(branch.name);
+					this.props.loadCommits();
+				}}
+				key={branch.name}
+			>
+				{branch.name}
+			</DropdownItem>
+		);
 	};
 	toggle() {
 		this.setState(prevState => ({
@@ -67,8 +77,9 @@ const mapStateToProps = ({ branches }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	// loadCommits: () => dispatch(loadCommits()),
-	loadBranches: () => dispatch(loadBranches())
+	loadCommits: () => dispatch(loadCommits()),
+	loadBranches: () => dispatch(loadBranches()),
+	currBranch: branch => dispatch(currBranch(branch))
 });
 
 export default connect(

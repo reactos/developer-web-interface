@@ -49,7 +49,7 @@ const mapStateToProps = ({ isLoading, commits, error }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	loadCommits: data => dispatch(loadCommits(data))
+	loadCommits: () => dispatch(loadCommits())
 });
 
 export default connect(

@@ -1,11 +1,13 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { COMMITS } from '../constants';
 import { fetchCommits } from '../api';
 import { setCommits, setCommitsError } from '../actions';
+export const getBranch = state => state.branch;
 
 function* handleCommitsLoad() {
 	try {
-		const commits = yield call(fetchCommits, 'master');
+		const branch = yield select(getBranch);
+		const commits = yield call(fetchCommits, branch);
 		yield put(setCommits(commits));
 	} catch (error) {
 		//dispatch error

@@ -8,7 +8,7 @@ const PORT = 5000 || process.env.PORT;
 const path = require('path');
 
 const dev = app.get('env') !== 'production';
-
+var key = process.env.SECRET;
 //settings for production Environment
 if (!dev) {
 	app.disable('x-powered-by');
@@ -24,7 +24,7 @@ function commitReq(sha) {
 		uri: 'https://api.github.com/repos/reactos/reactos/commits',
 		resolveWithFullResponse: true,
 		qs: {
-			// access_token: key, // -> uri + '?access_token=xxxxx%20xxxxx'
+			access_token: key, // -> uri + '?access_token=xxxxx%20xxxxx'
 			sha: sha,
 			per_page: 5
 		},
@@ -69,9 +69,7 @@ app.get('/api/commits', (req, res) => {
 		});
 });
 
-
-
-function branchReq (){
+function branchReq() {
 	var branches = {
 		uri: 'https://api.github.com/repos/reactos/reactos/branches',
 		resolveWithFullResponse: false,
@@ -88,7 +86,6 @@ function branchReq (){
 }
 
 app.get('/api/branches', (req, res) => {
-
 	rp(branchReq())
 		.then(body => {
 			res.json(body);
@@ -97,11 +94,6 @@ app.get('/api/branches', (req, res) => {
 			res.json({ error: 'oops...something went wrong' });
 		});
 });
-
-
-
-
-
 
 app.listen(PORT, () => {
 	console.log('server started');

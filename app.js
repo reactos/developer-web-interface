@@ -4,7 +4,7 @@ const rp = require('request-promise');
 const app = express();
 var parse = require('parse-link-header');
 dotenv.config();
-const PORT = 5000 || process.env.PORT;
+const PORT = process.env.PORT || 5000;
 const path = require('path');
 
 const dev = app.get('env') !== 'production';
@@ -14,9 +14,9 @@ if (!dev) {
 	app.disable('x-powered-by');
 	// Serve static files from the React app
 	app.use(express.static(path.join(__dirname, 'client/build')));
-	app.get('*', (req, res) => {
-		res.sendFile(path.join(__dirname + '/client/build/index.html'));
-	});
+	// app.get('*', (req, res) => {
+	// 	res.sendFile(path.join(__dirname + '/client/build/index.html'));
+	// });
 }
 
 function commitReq(sha) {

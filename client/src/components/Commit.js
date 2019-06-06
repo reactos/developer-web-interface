@@ -25,7 +25,8 @@ class CommitsGrid extends Component {
 			<div>
 				<div className="container">
 					<Branches />
-					<h2>Latest Commits</h2>
+					<h3>Branch:{this.props.branch}</h3>
+					<h3>Latest Commits</h3>
 					<table className="table table-bordered">
 						<thead>
 							<tr>
@@ -34,7 +35,13 @@ class CommitsGrid extends Component {
 								<th>Date</th>
 							</tr>
 						</thead>
-						<tbody>{this.props.commits.map(this.renderCommits)}</tbody>
+						<tbody>
+							{this.props.isLoading ? (
+								<div>Loading...</div>
+							) : (
+								this.props.commits.map(this.renderCommits)
+							)}
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -42,10 +49,11 @@ class CommitsGrid extends Component {
 	}
 }
 
-const mapStateToProps = ({ isLoading, commits, error }) => ({
+const mapStateToProps = ({ isLoading, commits, error, branch }) => ({
 	isLoading,
 	commits,
-	error
+	error,
+	branch
 });
 
 const mapDispatchToProps = dispatch => ({

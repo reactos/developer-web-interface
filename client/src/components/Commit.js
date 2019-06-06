@@ -15,7 +15,7 @@ class CommitsGrid extends Component {
 			<tr key={commit.sha}>
 				<td>{commit.sha.substring(0, 7)}</td>
 				<td>{commit.commit.committer.name}</td>
-				<td>{d.toUTCString()}</td>
+				<td>{d.toLocaleString()}</td>
 			</tr>
 		);
 	};
@@ -37,7 +37,9 @@ class CommitsGrid extends Component {
 						</thead>
 						<tbody>
 							{this.props.isLoading ? (
-								<div>Loading...</div>
+								<tr>
+									<th>Loading...</th>
+								</tr>
 							) : (
 								this.props.commits.map(this.renderCommits)
 							)}

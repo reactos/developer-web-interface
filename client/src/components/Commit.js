@@ -25,7 +25,7 @@ class CommitsGrid extends Component {
 			<div>
 				<div className="container">
 					<Branches />
-					<h3>Branch:{this.props.branch}</h3>
+					<h6>Current Branch:{this.props.branch}</h6>
 					<h3>Latest Commits</h3>
 					<table className="table table-bordered">
 						<thead>

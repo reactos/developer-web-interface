@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import Header from './components/Header';
-import Commit from './components/Commit';
+import TabEX from './components/Tabs';
 import configureStore from './redux/store';
 const store = configureStore();
 
@@ -10,7 +10,7 @@ function App() {
 		<Provider store={store}>
 			<div>
 				<Header />
-				<Commit />
+				<TabEX />
 			</div>
 		</Provider>
 	);

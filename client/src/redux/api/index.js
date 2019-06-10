@@ -16,17 +16,13 @@ const fetchBranches = async () => {
 	}
 	return data;
 };
+const fetchPulls = async () => {
+	const response = await fetch('/api/pulls');
+	const data = await response.json();
+	if (response.status >= 400) {
+		throw new Error(data.errors);
+	}
+	return data;
+};
 
-export { fetchCommits, fetchBranches };
-
-// export function fetchCommits() {
-// 	fetch('/api/commits').then(res => {
-// 		if (res.ok) {
-// 			res.json().then(data => {
-// 				return data.commits.body;
-// 			});
-// 		} else {
-// 			throw Error(`Request rejected with status ${res.status}`);
-// 		}
-// 	});
-// }
+export { fetchCommits, fetchBranches, fetchPulls };

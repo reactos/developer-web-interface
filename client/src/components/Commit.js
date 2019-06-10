@@ -15,6 +15,7 @@ class CommitsGrid extends Component {
 			<tr key={commit.sha}>
 				<td>{commit.sha.substring(0, 7)}</td>
 				<td>{commit.commit.committer.name}</td>
+				<td>{commit.commit.message.substring(0, 20)}...</td>
 				<td>{d.toLocaleString()}</td>
 			</tr>
 		);
@@ -32,6 +33,7 @@ class CommitsGrid extends Component {
 							<tr>
 								<th>Commit SHA</th>
 								<th>Commiter</th>
+								<th>Message</th>
 								<th>Date</th>
 							</tr>
 						</thead>

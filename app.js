@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const rp = require('request-promise');
 const app = express();
+dotenv.config();
 const parse = require('parse-link-header');
 const PORT = process.env.PORT || 5000;
 const path = require('path');
@@ -51,7 +52,7 @@ app.get('/api/commits', (req, res) => {
 			res.json(dataAndPage);
 		})
 		.catch(function(err) {
-			res.json({ error: 'oops...something went wrong' });
+			res.json({ error: 'oops...something went wrong', err: err });
 		});
 });
 

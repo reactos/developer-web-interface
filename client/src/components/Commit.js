@@ -49,9 +49,10 @@ class CommitsGrid extends Component {
 							<tbody>{this.props.commits.map(this.renderCommits)}</tbody>
 						</table>
 					)}
-					{this.props.error && (
+					{this.props.commitError && (
 						<div className="error">
-							Unexpected Error occured. Kindly Reload the page
+							Unexpected Error occured. Kindly Reload the page<br />
+							Err:{this.props.commitError}
 						</div>
 					)}
 				</div>
@@ -60,10 +61,10 @@ class CommitsGrid extends Component {
 	}
 }
 
-const mapStateToProps = ({ isLoading, commits, error, branch }) => ({
+const mapStateToProps = ({ isLoading, commits, commitError, branch }) => ({
 	isLoading,
 	commits,
-	error,
+	commitError,
 	branch
 });
 

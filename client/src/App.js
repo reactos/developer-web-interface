@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import Header from './components/Header';
-import TabEX from './components/Tabs';
+import TabEX from './components/TabEX';
 import configureStore from './redux/store';
 const store = configureStore();
 

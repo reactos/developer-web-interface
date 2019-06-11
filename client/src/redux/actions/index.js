@@ -1,4 +1,4 @@
-import { COMMITS, BRANCHES } from '../constants';
+import { COMMITS, BRANCHES, PULLS } from '../constants';
 
 const loadCommits = () => ({
 	type: COMMITS.LOAD
@@ -32,6 +32,20 @@ const setBranchesError = error => ({
 	error
 });
 
+const loadPulls = () => ({
+	type: PULLS.LOAD
+});
+
+const setPulls = Pulls => ({
+	type: PULLS.LOAD_SUCCESS,
+	Pulls
+});
+
+const setPullsError = error => ({
+	type: PULLS.LOAD_FAIL,
+	error
+});
+
 export {
 	loadCommits,
 	setCommits,
@@ -39,5 +53,8 @@ export {
 	loadBranches,
 	setBranches,
 	setBranchesError,
-	currBranch
+	currBranch,
+	loadPulls,
+	setPulls,
+	setPullsError
 };

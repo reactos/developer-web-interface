@@ -1,6 +1,6 @@
 import { COMMITS } from '../constants';
 
-const errorReducer = (state = null, action) => {
+const commitErrorReducer = (state = null, action) => {
 	switch (action.type) {
 	case COMMITS.LOAD_FAIL:
 		return action.error;
@@ -14,4 +14,4 @@ const errorReducer = (state = null, action) => {
 	}
 };
 
-export default errorReducer;
+export default commitErrorReducer;

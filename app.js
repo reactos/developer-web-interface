@@ -48,7 +48,6 @@ app.get('/api/commits', (req, res) => {
 				},
 				commits: body
 			};
-
 			res.json(dataAndPage);
 		})
 		.catch(function(err) {

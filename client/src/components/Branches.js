@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
 	Dropdown,
@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 import { loadBranches, loadCommits, currBranch } from '../redux/actions';
 
-class Branches extends Component {
+class Branches extends React.Component {
 	constructor(props) {
 		super(props);
 

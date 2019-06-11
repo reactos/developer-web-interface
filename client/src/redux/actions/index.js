@@ -36,9 +36,9 @@ const loadPulls = () => ({
 	type: PULLS.LOAD
 });
 
-const setPulls = Pulls => ({
+const setPulls = pulls => ({
 	type: PULLS.LOAD_SUCCESS,
-	Pulls
+	pulls
 });
 
 const setPullsError = error => ({

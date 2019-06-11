@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { loadCommits } from '../redux/actions';
 import Branches from './Branches';
 import './styles/Commit.css';
 import Loading from './Loading';
 
-class CommitsGrid extends Component {
+class CommitsGrid extends React.Component {
 	componentDidMount() {
 		this.props.loadCommits();
 	}
@@ -51,7 +51,8 @@ class CommitsGrid extends Component {
 					)}
 					{this.props.commitError && (
 						<div className="error">
-							Unexpected Error occured. Kindly Reload the page<br />
+							Unexpected Error occured. Kindly Reload the page
+							<br />
 							Err:{this.props.commitError}
 						</div>
 					)}

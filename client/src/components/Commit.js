@@ -16,18 +16,29 @@ class CommitsGrid extends React.Component {
 		return (
 			<div key={commit.sha}>
 				<Card>
-					<CardHeader className="new" type="button" id={tog}>
-						<div className="row">
-							<div className="col-sm">{commit.sha.substring(0, 7)}</div>
-							<div className="col-sm">{commit.commit.committer.name}</div>
-							<div className="col-sm">{d.toLocaleString()}</div>
-							<div className="col-sm">
+					<CardHeader className='new' type='button' id={tog}>
+						<div className='row'>
+							<div className='col-sm'>{commit.sha.substring(0, 7)}</div>
+							<div className='col-sm'>{commit.commit.committer.name}</div>
+							<div className='col-sm'>{d.toLocaleString()}</div>
+							<div className='col-sm'>
 								{commit.commit.message.substring(0, 20)}
 							</div>
 						</div>
 					</CardHeader>
 					<UncontrolledCollapse toggler={tog}>
-						<CardBody>{commit.commit.message}</CardBody>
+						<CardBody>
+							<div>
+								<h6>Commit Msg:</h6>
+								{commit.commit.message}
+							</div>
+							<div>
+								<h6>
+									commit url:
+									<a href={commit.html_url}>click here</a>
+								</h6>
+							</div>
+						</CardBody>
 					</UncontrolledCollapse>
 				</Card>
 			</div>
@@ -37,7 +48,7 @@ class CommitsGrid extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className="container">
+				<div className='container'>
 					<Branches />
 					<h6>Current Branch:{this.props.branch}</h6>
 					<h3>Latest Commits</h3>
@@ -55,7 +66,7 @@ class CommitsGrid extends React.Component {
 						</div>
 					)}
 					{this.props.commitError && (
-						<div className="error">
+						<div className='error'>
 							Unexpected Error occured. Kindly Reload the page
 							<br />
 							Err:{this.props.commitError}

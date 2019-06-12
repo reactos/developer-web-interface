@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
 import { loadCommits } from '../redux/actions';
 import Branches from './Branches';
 import './styles/Commit.css';
@@ -10,14 +11,26 @@ class CommitsGrid extends React.Component {
 		this.props.loadCommits();
 	}
 	renderCommits = commit => {
+		var tog = 'toggler' + commit.sha;
 		var d = new Date(commit.commit.committer.date);
 		return (
-			<tr key={commit.sha}>
-				<td>{commit.sha.substring(0, 7)}</td>
-				<td>{commit.commit.committer.name}</td>
-				<td>{commit.commit.message.substring(0, 20)}...</td>
-				<td>{d.toLocaleString()}</td>
-			</tr>
+			<div key={commit.sha}>
+				<Card>
+					<CardHeader className="new" type="button" id={tog}>
+						<div className="row">
+							<div className="col-sm">{commit.sha.substring(0, 7)}</div>
+							<div className="col-sm">{commit.commit.committer.name}</div>
+							<div className="col-sm">{d.toLocaleString()}</div>
+							<div className="col-sm">
+								{commit.commit.message.substring(0, 20)}
+							</div>
+						</div>
+					</CardHeader>
+					<UncontrolledCollapse toggler={tog}>
+						<CardBody>{commit.commit.message}</CardBody>
+					</UncontrolledCollapse>
+				</Card>
+			</div>
 		);
 	};
 
@@ -37,17 +50,9 @@ class CommitsGrid extends React.Component {
 							</div>
 						</div>
 					) : (
-						<table className="table table-bordered">
-							<thead>
-								<tr>
-									<th>Commit SHA</th>
-									<th>Commiter</th>
-									<th>Message</th>
-									<th>Date</th>
-								</tr>
-							</thead>
-							<tbody>{this.props.commits.map(this.renderCommits)}</tbody>
-						</table>
+						<div>
+							<div>{this.props.commits.map(this.renderCommits)}</div>
+						</div>
 					)}
 					{this.props.commitError && (
 						<div className="error">

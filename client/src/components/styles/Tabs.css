@@ -1,8 +1,17 @@
+.collapsible {
+	display: none;
+}
+
+.collapsible.open {
+	display: block;
+}
 .s {
 	text-align: center;
 	margin-top: 2em;
 }
-
+.m1 {
+	padding: 0%;
+}
 .react-tabs {
 	-webkit-tap-highlight-color: transparent;
 }

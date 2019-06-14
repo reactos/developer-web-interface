@@ -63,7 +63,12 @@ class CommitsGrid extends React.Component {
 								</div>
 								<div className='col-sm'>
 									<strong>Author Email: </strong>
-									{commit.commit.author.email}
+									<a
+										href={`mailto:${commit.commit.author.email}`}
+										target='_top'
+									>
+										{commit.commit.author.email}
+									</a>
 								</div>
 							</div>
 							<div className='row'>
@@ -83,7 +88,12 @@ class CommitsGrid extends React.Component {
 								</div>
 								<div className='col-sm'>
 									<strong>Committer Email: </strong>
-									{commit.commit.committer.email}
+									<a
+										href={`mailto:${commit.commit.committer.email}`}
+										target='_top'
+									>
+										{commit.commit.committer.email}
+									</a>
 								</div>
 							</div>
 						</CardBody>

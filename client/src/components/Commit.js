@@ -79,7 +79,7 @@ class CommitsGrid extends React.Component {
 										rel='noreferrer noopener'
 										href={`https://git.reactos.org/?p=reactos.git;a=search;s=${committer};st=committer`}
 									>
-										{commit.commit.author.name}
+										{commit.commit.committer.name}
 									</a>
 								</div>
 								<div className='col-sm'>

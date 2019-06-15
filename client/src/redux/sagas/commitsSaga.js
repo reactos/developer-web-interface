@@ -3,13 +3,13 @@ import { COMMITS } from '../constants';
 import { fetchCommits } from '../api';
 import { setCommits, setCommitsError, setPages } from '../actions';
 export const getBranch = state => state.branch;
-export const getPage = state => parseInt(state.commitPage.next, 10);
+export const getNewPage = state => parseInt(state.isLoading.newPage, 10);
 
 function* handleCommitsLoad() {
 	try {
 		const branch = yield select(getBranch);
-		const nextPage = yield select(getPage);
-		const commits = yield call(fetchCommits, branch, nextPage);
+		const newPage = yield select(getNewPage);
+		let commits = yield call(fetchCommits, branch, newPage);
 		yield put(setCommits(commits.commits.body));
 		yield put(
 			setPages(

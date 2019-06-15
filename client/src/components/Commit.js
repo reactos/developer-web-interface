@@ -110,7 +110,7 @@ class CommitsGrid extends React.Component {
 					<Branches />
 					<h6>Current Branch:{this.props.branch}</h6>
 					<h3>Latest Commits</h3>
-					{this.props.isLoading ? (
+					{this.props.isLoading.load ? (
 						<div>
 							<div>
 								Fetching latest Commits of <strong>{this.props.branch} </strong>
@@ -134,11 +134,25 @@ class CommitsGrid extends React.Component {
 						<button
 							type='button'
 							onClick={() => {
+								this.props.loadCommits(this.props.commitPage.prev);
+								console.log(`prev btn:${this.props.commitPage.prev}`);
+							}}
+							className='btn btn-primary '
+							disabled={this.props.commitPage.prev === null ? true : false}
+						>
+							<i className='fa fa-caret-left' aria-hidden='true' />
+							Previous Page{' '}
+						</button>{' '}
+						<button
+							type='button'
+							onClick={() => {
 								this.props.loadCommits(this.props.commitPage.next);
 							}}
 							className='btn btn-primary'
+							disabled={this.props.commitPage.next === null ? true : false}
 						>
-							next
+							Next Page{'	'}
+							<i className='fa fa-caret-right' aria-hidden='true' />
 						</button>
 					</div>
 				</div>
@@ -157,7 +171,9 @@ const mapStateToProps = ({ isLoading, commits, commitError, branch,commitPage })
 });
 
 const mapDispatchToProps = dispatch => ({
-	loadCommits: next => dispatch(loadCommits(next))
+	loadCommits: next => {
+		dispatch(loadCommits(next));
+	}
 });
 
 export default connect(

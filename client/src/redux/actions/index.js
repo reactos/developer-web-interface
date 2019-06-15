@@ -1,7 +1,8 @@
 import { COMMITS, BRANCHES, PULLS } from '../constants';
 
-const loadCommits = () => ({
-	type: COMMITS.LOAD
+const loadCommits = newPage => ({
+	type: COMMITS.LOAD,
+	newPage
 });
 
 const setCommits = commits => ({

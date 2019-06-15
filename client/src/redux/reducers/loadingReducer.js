@@ -1,6 +1,6 @@
 import { COMMITS } from '../constants';
 
-const loadingReducer = (state = { newPage: null, load: false }, action) => {
+const loadingReducer = (state = { newPage: 1, load: false }, action) => {
 	switch (action.type) {
 		case COMMITS.LOAD:
 			return { newPage: action.newPage, load: true };

@@ -17,7 +17,7 @@ class CommitsGrid extends React.Component {
 		let author = encodeURIComponent(commit.commit.author.name);
 		let committer = encodeURIComponent(commit.commit.committer.name);
 		return (
-			<div key={commit.sha}>
+			<div className='panel-margin' key={commit.sha}>
 				<Card>
 					<CardHeader className='new' type='button' id={tog}>
 						<div className='row'>
@@ -106,7 +106,7 @@ class CommitsGrid extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className='container'>
+				<div className='container margin'>
 					<Branches />
 					<h6>Current Branch:{this.props.branch}</h6>
 					<h3>Latest Commits</h3>
@@ -130,21 +130,34 @@ class CommitsGrid extends React.Component {
 							Err:{this.props.commitError}
 						</div>
 					)}
+					<div>
+						<button
+							type='button'
+							onClick={() => {
+								this.props.loadCommits(this.props.commitPage.next);
+							}}
+							className='btn btn-primary'
+						>
+							next
+						</button>
+					</div>
 				</div>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = ({ isLoading, commits, commitError, branch }) => ({
+// prettier-ignore
+const mapStateToProps = ({ isLoading, commits, commitError, branch,commitPage }) => ({
 	isLoading,
 	commits,
 	commitError,
-	branch
+	branch,
+	commitPage
 });
 
 const mapDispatchToProps = dispatch => ({
-	loadCommits: () => dispatch(loadCommits())
+	loadCommits: next => dispatch(loadCommits(next))
 });
 
 export default connect(

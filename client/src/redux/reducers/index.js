@@ -6,6 +6,7 @@ import commitErrorReducer from './commitErrorReducer';
 import branchReducer from './branchReducer';
 import selectedBranchReducer from './selectedBranchReducer';
 import pullsReducer from './pullsReducer';
+import commitPageReducer from './commitPageReducer';
 
 const rootReducer = combineReducers({
 	isLoading: loadingReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
 	commitError: commitErrorReducer,
 	branches: branchReducer,
 	branch: selectedBranchReducer,
-	pulls: pullsReducer
+	pulls: pullsReducer,
+	commitPage: commitPageReducer
 });
 
 export default rootReducer;

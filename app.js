@@ -19,14 +19,15 @@ if (!dev) {
 
 //------- COMMITS END-POINT -------
 
-function commitReq(sha) {
+function commitReq(sha, page) {
 	var repos = {
 		uri: 'https://api.github.com/repos/reactos/reactos/commits',
 		resolveWithFullResponse: true,
 		qs: {
 			access_token: key, // -> uri + '?access_token=xxxxx%20xxxxx'
 			sha: sha,
-			per_page: 5
+			per_page: 10,
+			page: page
 		},
 		headers: {
 			'User-Agent': 'Request-Promise'
@@ -38,7 +39,7 @@ function commitReq(sha) {
 }
 
 app.get('/api/commits', (req, res) => {
-	rp(commitReq(req.query.sha))
+	rp(commitReq(req.query.sha, req.query.page))
 		.then(body => {
 			let link = body.headers.link;
 			let parsed = parse(link);

@@ -14,6 +14,11 @@ const setCommitsError = error => ({
 	error
 });
 
+const setPages = (next, prev) => ({
+	type: 'PAGE_LOAD_SUCCESS',
+	next,
+	prev
+});
 const loadBranches = () => ({
 	type: BRANCHES.LOAD
 });
@@ -50,6 +55,7 @@ export {
 	loadCommits,
 	setCommits,
 	setCommitsError,
+	setPages,
 	loadBranches,
 	setBranches,
 	setBranchesError,

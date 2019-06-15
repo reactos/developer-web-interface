@@ -10,7 +10,7 @@ const loadingReducer = (state = { newPage: null, load: false }, action) => {
 			return state;
 
 		default:
-			return state;
+			return { ...state, load: false };
 	}
 };
 

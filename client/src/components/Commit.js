@@ -121,6 +121,41 @@ class CommitsGrid extends React.Component {
 					) : (
 						<div>
 							<div>{this.props.commits.map(this.renderCommits)}</div>
+							<div>
+								<button
+									type='button'
+									onClick={() => {
+										this.props.loadCommits(this.props.commitPage.prev);
+										console.log(`prev btn:${this.props.commitPage.prev}`);
+									}}
+									className='btn btn-primary '
+									disabled={
+										this.props.commitPage.prev === null ||
+										this.props.commitError !== null
+											? true
+											: false
+									}
+								>
+									<i className='fa fa-caret-left' aria-hidden='true' />
+									Previous Page{' '}
+								</button>{' '}
+								<button
+									type='button'
+									onClick={() => {
+										this.props.loadCommits(this.props.commitPage.next);
+									}}
+									className='btn btn-primary'
+									disabled={
+										this.props.commitPage.next === null ||
+										this.props.commitError !== null
+											? true
+											: false
+									}
+								>
+									Next Page{'	'}
+									<i className='fa fa-caret-right' aria-hidden='true' />
+								</button>
+							</div>
 						</div>
 					)}
 					{this.props.commitError && (
@@ -130,31 +165,6 @@ class CommitsGrid extends React.Component {
 							Err:{this.props.commitError}
 						</div>
 					)}
-					<div>
-						<button
-							type='button'
-							onClick={() => {
-								this.props.loadCommits(this.props.commitPage.prev);
-								console.log(`prev btn:${this.props.commitPage.prev}`);
-							}}
-							className='btn btn-primary '
-							disabled={this.props.commitPage.prev === null ? true : false}
-						>
-							<i className='fa fa-caret-left' aria-hidden='true' />
-							Previous Page{' '}
-						</button>{' '}
-						<button
-							type='button'
-							onClick={() => {
-								this.props.loadCommits(this.props.commitPage.next);
-							}}
-							className='btn btn-primary'
-							disabled={this.props.commitPage.next === null ? true : false}
-						>
-							Next Page{'	'}
-							<i className='fa fa-caret-right' aria-hidden='true' />
-						</button>
-					</div>
 				</div>
 			</div>
 		);

@@ -157,9 +157,10 @@ class CommitsGrid extends React.Component {
 										Next Page{'	'}
 										<i className='fa fa-caret-right' aria-hidden='true' />
 									</button>
-									<div className='foter'>
+									<footer className='blockquote-footer'>
 										Page {this.props.commitPage.next - 1}
-									</div>
+									</footer>
+									<div className='footer-blockquote' />
 								</div>
 							)}
 						</div>

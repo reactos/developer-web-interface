@@ -22,6 +22,7 @@
 		"express": "^4.17.1",
 		"parse-link-header": "^1.0.1",
 		"path": "^0.12.7",
+		"react-router-dom": "^5.0.1",
 		"request": "^2.88.0",
 		"request-promise": "^4.2.4"
 	}

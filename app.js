@@ -86,13 +86,15 @@ app.get('/api/branches', (req, res) => {
 
 //------- PR'S END-POINT -------
 
-function pullReq() {
+function pullReq(page) {
 	var pulls = {
 		uri: 'https://api.github.com/repos/reactos/reactos/pulls',
 		resolveWithFullResponse: true,
 		qs: {
 			access_token: key,
-			per_page: 5
+			state: 'all',
+			per_page: 10,
+			page: page
 		},
 		headers: {
 			'User-Agent': 'Request-Promise'
@@ -104,7 +106,7 @@ function pullReq() {
 }
 
 app.get('/api/pulls', (req, res) => {
-	rp(pullReq())
+	rp(pullReq(req.query.page))
 		.then(body => {
 			let link = body.headers.link;
 			let parsed = parse(link);
@@ -121,9 +123,12 @@ app.get('/api/pulls', (req, res) => {
 			res.json({ error: 'oops...something went wrong' });
 		});
 });
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+if (!dev) {
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname + '/client/build/index.html'));
+	});
+}
+
 app.listen(PORT, () => {
 	console.log('server started');
 });

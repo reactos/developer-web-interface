@@ -17,8 +17,8 @@ class Pulls extends React.Component {
 	render() {
 		return (
 			<div>
-				<h2>hi from pulls</h2>
-				<table className="table table-bordered">
+				<h2>Latest Pulls</h2>
+				<table className='table table-bordered'>
 					<thead>
 						<tr>
 							<th>pull id</th>
@@ -26,17 +26,56 @@ class Pulls extends React.Component {
 					</thead>
 					<tbody>{this.props.pulls.map(this.renderPulls)}</tbody>
 				</table>
+				<div>
+					<button
+						type='button'
+						onClick={() => {
+							this.props.loadPulls(this.props.page.prev);
+						}}
+						className='btn btn-primary '
+						disabled={
+							this.props.page.prev === null || this.props.error !== null
+								? true
+								: false
+						}
+					>
+						<i className='fa fa-caret-left' aria-hidden='true' />
+						Previous Page{' '}
+					</button>{' '}
+					<button
+						type='button'
+						onClick={() => {
+							this.props.loadPulls(this.props.page.next);
+						}}
+						className='btn btn-primary'
+						disabled={
+							this.props.page.next === null || this.props.error !== null
+								? true
+								: false
+						}
+					>
+						Next Page{'	'}
+						<i className='fa fa-caret-right' aria-hidden='true' />
+					</button>
+					<footer className='blockquote-footer'>
+						Page {this.props.page.next - 1}
+					</footer>
+					<div className='footer-blockquote' />
+				</div>
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = ({ pulls }) => ({
-	pulls
+const mapStateToProps = ({ pulls, page, isLoading, error }) => ({
+	pulls,
+	page,
+	isLoading,
+	error
 });
 
 const mapDispatchToProps = dispatch => ({
-	loadPulls: () => dispatch(loadPulls())
+	loadPulls: next => dispatch(loadPulls(next))
 });
 export default connect(
 	mapStateToProps,

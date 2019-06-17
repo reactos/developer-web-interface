@@ -38,8 +38,9 @@ const setBranchesError = error => ({
 	error
 });
 
-const loadPulls = () => ({
-	type: PULLS.LOAD
+const loadPulls = newPage => ({
+	type: PULLS.LOAD,
+	newPage
 });
 
 const setPulls = pulls => ({

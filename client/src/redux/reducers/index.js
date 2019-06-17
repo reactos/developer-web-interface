@@ -2,20 +2,20 @@ import { combineReducers } from 'redux';
 
 import loadingReducer from './loadingReducer';
 import commitsReducer from './commitsReducer';
-import commitErrorReducer from './commitErrorReducer';
+import errorReducer from './errorReducer';
 import branchReducer from './branchReducer';
 import selectedBranchReducer from './selectedBranchReducer';
 import pullsReducer from './pullsReducer';
-import commitPageReducer from './commitPageReducer';
+import pageReducer from './pageReducer';
 
 const rootReducer = combineReducers({
 	isLoading: loadingReducer,
 	commits: commitsReducer,
-	commitError: commitErrorReducer,
+	error: errorReducer,
 	branches: branchReducer,
 	branch: selectedBranchReducer,
 	pulls: pullsReducer,
-	commitPage: commitPageReducer
+	page: pageReducer
 });
 
 export default rootReducer;

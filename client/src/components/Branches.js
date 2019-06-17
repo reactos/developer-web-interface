@@ -85,7 +85,6 @@ const mapDispatchToProps = dispatch => ({
 	loadCommits: next => dispatch(loadCommits(next)),
 	loadBranches: () => dispatch(loadBranches()),
 	currBranch: branch => dispatch(currBranch(branch))
-	// setPages: commitPage => dispatch(setPages(commitPage))
 });
 
 export default connect(

@@ -1,5 +1,5 @@
 import { BRANCHES } from '../constants';
-const commitPageReducer = (state = { next: 1, prev: 0 }, action) => {
+const pageReducer = (state = { next: 1, prev: 0 }, action) => {
 	switch (action.type) {
 		case BRANCHES.CURRENT:
 			return {
@@ -16,4 +16,4 @@ const commitPageReducer = (state = { next: 1, prev: 0 }, action) => {
 	}
 };
 
-export default commitPageReducer;
+export default pageReducer;

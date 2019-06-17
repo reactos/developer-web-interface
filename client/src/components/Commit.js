@@ -121,19 +121,18 @@ class CommitsGrid extends React.Component {
 					) : (
 						<div>
 							<div>{this.props.commits.map(this.renderCommits)}</div>
-							{this.props.commitError !== null ? (
+							{this.props.error !== null ? (
 								' '
 							) : (
 								<div>
 									<button
 										type='button'
 										onClick={() => {
-											this.props.loadCommits(this.props.commitPage.prev);
+											this.props.loadCommits(this.props.page.prev);
 										}}
 										className='btn btn-primary '
 										disabled={
-											this.props.commitPage.prev === null ||
-											this.props.commitError !== null
+											this.props.page.prev === null || this.props.error !== null
 												? true
 												: false
 										}
@@ -144,12 +143,11 @@ class CommitsGrid extends React.Component {
 									<button
 										type='button'
 										onClick={() => {
-											this.props.loadCommits(this.props.commitPage.next);
+											this.props.loadCommits(this.props.page.next);
 										}}
 										className='btn btn-primary'
 										disabled={
-											this.props.commitPage.next === null ||
-											this.props.commitError !== null
+											this.props.page.next === null || this.props.error !== null
 												? true
 												: false
 										}
@@ -158,18 +156,18 @@ class CommitsGrid extends React.Component {
 										<i className='fa fa-caret-right' aria-hidden='true' />
 									</button>
 									<footer className='blockquote-footer'>
-										Page {this.props.commitPage.next - 1}
+										Page {this.props.page.next - 1}
 									</footer>
 									<div className='footer-blockquote' />
 								</div>
 							)}
 						</div>
 					)}
-					{this.props.commitError && (
+					{this.props.error && (
 						<div className='error'>
 							Unexpected Error occured. Kindly Reload the page
 							<br />
-							Err:{this.props.commitError}
+							Err:{this.props.error}
 						</div>
 					)}
 				</div>
@@ -179,12 +177,12 @@ class CommitsGrid extends React.Component {
 }
 
 // prettier-ignore
-const mapStateToProps = ({ isLoading, commits, commitError, branch,commitPage }) => ({
+const mapStateToProps = ({ isLoading, commits, error, branch,page }) => ({
 	isLoading,
 	commits,
-	commitError,
+	error,
 	branch,
-	commitPage
+	page
 });
 
 const mapDispatchToProps = dispatch => ({

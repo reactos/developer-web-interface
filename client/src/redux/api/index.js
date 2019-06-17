@@ -15,13 +15,14 @@ const fetchBranches = async () => {
 	}
 	return data;
 };
-const fetchPulls = async () => {
-	const response = await fetch('/api/pulls');
+const fetchPulls = async page => {
+	const response = await fetch(`/api/pulls?page=${page}`);
 	const data = await response.json();
 	if (response.status >= 400) {
 		throw new Error(data.errors);
 	}
-	return data.pulls.body;
+	console.log(data);
+	return data;
 };
 
 export { fetchCommits, fetchBranches, fetchPulls };

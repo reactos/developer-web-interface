@@ -9,7 +9,6 @@ const path = require('path');
 const dev = app.get('env') !== 'production';
 const key = process.env.SECRET;
 
-dotenv.config();
 //settings for production Environment
 if (!dev) {
 	app.disable('x-powered-by');
@@ -49,6 +48,7 @@ app.get('/api/commits', (req, res) => {
 				},
 				commits: body
 			};
+
 			res.json(dataAndPage);
 		})
 		.catch(function(err) {
@@ -86,13 +86,13 @@ app.get('/api/branches', (req, res) => {
 
 //------- PR'S END-POINT -------
 
-function pullReq(page) {
+function pullReq(state, page) {
 	var pulls = {
 		uri: 'https://api.github.com/repos/reactos/reactos/pulls',
 		resolveWithFullResponse: true,
 		qs: {
 			access_token: key,
-			state: 'all',
+			state: state,
 			per_page: 10,
 			page: page
 		},
@@ -106,7 +106,7 @@ function pullReq(page) {
 }
 
 app.get('/api/pulls', (req, res) => {
-	rp(pullReq(req.query.page))
+	rp(pullReq(req.query.state, req.query.page))
 		.then(body => {
 			let link = body.headers.link;
 			let parsed = parse(link);

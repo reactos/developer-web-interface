@@ -37,7 +37,10 @@ const setBranchesError = error => ({
 	type: BRANCHES.LOAD_FAIL,
 	error
 });
-
+const currState = pullState => ({
+	type: PULLS.CURRENT,
+	pullState
+});
 const loadPulls = newPage => ({
 	type: PULLS.LOAD,
 	newPage
@@ -63,6 +66,7 @@ export {
 	setBranchesError,
 	currBranch,
 	loadPulls,
+	currState,
 	setPulls,
 	setPullsError
 };

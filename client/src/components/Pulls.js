@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
 import { loadPulls } from '../redux/actions';
+import PullState from './PullState';
 import './styles/Pulls.css';
 import Loading from './Loading';
 
@@ -71,6 +72,7 @@ class Pulls extends React.Component {
 			<div>
 				<div className='container margin'>
 					<h2>Latest Pulls</h2>
+					<PullState />
 					{this.props.isLoading.load ? (
 						<div>
 							<div>

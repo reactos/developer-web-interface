@@ -15,8 +15,8 @@ const fetchBranches = async () => {
 	}
 	return data;
 };
-const fetchPulls = async page => {
-	const response = await fetch(`/api/pulls?page=${page}`);
+const fetchPulls = async (state, page) => {
+	const response = await fetch(`/api/pulls?state=${state}&page=${page}`);
 	const data = await response.json();
 	if (response.status >= 400) {
 		throw new Error(data.errors);

@@ -1,30 +1,30 @@
 {
-	"name": "dev-interface-ros",
-	"version": "1.0.0",
-	"description": "developer web interface for ReactOS",
-	"main": "app.js",
-	"scripts": {
-		"client-install": "npm install --prefix client",
-		"start": "node app.js",
-		"server": "nodemon app.js",
-		"client": "npm start --prefix client",
-		"dev": "concurrently \"npm run server\" \"npm run client\"",
-		"heroku-postbuild": "cd client && npm install && npm run build"
-	},
-	"author": "ayush kumar sinha",
-	"license": "ISC",
-	"devDependencies": {
-		"eslint": "^5.16.0",
-		"eslint-plugin-react": "^7.13.0"
-	},
-	"dependencies": {
-		"concurrently": "^4.1.0",
-		"dotenv": "^8.0.0",
-		"express": "^4.17.1",
-		"parse-link-header": "^1.0.1",
-		"path": "^0.12.7",
-		"react-router-dom": "^5.0.1",
-		"request": "^2.88.0",
-		"request-promise": "^4.2.4"
-	}
+ "name": "dev-interface-ros",
+ "version": "1.0.0",
+ "description": "developer web interface for ReactOS",
+ "main": "app.js",
+ "scripts": {
+  "client-install": "npm install --prefix client",
+  "start": "node app.js",
+  "server": "nodemon app.js",
+  "client": "npm start --prefix client",
+  "dev": "concurrently \"npm run server\" \"npm run client\"",
+  "heroku-postbuild": "cd client && npm install && npm run build"
+ },
+ "author": "ayush kumar sinha",
+ "license": "ISC",
+ "devDependencies": {
+  "eslint": "^5.16.0",
+  "eslint-plugin-react": "^7.13.0"
+ },
+ "dependencies": {
+  "concurrently": "^4.1.0",
+  "dotenv": "^8.0.0",
+  "express": "^4.17.1",
+  "parse-link-header": "^1.0.1",
+  "path": "^0.12.7",
+  "react-router-dom": "^5.0.1",
+  "request": "^2.88.0",
+  "request-promise": "^4.2.4"
+ }
 }

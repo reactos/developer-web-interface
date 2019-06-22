@@ -1,45 +1,45 @@
 {
-	"name": "client",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"bootstrap": "^4.3.1",
-		"font-awesome": "^4.7.0",
-		"react": "^16.8.6",
-		"react-dom": "^16.8.6",
-		"react-loader-spinner": "^2.3.0",
-		"react-popper": "^0.9.2",
-		"react-redux": "^7.0.3",
-		"react-scripts": "3.0.1",
-		"react-tabs": "^3.0.0",
-		"reactstrap": "^8.0.0",
-		"redux": "^4.0.1",
-		"redux-saga": "^1.0.2"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"eslint": "^5.16.0",
-		"eslint-plugin-react": "^7.13.0"
-	},
-	"proxy": "http://localhost:5000"
+ "name": "client",
+ "version": "0.1.0",
+ "private": true,
+ "dependencies": {
+  "bootstrap": "^4.3.1",
+  "font-awesome": "^4.7.0",
+  "react": "^16.8.6",
+  "react-dom": "^16.8.6",
+  "react-loader-spinner": "^2.3.0",
+  "react-popper": "^0.9.2",
+  "react-redux": "^7.0.3",
+  "react-scripts": "3.0.1",
+  "react-tabs": "^3.0.0",
+  "reactstrap": "^8.0.0",
+  "redux": "^4.0.1",
+  "redux-saga": "^1.0.2"
+ },
+ "scripts": {
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject"
+ },
+ "eslintConfig": {
+  "extends": "react-app"
+ },
+ "browserslist": {
+  "production": [
+   ">0.2%",
+   "not dead",
+   "not op_mini all"
+  ],
+  "development": [
+   "last 1 chrome version",
+   "last 1 firefox version",
+   "last 1 safari version"
+  ]
+ },
+ "devDependencies": {
+  "eslint": "^5.16.0",
+  "eslint-plugin-react": "^7.13.0"
+ },
+ "proxy": "http://localhost:5000"
 }

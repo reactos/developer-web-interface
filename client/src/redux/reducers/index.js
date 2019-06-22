@@ -10,14 +10,14 @@ import pageReducer from './pageReducer';
 import pullStateReducer from './pullStateReducer';
 
 const rootReducer = combineReducers({
-	isLoading: loadingReducer,
-	commits: commitsReducer,
-	error: errorReducer,
-	branches: branchReducer,
-	branch: selectedBranchReducer,
-	pulls: pullsReducer,
-	pullState: pullStateReducer,
-	page: pageReducer
+ isLoading: loadingReducer,
+ commits: commitsReducer,
+ error: errorReducer,
+ branches: branchReducer,
+ branch: selectedBranchReducer,
+ pulls: pullsReducer,
+ pullState: pullStateReducer,
+ page: pageReducer
 });
 
 export default rootReducer;

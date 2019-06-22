@@ -6,14 +6,14 @@ import configureStore from './redux/store';
 const store = configureStore();
 
 function App() {
-	return (
-		<Provider store={store}>
-			<div>
-				<Header />
-				<TabEX />
-			</div>
-		</Provider>
-	);
+ return (
+  <Provider store={store}>
+   <div>
+    <Header />
+    <TabEX />
+   </div>
+  </Provider>
+ );
 }
 
 export default App;

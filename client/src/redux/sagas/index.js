@@ -5,5 +5,5 @@ import branchesSaga from './branchesSaga';
 import pullsSaga from './pullsSaga';
 
 export default function* rootSaga() {
-	yield all([commitsSaga(), branchesSaga(), pullsSaga()]);
+ yield all([commitsSaga(), branchesSaga(), pullsSaga()]);
 }

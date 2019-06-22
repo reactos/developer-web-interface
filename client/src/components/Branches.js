@@ -18,6 +18,7 @@ class Branches extends React.Component {
   super(props);
 
   this.toggle = this.toggle.bind(this);
+  this.Stylemodif = this.Stylemodif.bind(this);
   this.state = {
    dropdownOpen: false
   };
@@ -44,6 +45,16 @@ class Branches extends React.Component {
    dropdownOpen: !prevState.dropdownOpen
   }));
  }
+ Stylemodif(data) {
+  return {
+   ...data,
+   styles: {
+    ...data.styles,
+    overflow: 'auto',
+    maxHeight: 500
+   }
+  };
+ }
 
  render() {
   return (
@@ -57,16 +68,7 @@ class Branches extends React.Component {
       setMaxHeight: {
        enabled: true,
        order: 890,
-       fn: data => {
-        return {
-         ...data,
-         styles: {
-          ...data.styles,
-          overflow: 'auto',
-          maxHeight: 500
-         }
-        };
-       }
+       fn: this.Stylemodif
       }
      }}
     >

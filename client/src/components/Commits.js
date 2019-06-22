@@ -6,7 +6,7 @@ import Branches from './Branches';
 import './styles/Commit.css';
 import Loading from './Loading';
 
-class CommitsGrid extends React.Component {
+class Commits extends React.Component {
  componentDidMount() {
   this.props.loadCommits();
  }
@@ -93,72 +93,59 @@ class CommitsGrid extends React.Component {
 
  render() {
   return (
-   <div>
-    <div className='container margin'>
-     <Branches />
-     <h6>Current Branch:{this.props.branch}</h6>
-     <h3>Latest Commits</h3>
-     {this.props.isLoading.load ? (
+   <div className='container margin'>
+    <Branches />
+    <h6>Current Branch:{this.props.branch}</h6>
+    <h3>Latest Commits</h3>
+    {this.props.isLoading.load ? (
+     <div>
       <div>
-       <div>
-        Fetching latest Commits of <strong>{this.props.branch} </strong>
-        for you...
-        <Loading />
+       Fetching latest Commits of <strong>{this.props.branch} </strong>
+       for you...
+       <Loading />
+      </div>
+     </div>
+    ) : (
+     <div>
+      <div>{this.props.commits.map(this.renderCommits)}</div>
+      {this.props.error ? (
+       <div className='error'>
+        Unexpected Error occured. Kindly Reload the page
+        <br />
+        Err:{this.props.error}
        </div>
-      </div>
-     ) : (
-      <div>
-       <div>{this.props.commits.map(this.renderCommits)}</div>
-       {this.props.error !== null ? (
-        ' '
-       ) : (
-        <div>
-         <button
-          type='button'
-          onClick={() => {
-           this.props.loadCommits(this.props.page.prev);
-          }}
-          className='btn btn-primary '
-          disabled={
-           this.props.page.prev === null || this.props.error !== null
-            ? true
-            : false
-          }
-         >
-          <i className='fa fa-caret-left' aria-hidden='true' />
-          Previous Page{' '}
-         </button>{' '}
-         <button
-          type='button'
-          onClick={() => {
-           this.props.loadCommits(this.props.page.next);
-          }}
-          className='btn btn-primary'
-          disabled={
-           this.props.page.next === null || this.props.error !== null
-            ? true
-            : false
-          }
-         >
-          Next Page{'	'}
-          <i className='fa fa-caret-right' aria-hidden='true' />
-         </button>
-         <footer className='blockquote-footer'>
-          Page {this.props.page.next - 1}
-         </footer>
-         <div className='footer-blockquote' />
-        </div>
-       )}
-      </div>
-     )}
-     {this.props.error && (
-      <div className='error'>
-       Unexpected Error occured. Kindly Reload the page
-       <br />
-       Err:{this.props.error}
-      </div>
-     )}
-    </div>
+      ) : (
+       <div>
+        <button
+         type='button'
+         onClick={() => {
+          this.props.loadCommits(this.props.page.prev);
+         }}
+         className='btn btn-primary '
+         disabled={this.props.page.prev === null || this.props.error !== null}
+        >
+         <i className='fa fa-caret-left' aria-hidden='true' />
+         Previous Page{' '}
+        </button>{' '}
+        <button
+         type='button'
+         onClick={() => {
+          this.props.loadCommits(this.props.page.next);
+         }}
+         className='btn btn-primary'
+         disabled={this.props.page.next === null || this.props.error !== null}
+        >
+         Next Page{'	'}
+         <i className='fa fa-caret-right' aria-hidden='true' />
+        </button>
+        <footer className='blockquote-footer'>
+         Page {this.props.page.next - 1}
+        </footer>
+        <div className='footer-blockquote' />
+       </div>
+      )}
+     </div>
+    )}
    </div>
   );
  }
@@ -182,4 +169,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
  mapStateToProps,
  mapDispatchToProps
-)(CommitsGrid);
+)(Commits);

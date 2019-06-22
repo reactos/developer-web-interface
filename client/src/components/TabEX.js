@@ -1,5 +1,5 @@
 import React from 'react';
-import Commit from './Commit';
+import Commits from './Commits';
 import Pulls from './Pulls';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './styles/Tabs.css';
@@ -13,7 +13,7 @@ class TabEX extends React.Component {
     </TabList>
 
     <TabPanel>
-     <Commit />
+     <Commits />
     </TabPanel>
     <TabPanel>
      <Pulls />

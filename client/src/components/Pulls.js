@@ -65,70 +65,57 @@ class Pulls extends React.Component {
  };
  render() {
   return (
-   <div>
-    <div className='container margin'>
-     <h2>Latest Pulls</h2>
-     <PullState />
-     {this.props.isLoading.load ? (
+   <div className='container margin'>
+    <h2>Latest Pulls</h2>
+    <PullState />
+    {this.props.isLoading.load ? (
+     <div>
       <div>
-       <div>
-        Fetching latest PRs for you...
-        <Loading />
+       Fetching latest PRs for you...
+       <Loading />
+      </div>
+     </div>
+    ) : (
+     <div>
+      <div>{this.props.pulls.map(this.renderPulls)}</div>
+      {this.props.error ? (
+       <div className='error'>
+        Unexpected Error occured. Kindly Reload the page
+        <br />
+        Err:{this.props.error}
        </div>
-      </div>
-     ) : (
-      <div>
-       <div>{this.props.pulls.map(this.renderPulls)}</div>
-       {this.props.error !== null ? (
-        ' '
-       ) : (
-        <div>
-         <button
-          type='button'
-          onClick={() => {
-           this.props.loadPulls(this.props.page.prev);
-          }}
-          className='btn btn-primary '
-          disabled={
-           this.props.page.prev === null || this.props.error !== null
-            ? true
-            : false
-          }
-         >
-          <i className='fa fa-caret-left' aria-hidden='true' />
-          Previous Page{' '}
-         </button>{' '}
-         <button
-          type='button'
-          onClick={() => {
-           this.props.loadPulls(this.props.page.next);
-          }}
-          className='btn btn-primary'
-          disabled={
-           this.props.page.next === null || this.props.error !== null
-            ? true
-            : false
-          }
-         >
-          Next Page{'	'}
-          <i className='fa fa-caret-right' aria-hidden='true' />
-         </button>
-         <footer className='blockquote-footer'>
-          Page {this.props.page.next - 1}
-         </footer>
-         <div className='footer-blockquote' />
-        </div>
-       )}
-      </div>
-     )}
-     {this.props.error && (
-      <div className='error'>
-       Unexpected Error occured. Kindly Reload the page
-       <br />
-       Err:{this.props.error}
-      </div>
-     )}
-    </div>
+      ) : (
+       <div>
+        <button
+         type='button'
+         onClick={() => {
+          this.props.loadPulls(this.props.page.prev);
+         }}
+         className='btn btn-primary '
+         disabled={this.props.page.prev === null || this.props.error !== null}
+        >
+         <i className='fa fa-caret-left' aria-hidden='true' />
+         Previous Page{' '}
+        </button>{' '}
+        <button
+         type='button'
+         onClick={() => {
+          this.props.loadPulls(this.props.page.next);
+         }}
+         className='btn btn-primary'
+         disabled={this.props.page.next === null || this.props.error !== null}
+        >
+         Next Page{'	'}
+         <i className='fa fa-caret-right' aria-hidden='true' />
+        </button>
+        <footer className='blockquote-footer'>
+         Page {this.props.page.next - 1}
+        </footer>
+        <div className='footer-blockquote' />
+       </div>
+      )}
+     </div>
+    )}
    </div>
   );
  }

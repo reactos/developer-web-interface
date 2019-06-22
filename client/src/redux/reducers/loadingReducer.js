@@ -13,9 +13,9 @@ const loadingReducer = (state = { newPage: 1, load: false }, action) => {
   case PULLS.LOAD_SUCCESS:
    return { ...state, load: false };
   case COMMITS.LOAD_FAIL:
-   return state;
+   return { ...state, load: false };
   case PULLS.LOAD_FAIL:
-   return state;
+   return { ...state, load: false };
 
   default:
    return { ...state, load: false };

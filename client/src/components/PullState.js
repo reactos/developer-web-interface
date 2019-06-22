@@ -13,6 +13,7 @@ class pullState extends React.Component {
   super(props);
 
   this.toggle = this.toggle.bind(this);
+  this.Stylemodif = this.Stylemodif.bind(this);
   this.state = {
    dropdownOpen: false
   };
@@ -36,7 +37,16 @@ class pullState extends React.Component {
    dropdownOpen: !prevState.dropdownOpen
   }));
  }
-
+ Stylemodif(data) {
+  return {
+   ...data,
+   styles: {
+    ...data.styles,
+    overflow: 'auto',
+    maxHeight: 500
+   }
+  };
+ }
  render() {
   return (
    <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -46,16 +56,7 @@ class pullState extends React.Component {
       setMaxHeight: {
        enabled: true,
        order: 890,
-       fn: data => {
-        return {
-         ...data,
-         styles: {
-          ...data.styles,
-          overflow: 'auto',
-          maxHeight: 500
-         }
-        };
-       }
+       fn: this.Stylemodif
       }
      }}
     >

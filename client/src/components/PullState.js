@@ -40,10 +40,7 @@ class pullState extends React.Component {
 	render() {
 		return (
 			<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-				<DropdownToggle caret>
-					<i className='fa fa-sitemap' />
-					PR State
-				</DropdownToggle>
+				<DropdownToggle caret>PR State</DropdownToggle>
 				<DropdownMenu
 					modifiers={{
 						setMaxHeight: {

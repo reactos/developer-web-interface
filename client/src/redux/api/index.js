@@ -21,7 +21,6 @@ const fetchPulls = async (state, page) => {
 	if (response.status >= 400) {
 		throw new Error(data.errors);
 	}
-	console.log(data);
 	return data;
 };
 

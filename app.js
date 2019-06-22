@@ -63,7 +63,8 @@ function branchReq() {
 		uri: 'https://api.github.com/repos/reactos/reactos/branches',
 		resolveWithFullResponse: false,
 		qs: {
-			access_token: key
+			access_token: key,
+			per_page: 100
 		},
 		headers: {
 			'User-Agent': 'Request-Promise'

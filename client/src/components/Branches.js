@@ -16,9 +16,6 @@ import {
 class Branches extends React.Component {
  constructor(props) {
   super(props);
-
-  this.toggle = this.toggle.bind(this);
-  this.Stylemodif = this.Stylemodif.bind(this);
   this.state = {
    dropdownOpen: false
   };
@@ -40,12 +37,12 @@ class Branches extends React.Component {
    </DropdownItem>
   );
  };
- toggle() {
+ toggle = () => {
   this.setState(prevState => ({
    dropdownOpen: !prevState.dropdownOpen
   }));
- }
- Stylemodif(data) {
+ };
+ Stylemodif = data => {
   return {
    ...data,
    styles: {
@@ -54,7 +51,7 @@ class Branches extends React.Component {
     maxHeight: 500
    }
   };
- }
+ };
 
  render() {
   return (

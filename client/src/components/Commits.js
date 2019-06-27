@@ -99,11 +99,9 @@ class Commits extends React.Component {
     <h3>Latest Commits</h3>
     {this.props.isLoading.load ? (
      <div>
-      <div>
-       Fetching latest Commits of <strong>{this.props.branch} </strong>
-       for you...
-       <Loading />
-      </div>
+      Fetching latest Commits of <strong>{this.props.branch} </strong>
+      for you...
+      <Loading />
      </div>
     ) : (
      <div>

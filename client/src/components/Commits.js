@@ -98,11 +98,9 @@ class Commits extends React.Component {
     <h6>Current Branch:{this.props.branch}</h6>
     <h3>Latest Commits</h3>
     {this.props.isLoading.load ? (
-     <div>
-      Fetching latest Commits of <strong>{this.props.branch} </strong>
-      for you...
-      <Loading />
-     </div>
+     <Loading
+      text={`Fetching latest Commits of ${this.props.branch} for you...`}
+     />
     ) : (
      <div>
       <div>{this.props.commits.map(this.renderCommits)}</div>

@@ -69,12 +69,7 @@ class Pulls extends React.Component {
     <h2>Latest Pulls</h2>
     <PullState />
     {this.props.isLoading.load ? (
-     <div>
-      <div>
-       Fetching latest PRs for you...
-       <Loading />
-      </div>
-     </div>
+     <Loading text='Fetching latest PRs for you...' />
     ) : (
      <div>
       <div>{this.props.pulls.map(this.renderPulls)}</div>

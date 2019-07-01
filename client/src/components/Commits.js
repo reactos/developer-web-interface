@@ -11,11 +11,6 @@ class Commits extends React.Component {
   this.props.loadCommits();
  }
  renderCommits = commit => {
-  let tog = 'toggler' + commit.sha;
-  let committerDate = new Date(commit.commit.committer.date);
-  let authorDate = new Date(commit.commit.author.date);
-  let author = encodeURIComponent(commit.commit.author.name);
-  let committer = encodeURIComponent(commit.commit.committer.name);
   return (
    <div className='panel-margin' key={commit.sha}>
     <CommitsCard commit={commit} />

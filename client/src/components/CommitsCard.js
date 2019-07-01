@@ -1,6 +1,6 @@
 import React from 'react';
 import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
-export default class CommitsCard extends React.Component {
+class CommitsCard extends React.Component {
  render() {
   let tog = 'toggler' + this.props.commit.sha;
   let committerDate = new Date(this.props.commit.commit.committer.date);
@@ -92,3 +92,4 @@ export default class CommitsCard extends React.Component {
   );
  }
 }
+export default CommitsCard;

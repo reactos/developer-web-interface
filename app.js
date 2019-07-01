@@ -19,7 +19,7 @@ if (!dev) {
 //------- COMMITS END-POINT -------
 
 function commitReq(sha, page) {
- var repos = {
+ var commits = {
   uri: 'https://api.github.com/repos/reactos/reactos/commits',
   resolveWithFullResponse: true,
   qs: {
@@ -34,7 +34,7 @@ function commitReq(sha, page) {
   json: true
  };
 
- return repos;
+ return commits;
 }
 
 app.get('/api/commits', (req, res) => {

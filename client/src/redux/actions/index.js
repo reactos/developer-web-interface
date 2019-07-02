@@ -26,6 +26,11 @@ export const setBuilds = (buildSets, buildRequests, builds) => ({
  builds
 });
 
+export const setBuildError = error => ({
+ type: BUILD_DATA.LOAD_FAIL,
+ error
+});
+
 export const setPages = (next, prev) => ({
  type: 'PAGE_LOAD_SUCCESS',
  next,

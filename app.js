@@ -124,6 +124,81 @@ app.get('/api/pulls', (req, res) => {
    res.json({ error: 'oops...something went wrong' });
   });
 });
+
+//------- BUILD-SET END-POINT -------
+
+function buildSetReq() {
+ var buildSets = {
+  uri:
+   'https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps',
+  headers: {
+   'User-Agent': 'Request-Promise'
+  },
+  json: true
+ };
+
+ return buildSets;
+}
+
+app.get('/api/buildsets', (req, res) => {
+ rp(buildSetReq())
+  .then(body => {
+   res.json(body);
+  })
+  .catch(function(err) {
+   res.json({ error: 'oops...something went wrong' });
+  });
+});
+
+//------- BUILD-REQUEST END-POINT -------
+
+function buildReq() {
+ var buildReq = {
+  uri:
+   'https://build.reactos.org/api/v2/buildrequests?field=buildsetid&field=buildrequestid',
+  headers: {
+   'User-Agent': 'Request-Promise'
+  },
+  json: true
+ };
+
+ return buildReq;
+}
+
+app.get('/api/buildreq', (req, res) => {
+ rp(buildReq())
+  .then(body => {
+   res.json(body);
+  })
+  .catch(function(err) {
+   res.json({ error: 'oops...something went wrong' });
+  });
+});
+
+//------- BUILDS END-POINT -------
+
+function builds() {
+ var builds = {
+  uri: 'https://build.reactos.org/api/v2/builds',
+  headers: {
+   'User-Agent': 'Request-Promise'
+  },
+  json: true
+ };
+
+ return builds;
+}
+
+app.get('/api/builds', (req, res) => {
+ rp(builds())
+  .then(body => {
+   res.json(body);
+  })
+  .catch(function(err) {
+   res.json({ error: 'oops...something went wrong' });
+  });
+});
+
 if (!dev) {
  app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));

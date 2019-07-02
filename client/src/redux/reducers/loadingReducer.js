@@ -24,7 +24,7 @@ const loadingReducer = (state = { newPage: 1, load: false }, action) => {
    return { newPage: action.newPage, load: true };
 
   case BUILD_DATA.LOAD_SUCCESS:
-   return { load: true };
+   return { load: false };
 
   case COMMITS.LOAD_FAIL:
    return { ...state, load: false };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadCommits } from '../redux/actions';
+import { loadCommits, loadBuilds } from '../redux/actions';
 import Branches from './Branches';
 import './styles/Commit.css';
 import CommitsCard from './CommitsCard';
@@ -9,6 +9,7 @@ import Loading from './Loading';
 class Commits extends React.Component {
  componentDidMount() {
   this.props.loadCommits();
+  this.props.loadBuilds();
  }
  renderCommits = commit => {
   return (
@@ -84,9 +85,8 @@ const mapStateToProps = ({ isLoading, commits, error, branch,page }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
- loadCommits: next => {
-  dispatch(loadCommits(next));
- }
+ loadCommits: next => dispatch(loadCommits(next)),
+ loadBuilds: () => dispatch(loadBuilds())
 });
 
 export default connect(

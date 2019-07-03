@@ -1,4 +1,4 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects';
+import { throttle, call, put, select } from 'redux-saga/effects';
 import { COMMITS } from '../constants';
 import { fetchCommits } from '../api';
 import { setCommits, setCommitsError, setPages } from '../actions';
@@ -24,5 +24,5 @@ function* handleCommitsLoad() {
 }
 
 export default function* watchCommitsLoad() {
- yield takeEvery(COMMITS.LOAD, handleCommitsLoad);
+ yield throttle(500, COMMITS.LOAD, handleCommitsLoad);
 }

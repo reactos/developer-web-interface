@@ -8,8 +8,8 @@ import Loading from './Loading';
 
 class Commits extends React.Component {
  componentDidMount() {
-  this.props.loadCommits();
   this.props.loadBuilds();
+  this.props.loadCommits();
  }
  renderCommits = commit => {
   return (
@@ -85,8 +85,8 @@ const mapStateToProps = ({ isLoading, commits, error, branch,page }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
- loadCommits: next => dispatch(loadCommits(next)),
- loadBuilds: () => dispatch(loadBuilds())
+ loadBuilds: () => dispatch(loadBuilds()),
+ loadCommits: next => dispatch(loadCommits(next))
 });
 
 export default connect(

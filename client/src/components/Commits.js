@@ -11,16 +11,23 @@ class Commits extends React.Component {
   this.props.loadBuilds();
   this.props.loadCommits();
  }
+
+ renderBsid = id => {
+  return <p key={id.bsid}>{id.bsid}</p>;
+ };
  renderCommits = commit => {
   let filteredBs = this.props.buildData.buildSets
    .map(obj => {
     return obj;
    })
-   .find(item => item.sourcestamps[0].revision === commit.sha);
-  // console.log('bsid:' + filteredBs.bsid + ' sha:' + filteredBs.sourcestamps[0].revision + 'commit:'+commit.sha);
+   .filter(item => item.sourcestamps[0].revision === commit.sha);
+  //console.log(filteredBs);
+
+  //console.log('bsid:' + filteredBs.bsid +' sha:' + filteredBs.sourcestamps[0].revision +'commit:' +commit.sha);
   return (
    <div className='panel-margin' key={commit.sha}>
     <CommitsCard commit={commit} />
+    {filteredBs.map(this.renderBsid)}
    </div>
   );
  };

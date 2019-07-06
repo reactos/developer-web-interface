@@ -160,7 +160,7 @@ app.get('/api/buildsets', (req, res) => {
 function buildReq() {
  var buildReq = {
   uri:
-   'https://build.reactos.org/api/v2/buildrequests?field=buildsetid&field=buildrequestid',
+   'https://build.reactos.org/api/v2/buildrequests?field=buildsetid&field=buildrequestid&order=-buildsetid&offset=0&limit=50',
   headers: {
    'User-Agent': 'Request-Promise'
   },
@@ -184,7 +184,8 @@ app.get('/api/buildreq', (req, res) => {
 
 function builds() {
  var builds = {
-  uri: 'https://build.reactos.org/api/v2/builds',
+  uri:
+   'https://build.reactos.org/api/v2/builds?order=-buildrequestid&offset=0&limit=70',
   headers: {
    'User-Agent': 'Request-Promise'
   },

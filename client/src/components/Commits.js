@@ -1,33 +1,63 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadCommits, loadBuilds } from '../redux/actions';
+import { loadCommits, loadBuildSets } from '../redux/actions';
 import Branches from './Branches';
 import './styles/Commit.css';
 import CommitsCard from './CommitsCard';
 import Loading from './Loading';
 
 class Commits extends React.Component {
+ constructor() {
+  super();
+  this.arr = this.arr.bind(this);
+ }
  componentDidMount() {
-  this.props.loadBuilds();
+  this.props.loadBuildSets();
   this.props.loadCommits();
  }
+
+ //  array1.forEach(function(element) {
+ //     console.log(element);
+ //   });
+
+ arr = () => {
+  let cs = this.props.commits.map(commit => {
+   return commit.sha;
+  });
+  let bs = this.props.buildData.map(builds => {
+   return builds;
+  });
+  var filterBs = [];
+  cs.forEach(val => {
+   filterBs.push(
+    bs
+     .map(obj => {
+      return obj;
+     })
+     .filter(item => item.sourcestamps[0].revision === val)
+   );
+  });
+
+  var merged = [].concat.apply([], filterBs);
+
+  let str = merged.map(bsid => 'buildsetid__contains=' + bsid.bsid).join('&');
+  console.log(str);
+ };
 
  renderBsid = id => {
   return <p key={id.bsid}>{id.bsid}</p>;
  };
+
  renderCommits = commit => {
-  let filteredBs = this.props.buildData.buildSets
+  let filteredBs = this.props.buildData
    .map(obj => {
     return obj;
    })
    .filter(item => item.sourcestamps[0].revision === commit.sha);
-  //console.log(filteredBs);
-
-  //console.log('bsid:' + filteredBs.bsid +' sha:' + filteredBs.sourcestamps[0].revision +'commit:' +commit.sha);
   return (
    <div className='panel-margin' key={commit.sha}>
     <CommitsCard commit={commit} />
-    {filteredBs.map(this.renderBsid)}
+    {filteredBs.map(bsid => 'buildsetid__contain=' + bsid.bsid).join('&')}
    </div>
   );
  };
@@ -44,6 +74,7 @@ class Commits extends React.Component {
      />
     ) : (
      <div>
+      {this.arr()}
       <div>{this.props.commits.map(this.renderCommits)}</div>
       {this.props.error ? (
        <div className='error'>
@@ -99,7 +130,7 @@ const mapStateToProps = ({ isLoading, commits, error, branch,page,buildData}) =>
 });
 
 const mapDispatchToProps = dispatch => ({
- loadBuilds: () => dispatch(loadBuilds()),
+ loadBuildSets: () => dispatch(loadBuildSets()),
  loadCommits: next => dispatch(loadCommits(next))
 });
 

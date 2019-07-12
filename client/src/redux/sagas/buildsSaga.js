@@ -1,17 +1,13 @@
-import { takeEvery, all, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put } from 'redux-saga/effects';
 import { BUILD_DATA } from '../constants';
-import { fetchBuildSets, fetchBuildReq, fetchBuilds } from '../api';
-import { setBuilds, setBuildError } from '../actions';
+import { fetchBuildSets } from '../api';
+import { setBuildSets, setBuildSetsError } from '../actions';
 function* handleBuildsLoad() {
  try {
-  const { buildSets, buildRequests, builds } = yield all({
-   buildSets: call(fetchBuildSets),
-   buildRequests: call(fetchBuildReq),
-   builds: call(fetchBuilds)
-  });
-  yield put(setBuilds(buildSets, buildRequests, builds));
+  const buildSets = yield call(fetchBuildSets);
+  yield put(setBuildSets(buildSets));
  } catch (error) {
-  yield put(setBuildError(error.toString()));
+  yield put(setBuildSetsError(error.toString()));
  }
 }
 

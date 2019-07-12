@@ -15,18 +15,16 @@ export const setCommitsError = error => ({
  error
 });
 
-export const loadBuilds = () => ({
+export const loadBuildSets = () => ({
  type: BUILD_DATA.LOAD
 });
 
-export const setBuilds = (buildSets, buildRequests, builds) => ({
+export const setBuildSets = buildSets => ({
  type: BUILD_DATA.LOAD_SUCCESS,
- buildSets,
- buildRequests,
- builds
+ buildSets
 });
 
-export const setBuildError = error => ({
+export const setBuildSetsError = error => ({
  type: BUILD_DATA.LOAD_FAIL,
  error
 });

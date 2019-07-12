@@ -16,8 +16,9 @@ export const fetchBuildSets = async () => {
  return data.buildsets;
 };
 
-export const fetchBuildReq = async () => {
- const response = await fetch('/api/buildreq');
+export const fetchBuildReq = async str => {
+ console.log(str);
+ const response = await fetch(`/api/buildreq?${str}`);
  const data = await response.json();
  if (response.status >= 400) {
   throw new Error(data.errors);

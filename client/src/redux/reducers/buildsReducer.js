@@ -1,15 +1,8 @@
 import { BUILD_DATA } from '../constants';
 
-const buildsReducer = (
- state = { buildSets: null, buildRequests: null, builds: null },
- action
-) => {
+const buildsReducer = (state = [], action) => {
  if (action.type === BUILD_DATA.LOAD_SUCCESS) {
-  return {
-   buildSets: action.buildSets,
-   buildRequests: action.buildRequests,
-   builds: action.builds
-  };
+  return [...action.buildSets];
  }
  return state;
 };

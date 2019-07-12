@@ -7,42 +7,10 @@ import CommitsCard from './CommitsCard';
 import Loading from './Loading';
 
 class Commits extends React.Component {
- constructor() {
-  super();
-  this.arr = this.arr.bind(this);
- }
  componentDidMount() {
   this.props.loadBuildSets();
   this.props.loadCommits();
  }
-
- //  array1.forEach(function(element) {
- //     console.log(element);
- //   });
-
- arr = () => {
-  let cs = this.props.commits.map(commit => {
-   return commit.sha;
-  });
-  let bs = this.props.buildData.map(builds => {
-   return builds;
-  });
-  var filterBs = [];
-  cs.forEach(val => {
-   filterBs.push(
-    bs
-     .map(obj => {
-      return obj;
-     })
-     .filter(item => item.sourcestamps[0].revision === val)
-   );
-  });
-
-  var merged = [].concat.apply([], filterBs);
-
-  let str = merged.map(bsid => 'buildsetid__contains=' + bsid.bsid).join('&');
-  console.log(str);
- };
 
  renderBsid = id => {
   return <p key={id.bsid}>{id.bsid}</p>;
@@ -74,7 +42,6 @@ class Commits extends React.Component {
      />
     ) : (
      <div>
-      {this.arr()}
       <div>{this.props.commits.map(this.renderCommits)}</div>
       {this.props.error ? (
        <div className='error'>

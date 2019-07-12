@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const rp = require('request-promise');
 const app = express();
+//app.disable('query parser');
 dotenv.config();
 const parse = require('parse-link-header');
 const PORT = process.env.PORT || 5000;
@@ -133,7 +134,7 @@ app.get('/api/pulls', (req, res) => {
 function buildSetReq() {
  var buildSets = {
   uri:
-   'https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=50',
+   'https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=200',
   headers: {
    'User-Agent': 'Request-Promise'
   },
@@ -156,11 +157,10 @@ app.get('/api/buildsets', (req, res) => {
 //------- BUILD-REQUEST END-POINT -------
 
 //https://build.reactos.org/api/v2/buildrequests?field=buildsetid&field=buildrequestid&buildsetid=1
-
-function buildReq() {
+function buildReq(str) {
  var buildReq = {
-  uri:
-   'https://build.reactos.org/api/v2/buildrequests?field=buildsetid&field=buildrequestid&order=-buildsetid&offset=0&limit=50',
+  uri: `https://build.reactos.org/api/v2/buildrequests?${str}&field=buildsetid&field=buildrequestid&order=-buildsetid`,
+  // 'https://build.reactos.org/api/v2/buildrequests?field=buildsetid&field=buildrequestid&order=-buildsetid&offset=0&limit=50',
   headers: {
    'User-Agent': 'Request-Promise'
   },
@@ -171,7 +171,10 @@ function buildReq() {
 }
 
 app.get('/api/buildreq', (req, res) => {
- rp(buildReq())
+ var f = req.query.buildsetid__contains;
+ var queryStr = f.join('&buildsetid__contains=');
+ queryStr = 'buildsetid__contains=' + queryStr;
+ rp(buildReq(queryStr))
   .then(body => {
    res.json(body);
   })

@@ -171,8 +171,8 @@ function buildReq(str) {
 }
 
 app.get('/api/buildreq', (req, res) => {
- var f = req.query.buildsetid__contains;
- var queryStr = f.join('&buildsetid__contains=');
+ let f = req.query.buildsetid__contains;
+ let queryStr = f.join('&buildsetid__contains=');
  queryStr = 'buildsetid__contains=' + queryStr;
  rp(buildReq(queryStr))
   .then(body => {
@@ -185,10 +185,9 @@ app.get('/api/buildreq', (req, res) => {
 
 //------- BUILDS END-POINT -------
 
-function builds() {
+function builds(str) {
  var builds = {
-  uri:
-   'https://build.reactos.org/api/v2/builds?order=-buildrequestid&offset=0&limit=70',
+  uri: `https://build.reactos.org/api/v2/builds?${str}&order=-buildrequestid`,
   headers: {
    'User-Agent': 'Request-Promise'
   },
@@ -199,7 +198,10 @@ function builds() {
 }
 
 app.get('/api/builds', (req, res) => {
- rp(builds())
+ let f = req.query.buildrequestid__contains;
+ let queryStr = f.join('&buildrequestid__contains=');
+ queryStr = 'buildrequestid__contains=' + queryStr;
+ rp(builds(queryStr))
   .then(body => {
    res.json(body);
   })

@@ -1,6 +1,7 @@
-import { takeEvery, call, select } from 'redux-saga/effects';
+import { takeEvery, call, select, put } from 'redux-saga/effects';
 import { COMMITS } from '../constants';
 import { fetchBuildReq } from '../api';
+import { setBuildSetsError, setBsID } from '../actions';
 const commitSha = state => state.commits;
 const buildData = state => state.buildData;
 
@@ -35,9 +36,12 @@ function* handleBuildReqLoad() {
   var str = matchSha(commit, build);
   if (str) {
    let bsID = yield call(fetchBuildReq, str);
-   console.log(bsID);
+   yield put(setBsID(bsID));
+   //console.log(bsID);
   }
- } catch (error) {}
+ } catch (error) {
+  yield put(setBuildSetsError(error.toString()));
+ }
 }
 
 export default function* watchBuildsLoad() {

@@ -24,6 +24,16 @@ export const setBuildSets = buildSets => ({
  buildSets
 });
 
+export const setBsID = bsid => ({
+ type: 'BUILD_SET_ID_SUCCESS',
+ bsid
+});
+
+export const setBuilds = build => ({
+ type: 'BUILD_ID_LOAD_SUCCESS',
+ build
+});
+
 export const setBuildSetsError = error => ({
  type: BUILD_DATA.LOAD_FAIL,
  error

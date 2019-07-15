@@ -24,7 +24,7 @@ function commitReq(sha, page) {
   uri: 'https://api.github.com/repos/reactos/reactos/commits',
   resolveWithFullResponse: true,
   qs: {
-   access_token: key, // -> uri + '?access_token=xxxxx%20xxxxx'
+   access_token: key,
    sha: sha,
    per_page: 10,
    page: page
@@ -127,10 +127,7 @@ app.get('/api/pulls', (req, res) => {
 });
 
 //------- BUILD-SET END-POINT -------
-//https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid
-//https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&limit=50
-//https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=50
-//increasing the offset by 50 on next page request!!!
+
 function buildSetReq() {
  var buildSets = {
   uri:
@@ -156,11 +153,9 @@ app.get('/api/buildsets', (req, res) => {
 
 //------- BUILD-REQUEST END-POINT -------
 
-//https://build.reactos.org/api/v2/buildrequests?field=buildsetid&field=buildrequestid&buildsetid=1
 function buildReq(str) {
  var buildReq = {
   uri: `https://build.reactos.org/api/v2/buildrequests?${str}&field=buildsetid&field=buildrequestid&order=-buildsetid`,
-  // 'https://build.reactos.org/api/v2/buildrequests?field=buildsetid&field=buildrequestid&order=-buildsetid&offset=0&limit=50',
   headers: {
    'User-Agent': 'Request-Promise'
   },

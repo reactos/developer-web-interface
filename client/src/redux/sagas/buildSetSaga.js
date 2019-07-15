@@ -9,9 +9,6 @@ import {
 } from '../actions';
 
 const commitSha = state => state.commits;
-const buildData = state => state.buildData;
-const bsid = state => state.bsid;
-
 function buildStr(build) {
  let str = build
   .map(build => 'buildrequestid__contains=' + build.buildrequestid)
@@ -49,18 +46,15 @@ function* handleBuildsLoad() {
   const buildSets = yield call(fetchBuildSets);
   yield put(setBuildSets(buildSets));
   const commit = yield select(commitSha);
-  const build = yield select(buildData);
-  var str = matchSha(commit, build);
-  if (str) {
-   let bsID = yield call(fetchBuildReq, str);
+  var buildReqStr = matchSha(commit, buildSets);
+  if (buildReqStr) {
+   var bsID = yield call(fetchBuildReq, buildReqStr);
    yield put(setBsID(bsID));
-   //console.log(bsID);
   }
-  const build1 = yield select(bsid);
-  var str1 = buildStr(build1);
-  if (str1) {
-   let build2 = yield call(fetchBuilds, str1);
-   yield put(setBuilds(build2));
+  var buildstr = buildStr(bsID);
+  if (buildstr) {
+   let buildData = yield call(fetchBuilds, buildstr);
+   yield put(setBuilds(buildData));
   }
  } catch (error) {
   yield put(setBuildSetsError(error.toString()));

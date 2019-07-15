@@ -20,23 +20,18 @@ function matchSha(commits, buildData) {
  let cs = commits.map(commit => {
   return commit.sha;
  });
- let bs = buildData.map(builds => {
-  return builds;
- });
  var filterBs = [];
  cs.forEach(val => {
   filterBs.push(
-   bs
+   buildData
     .map(obj => {
      return obj;
     })
     .filter(item => item.sourcestamps[0].revision === val)
   );
  });
- // console.log(filterBs);
-
  var merged = [].concat.apply([], filterBs);
- //console.log(merged);
+ console.log(merged);
  let str = merged.map(bsid => 'buildsetid__contains=' + bsid.bsid).join('&');
  return str;
 }

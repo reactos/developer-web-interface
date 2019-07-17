@@ -8,8 +8,6 @@ import selectedBranchReducer from './selectedBranchReducer';
 import pullsReducer from './pullsReducer';
 import pageReducer from './pageReducer';
 import pullStateReducer from './pullStateReducer';
-import buildsReducer from './buildsReducer';
-import buildSetReducer from './buildSetReducer';
 import buildStatusReducer from './buildStatusReducer';
 
 const rootReducer = combineReducers({
@@ -21,8 +19,6 @@ const rootReducer = combineReducers({
  pulls: pullsReducer,
  pullState: pullStateReducer,
  page: pageReducer,
- buildData: buildsReducer,
- bsid: buildSetReducer,
  build: buildStatusReducer
 });
 

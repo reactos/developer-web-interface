@@ -1,55 +1,61 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { COMMITS } from '../constants';
 import { fetchBuildSets, fetchBuildReq, fetchBuilds } from '../api';
-import {
- setBuildSets,
- setBuildSetsError,
- setBsID,
- setBuilds
-} from '../actions';
+import { setBuildSetsError, setBuilds } from '../actions';
 
 const commitSha = state => state.commits;
-function buildStr(build) {
- let str = build
+function buildStr(builds) {
+ return builds
   .map(build => 'buildrequestid__contains=' + build.buildrequestid)
   .join('&');
- return str;
 }
 
-function matchSha(commits, buildData) {
- let cs = commits.map(commit => {
-  return commit.sha;
- });
- var filterBs = [];
- cs.forEach(val => {
-  filterBs.push(
-   buildData
-    .map(obj => {
-     return obj;
-    })
-    .filter(item => item.sourcestamps[0].revision === val)
-  );
- });
- var merged = [].concat.apply([], filterBs);
- console.log(merged);
- let str = merged.map(bsid => 'buildsetid__contains=' + bsid.bsid).join('&');
- return str;
+function getBuildSetReqString(commits, buildData) {
+ return commits
+  .map(commit =>
+   buildData.filter(bd => bd.sourcestamps[0].revision === commit.sha)
+  )
+  .flat()
+  .map(bd => 'buildsetid__contains=' + bd.bsid)
+  .join('&');
 }
 
 function* handleBuildsLoad() {
  try {
   const buildSets = yield call(fetchBuildSets);
-  yield put(setBuildSets(buildSets));
-  const commit = yield select(commitSha);
-  var buildReqStr = matchSha(commit, buildSets);
-  if (buildReqStr) {
+  const commits = yield select(commitSha);
+  let buildReqStr = getBuildSetReqString(commits, buildSets);
+  if (buildReqStr.length > 0) {
    var bsID = yield call(fetchBuildReq, buildReqStr);
-   yield put(setBsID(bsID));
   }
-  var buildstr = buildStr(bsID);
-  if (buildstr) {
+  let buildstr = buildStr(bsID);
+  if (buildstr.length > 0) {
    let buildData = yield call(fetchBuilds, buildstr);
-   yield put(setBuilds(buildData));
+   const filteredBS = commits.map(commit =>
+    buildSets.filter(bd => bd.sourcestamps[0].revision === commit.sha)
+   );
+   const shas = commits.map(commit => commit.sha);
+   const output = filteredBS.map((obj, index) => {
+    let buildObj = {};
+    let filterObj = [];
+    obj.forEach(val => {
+     filterObj.push(bsID.filter(item => item.buildsetid === val.bsid));
+    });
+    let buildStatus = [];
+    filterObj.forEach(val =>
+     val.forEach(build => {
+      buildStatus.push(
+       buildData.filter(
+        bReqId => bReqId.buildrequestid === build.buildrequestid
+       )
+      );
+     })
+    );
+    buildObj[shas[index]] = buildStatus.flat();
+    return buildObj;
+   });
+   yield put(setBuilds(output));
+   //  console.log(output);
   }
  } catch (error) {
   yield put(setBuildSetsError(error.toString()));

@@ -13,7 +13,7 @@ class Pulls extends React.Component {
  renderPulls = pull => {
   return (
    <div className='panel-margin' key={pull.id}>
-    <PullsCard pull={pull} />
+    <PullsCard {...pull} />
    </div>
   );
  };

@@ -20,6 +20,32 @@ function getBuildSetReqString(commits, buildData) {
   .join('&');
 }
 
+//=>matchShaToBuild matches buildsetid from filteredBS and bsID
+//=>then bsID.buildrequestid is matched with buildData.buildrequestid
+//=>An object is array of object is created with key === sha and
+//=> value === array of objects containing buildData filtered and stored in buildStatus
+
+function matchShaToBuild(buildData, filteredBS, bsID, shas) {
+ return filteredBS.map((obj, index) => {
+  let buildObj = {};
+  let filterObj = [];
+  obj.forEach(val => {
+   filterObj.push(bsID.filter(item => item.buildsetid === val.bsid));
+  });
+  console.log(filterObj);
+  let buildStatus = [];
+  filterObj.forEach(val =>
+   val.forEach(build => {
+    buildStatus.push(
+     buildData.filter(bReqId => bReqId.buildrequestid === build.buildrequestid)
+    );
+   })
+  );
+  buildObj[shas[index]] = buildStatus.flat();
+  return buildObj;
+ });
+}
+
 function* handleBuildsLoad() {
  try {
   const buildSets = yield call(fetchBuildSets);
@@ -31,31 +57,14 @@ function* handleBuildsLoad() {
   let buildstr = buildStr(bsID);
   if (buildstr.length > 0) {
    let buildData = yield call(fetchBuilds, buildstr);
-   const filteredBS = commits.map(commit =>
-    buildSets.filter(bd => bd.sourcestamps[0].revision === commit.sha)
-   );
-   const shas = commits.map(commit => commit.sha);
-   const output = filteredBS.map((obj, index) => {
-    let buildObj = {};
-    let filterObj = [];
-    obj.forEach(val => {
-     filterObj.push(bsID.filter(item => item.buildsetid === val.bsid));
-    });
-    let buildStatus = [];
-    filterObj.forEach(val =>
-     val.forEach(build => {
-      buildStatus.push(
-       buildData.filter(
-        bReqId => bReqId.buildrequestid === build.buildrequestid
-       )
-      );
-     })
-    );
-    buildObj[shas[index]] = buildStatus.flat();
-    return buildObj;
+   let shas = [];
+   const filteredBS = commits.map(commit => {
+    shas.push(commit.sha);
+    return buildSets.filter(bd => bd.sourcestamps[0].revision === commit.sha);
    });
+   //filteredBS contains builsets corresponding to each sha
+   const output = matchShaToBuild(buildData, filteredBS, bsID, shas);
    yield put(setBuilds(output));
-   //  console.log(output);
   }
  } catch (error) {
   yield put(setBuildSetsError(error.toString()));

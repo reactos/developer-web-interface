@@ -26,7 +26,6 @@ export const fetchBuildReq = async str => {
 };
 
 export const fetchBuilds = async str => {
- console.log(str);
  const response = await fetch(`/api/builds?${str}`);
  const data = await response.json();
  if (response.status >= 400) {

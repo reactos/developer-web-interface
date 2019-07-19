@@ -19,53 +19,30 @@ function getBuildSetReqString(commits, buildData) {
   .map(bd => 'buildsetid__contains=' + bd.bsid)
   .join('&');
 }
-
-//=>matchShaToBuild matches buildsetid from filteredBS and bsID
-//=>then bsID.buildrequestid is matched with buildData.buildrequestid
-//=>An object is array of object is created with key === sha and
-//=> value === array of objects containing buildData filtered and stored in buildStatus
-
-function matchShaToBuild(buildData, filteredBS, bsID, shas) {
- return filteredBS.map((obj, index) => {
-  let buildObj = {};
-  let filterObj = [];
-  obj.forEach(val => {
-   filterObj.push(bsID.filter(item => item.buildsetid === val.bsid));
-  });
-  console.log(filterObj);
-  let buildStatus = [];
-  filterObj.forEach(val =>
-   val.forEach(build => {
-    buildStatus.push(
-     buildData.filter(bReqId => bReqId.buildrequestid === build.buildrequestid)
-    );
-   })
-  );
-  buildObj[shas[index]] = buildStatus.flat();
-  return buildObj;
- });
-}
-
 function* handleBuildsLoad() {
  try {
-  const buildSets = yield call(fetchBuildSets);
   const commits = yield select(commitSha);
-  let buildReqStr = getBuildSetReqString(commits, buildSets);
-  if (buildReqStr.length > 0) {
-   var bsID = yield call(fetchBuildReq, buildReqStr);
+  const buildSetsRaw = yield call(fetchBuildSets);
+  if (buildSetsRaw.length === 0) {
+   yield put(setBuildSetsError('Nothing returned'));
+   return;
   }
-  let buildstr = buildStr(bsID);
-  if (buildstr.length > 0) {
-   let buildData = yield call(fetchBuilds, buildstr);
-   let shas = [];
-   const filteredBS = commits.map(commit => {
-    shas.push(commit.sha);
-    return buildSets.filter(bd => bd.sourcestamps[0].revision === commit.sha);
-   });
-   //filteredBS contains builsets corresponding to each sha
-   const output = matchShaToBuild(buildData, filteredBS, bsID, shas);
-   yield put(setBuilds(output));
+  const buildReqStr = getBuildSetReqString(commits, buildSetsRaw);
+  const buildReqsRaw = yield call(fetchBuildReq, buildReqStr);
+  const buildsStr = buildStr(buildReqsRaw);
+  const buildsRaw = yield call(fetchBuilds, buildsStr);
+  const buildsBySha = {};
+  for (let { sha } of commits) {
+   const buildSetIds = buildSetsRaw
+    .filter(bs => bs.sourcestamps[0].revision === sha)
+    .map(bs => bs.bsid);
+   const buildReqIds = buildReqsRaw
+    .filter(br => buildSetIds.includes(br.buildsetid))
+    .map(br => br.buildrequestid);
+   const builds = buildsRaw.filter(b => buildReqIds.includes(b.buildrequestid));
+   buildsBySha[sha] = builds;
   }
+  yield put(setBuilds(buildsBySha));
  } catch (error) {
   yield put(setBuildSetsError(error.toString()));
  }

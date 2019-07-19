@@ -1,95 +1,85 @@
 import React from 'react';
 import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
-class CommitsCard extends React.Component {
- render() {
-  let tog = 'toggler' + this.props.commit.sha;
-  let committerDate = new Date(this.props.commit.commit.committer.date);
-  let authorDate = new Date(this.props.commit.commit.author.date);
-  let author = encodeURIComponent(this.props.commit.commit.author.name);
-  let committer = encodeURIComponent(this.props.commit.commit.committer.name);
-  return (
-   <Card>
-    <CardHeader className='new' type='button' id={tog}>
+function CommitsCard(props) {
+ let tog = 'toggler' + props.sha;
+ let committerDate = new Date(props.commit.committer.date);
+ let authorDate = new Date(props.commit.author.date);
+ let author = encodeURIComponent(props.commit.author.name);
+ let committer = encodeURIComponent(props.commit.committer.name);
+ return (
+  <Card>
+   <CardHeader className='new' type='button' id={tog}>
+    <div className='row'>
+     <div className='col-sm'>{props.sha.substring(0, 7)}</div>
+     <div className='col-sm'>{props.commit.committer.name}</div>
+     <div className='col-sm'>{committerDate.toLocaleString()}</div>
+     <div className='col-sm'>{props.commit.message.substring(0, 17)}...</div>
+    </div>
+   </CardHeader>
+   <UncontrolledCollapse toggler={tog}>
+    <CardBody className='indent'>
+     <div>
+      <p>
+       <strong>commit: </strong>{' '}
+       <a
+        target='_blank'
+        rel='noreferrer noopener'
+        href={props.commit.html_url}
+       >
+        {props.sha}
+       </a>
+      </p>
+      <p>
+       <strong>Commit Msg:</strong> {props.commit.message}
+      </p>
+     </div>
      <div className='row'>
-      <div className='col-sm'>{this.props.commit.sha.substring(0, 7)}</div>
-      <div className='col-sm'>{this.props.commit.commit.committer.name}</div>
-      <div className='col-sm'>{committerDate.toLocaleString()}</div>
       <div className='col-sm'>
-       {this.props.commit.commit.message.substring(0, 17)}...
+       <strong>Author: </strong>
+       <a
+        target='_blank'
+        rel='noreferrer noopener'
+        href={`https://git.reactos.org/?p=reactos.git;a=search;s=${author};st=author`}
+       >
+        {props.commit.author.name}
+       </a>
+      </div>
+      <div className='col-sm'>
+       <strong>Author Date: </strong>
+       {authorDate.toLocaleString()}
+      </div>
+      <div className='col-sm'>
+       <strong>Author Email: </strong>
+       <a href={`mailto:${props.commit.author.email}`} target='_top'>
+        {props.commit.author.email}
+       </a>
       </div>
      </div>
-    </CardHeader>
-    <UncontrolledCollapse toggler={tog}>
-     <CardBody className='indent'>
-      <div>
-       <p>
-        <strong>commit: </strong>{' '}
-        <a
-         target='_blank'
-         rel='noreferrer noopener'
-         href={this.props.commit.html_url}
-        >
-         {this.props.commit.sha}
-        </a>
-       </p>
-       <p>
-        <strong>Commit Msg:</strong> {this.props.commit.commit.message}
-       </p>
+     <div className='row'>
+      <div className='col-sm'>
+       <strong>Committer: </strong>
+       <a
+        target='_blank'
+        rel='noreferrer noopener'
+        href={`https://git.reactos.org/?p=reactos.git;a=search;s=${committer};st=committer`}
+       >
+        {props.commit.committer.name}
+       </a>
       </div>
-      <div className='row'>
-       <div className='col-sm'>
-        <strong>Author: </strong>
-        <a
-         target='_blank'
-         rel='noreferrer noopener'
-         href={`https://git.reactos.org/?p=reactos.git;a=search;s=${author};st=author`}
-        >
-         {this.props.commit.commit.author.name}
-        </a>
-       </div>
-       <div className='col-sm'>
-        <strong>Author Date: </strong>
-        {authorDate.toLocaleString()}
-       </div>
-       <div className='col-sm'>
-        <strong>Author Email: </strong>
-        <a
-         href={`mailto:${this.props.commit.commit.author.email}`}
-         target='_top'
-        >
-         {this.props.commit.commit.author.email}
-        </a>
-       </div>
+      <div className='col-sm'>
+       <strong>Committer Date: </strong>
+       {committerDate.toLocaleString()}
       </div>
-      <div className='row'>
-       <div className='col-sm'>
-        <strong>Committer: </strong>
-        <a
-         target='_blank'
-         rel='noreferrer noopener'
-         href={`https://git.reactos.org/?p=reactos.git;a=search;s=${committer};st=committer`}
-        >
-         {this.props.commit.commit.committer.name}
-        </a>
-       </div>
-       <div className='col-sm'>
-        <strong>Committer Date: </strong>
-        {committerDate.toLocaleString()}
-       </div>
-       <div className='col-sm'>
-        <strong>Committer Email: </strong>
-        <a
-         href={`mailto:${this.props.commit.commit.committer.email}`}
-         target='_top'
-        >
-         {this.props.commit.commit.committer.email}
-        </a>
-       </div>
+      <div className='col-sm'>
+       <strong>Committer Email: </strong>
+       <a href={`mailto:${props.commit.committer.email}`} target='_top'>
+        {props.commit.committer.email}
+       </a>
       </div>
-     </CardBody>
-    </UncontrolledCollapse>
-   </Card>
-  );
- }
+     </div>
+    </CardBody>
+   </UncontrolledCollapse>
+  </Card>
+ );
 }
 export default CommitsCard;

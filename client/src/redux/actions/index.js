@@ -18,19 +18,8 @@ export const setCommitsError = error => ({
 export const loadBuildSets = () => ({
  type: BUILD_DATA.LOAD
 });
-
-export const setBuildSets = buildSets => ({
- type: BUILD_DATA.LOAD_SUCCESS,
- buildSets
-});
-
-export const setBsID = bsid => ({
- type: 'BUILD_SET_ID_SUCCESS',
- bsid
-});
-
 export const setBuilds = build => ({
- type: 'BUILD_ID_LOAD_SUCCESS',
+ type: BUILD_DATA.LOAD_SUCCESS,
  build
 });
 

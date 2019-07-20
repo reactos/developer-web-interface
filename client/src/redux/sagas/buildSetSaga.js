@@ -18,7 +18,8 @@ function getBuildReqQString(commits, buildData) {
     .map(commit =>
       buildData.filter(bd => bd.sourcestamps[0].revision === commit.sha)
     )
-    .flatMap(bd => 'buildsetid__contains=' + bd.bsid)
+    .flat()
+    .map(bd => 'buildsetid__contains=' + bd.bsid)
     .join('&');
 }
 
@@ -45,6 +46,8 @@ function* handleBuildsLoad() {
       fetchBuildReq,
       getBuildReqQString(commits, buildSetsRaw)
     );
+
+    console.log(buildReqsRaw);
     const buildsRaw = yield call(fetchBuilds, getBuildQString(buildReqsRaw));
 
     const buildsBySha = {};

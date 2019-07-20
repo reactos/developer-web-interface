@@ -1,9 +1,12 @@
-import { COMMITS, BRANCHES, PULLS, BUILD_DATA } from '../constants';
+import { COMMITS, BRANCHES, PULLS, BUILD_DATA, BUILDERS } from '../constants';
 
 const loadingReducer = (state = { newPage: 1, load: false }, action) => {
  switch (action.type) {
   case COMMITS.LOAD:
    return { newPage: action.newPage, load: true };
+
+  case BUILDERS.LOAD:
+   return { ...state, load: true };
 
   case PULLS.LOAD:
    return { newPage: action.newPage, load: true };
@@ -16,6 +19,9 @@ const loadingReducer = (state = { newPage: 1, load: false }, action) => {
 
   case COMMITS.LOAD_SUCCESS:
    return { ...state, load: false };
+
+  case BUILDERS.LOAD_SUCCESS:
+   return { ...state, load: true };
 
   case PULLS.LOAD_SUCCESS:
    return { ...state, load: false };

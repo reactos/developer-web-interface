@@ -9,8 +9,8 @@ import {
 import {
  loadBranches,
  loadCommits,
- currBranch
- // setPages
+ currBranch,
+ loadBuilders
 } from '../redux/actions';
 
 class Branches extends React.Component {
@@ -21,6 +21,7 @@ class Branches extends React.Component {
   };
  }
  componentDidMount() {
+  this.props.loadBuilders();
   this.props.loadBranches();
  }
 
@@ -83,6 +84,7 @@ const mapStateToProps = ({ branches }) => ({
 const mapDispatchToProps = dispatch => ({
  loadCommits: next => dispatch(loadCommits(next)),
  loadBranches: () => dispatch(loadBranches()),
+ loadBuilders: () => dispatch(loadBuilders()),
  currBranch: branch => dispatch(currBranch(branch))
 });
 

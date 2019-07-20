@@ -12,230 +12,230 @@ const key = process.env.SECRET;
 
 //settings for production Environment
 if (!dev) {
- app.disable('x-powered-by');
- // Serve static files from the React app
- app.use(express.static(path.join(__dirname, 'client/build')));
+  app.disable('x-powered-by');
+  // Serve static files from the React app
+  app.use(express.static(path.join(__dirname, 'client/build')));
 }
 
 //------- COMMITS END-POINT -------
 
 function commitReq(sha, page) {
- const commits = {
-  uri: 'https://api.github.com/repos/reactos/reactos/commits',
-  resolveWithFullResponse: true,
-  qs: {
-   access_token: key,
-   sha: sha,
-   per_page: 10,
-   page: page
-  },
-  headers: {
-   'User-Agent': 'Request-Promise'
-  },
-  json: true
- };
+  const commits = {
+    uri: 'https://api.github.com/repos/reactos/reactos/commits',
+    resolveWithFullResponse: true,
+    qs: {
+      access_token: key,
+      sha: sha,
+      per_page: 10,
+      page: page
+    },
+    headers: {
+      'User-Agent': 'Request-Promise'
+    },
+    json: true
+  };
 
- return commits;
+  return commits;
 }
 
 app.get('/api/commits', (req, res) => {
- rp(commitReq(req.query.sha, req.query.page))
-  .then(body => {
-   let link = body.headers.link;
-   let parsed = parse(link);
-   let dataAndPage = {
-    page: {
-     ...parsed
-    },
-    commits: body
-   };
+  rp(commitReq(req.query.sha, req.query.page))
+    .then(body => {
+      let link = body.headers.link;
+      let parsed = parse(link);
+      let dataAndPage = {
+        page: {
+          ...parsed
+        },
+        commits: body
+      };
 
-   res.json(dataAndPage);
-  })
-  .catch(function(err) {
-   res.json({ error: 'oops...something went wrong', err: err });
-  });
+      res.json(dataAndPage);
+    })
+    .catch(function(err) {
+      res.json({ error: 'oops...something went wrong', err: err });
+    });
 });
 
 //------- BRANCHES END-POINT -------
 
 function branchReq() {
- const branches = {
-  uri: 'https://api.github.com/repos/reactos/reactos/branches',
-  resolveWithFullResponse: false,
-  qs: {
-   access_token: key,
-   per_page: 100
-  },
-  headers: {
-   'User-Agent': 'Request-Promise'
-  },
-  json: true
- };
+  const branches = {
+    uri: 'https://api.github.com/repos/reactos/reactos/branches',
+    resolveWithFullResponse: false,
+    qs: {
+      access_token: key,
+      per_page: 100
+    },
+    headers: {
+      'User-Agent': 'Request-Promise'
+    },
+    json: true
+  };
 
- return branches;
+  return branches;
 }
 
 app.get('/api/branches', (req, res) => {
- rp(branchReq())
-  .then(body => {
-   res.json(body);
-  })
-  .catch(function(err) {
-   res.json({ error: 'oops...something went wrong' });
-  });
+  rp(branchReq())
+    .then(body => {
+      res.json(body);
+    })
+    .catch(function(err) {
+      res.json({ error: 'oops...something went wrong' });
+    });
 });
 
 //------- PR'S END-POINT -------
 
 function pullReq(state, page) {
- const pulls = {
-  uri: 'https://api.github.com/repos/reactos/reactos/pulls',
-  resolveWithFullResponse: true,
-  qs: {
-   access_token: key,
-   state: state,
-   per_page: 10,
-   page: page
-  },
-  headers: {
-   'User-Agent': 'Request-Promise'
-  },
-  json: true
- };
+  const pulls = {
+    uri: 'https://api.github.com/repos/reactos/reactos/pulls',
+    resolveWithFullResponse: true,
+    qs: {
+      access_token: key,
+      state: state,
+      per_page: 10,
+      page: page
+    },
+    headers: {
+      'User-Agent': 'Request-Promise'
+    },
+    json: true
+  };
 
- return pulls;
+  return pulls;
 }
 
 app.get('/api/pulls', (req, res) => {
- rp(pullReq(req.query.state, req.query.page))
-  .then(body => {
-   let link = body.headers.link;
-   let parsed = parse(link);
-   let dataAndPage = {
-    page: {
-     ...parsed
-    },
-    pulls: body
-   };
+  rp(pullReq(req.query.state, req.query.page))
+    .then(body => {
+      let link = body.headers.link;
+      let parsed = parse(link);
+      let dataAndPage = {
+        page: {
+          ...parsed
+        },
+        pulls: body
+      };
 
-   res.json(dataAndPage);
-  })
-  .catch(function(err) {
-   res.json({ error: 'oops...something went wrong' });
-  });
+      res.json(dataAndPage);
+    })
+    .catch(function(err) {
+      res.json({ error: 'oops...something went wrong' });
+    });
 });
 
 //------- BUILD-SET END-POINT -------
 
 function buildSetReq() {
- const buildSets = {
-  uri:
-   'https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=200',
-  headers: {
-   'User-Agent': 'Request-Promise'
-  },
-  json: true
- };
+  const buildSets = {
+    uri:
+      'https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=200',
+    headers: {
+      'User-Agent': 'Request-Promise'
+    },
+    json: true
+  };
 
- return buildSets;
+  return buildSets;
 }
 
 app.get('/api/buildsets', (req, res) => {
- rp(buildSetReq())
-  .then(body => {
-   res.json(body);
-  })
-  .catch(function(err) {
-   res.json({ error: 'oops...something went wrong' });
-  });
+  rp(buildSetReq())
+    .then(body => {
+      res.json(body);
+    })
+    .catch(function(err) {
+      res.json({ error: 'oops...something went wrong' });
+    });
 });
 
 //------- BUILD-REQUEST END-POINT -------
 
 function buildReq(str) {
- const buildReq = {
-  uri: `https://build.reactos.org/api/v2/buildrequests?${str}&field=buildsetid&field=buildrequestid&order=-buildsetid`,
-  headers: {
-   'User-Agent': 'Request-Promise'
-  },
-  json: true
- };
+  const buildReq = {
+    uri: `https://build.reactos.org/api/v2/buildrequests?${str}&field=buildsetid&field=buildrequestid&order=-buildsetid`,
+    headers: {
+      'User-Agent': 'Request-Promise'
+    },
+    json: true
+  };
 
- return buildReq;
+  return buildReq;
 }
 
 app.get('/api/buildreq', (req, res) => {
- let f = req.query.buildsetid__contains;
- let queryStr = f.join('&buildsetid__contains=');
- queryStr = 'buildsetid__contains=' + queryStr;
- rp(buildReq(queryStr))
-  .then(body => {
-   res.json(body);
-  })
-  .catch(function(err) {
-   res.json({ error: 'oops...something went wrong' });
-  });
+  let f = req.query.buildsetid__contains;
+  let queryStr = f.join('&buildsetid__contains=');
+  queryStr = 'buildsetid__contains=' + queryStr;
+  rp(buildReq(queryStr))
+    .then(body => {
+      res.json(body);
+    })
+    .catch(function(err) {
+      res.json({ error: 'oops...something went wrong' });
+    });
 });
 
 //------- BUILDS END-POINT -------
 
 function builds(str) {
- const builds = {
-  uri: `https://build.reactos.org/api/v2/builds?${str}&order=-buildrequestid`,
-  headers: {
-   'User-Agent': 'Request-Promise'
-  },
-  json: true
- };
+  const builds = {
+    uri: `https://build.reactos.org/api/v2/builds?${str}&order=-buildrequestid`,
+    headers: {
+      'User-Agent': 'Request-Promise'
+    },
+    json: true
+  };
 
- return builds;
+  return builds;
 }
 
 app.get('/api/builds', (req, res) => {
- let f = req.query.buildrequestid__contains;
- let queryStr = f.join('&buildrequestid__contains=');
- queryStr = 'buildrequestid__contains=' + queryStr;
- rp(builds(queryStr))
-  .then(body => {
-   res.json(body);
-  })
-  .catch(function(err) {
-   res.json({ error: 'oops...something went wrong' });
-  });
+  let f = req.query.buildrequestid__contains;
+  let queryStr = f.join('&buildrequestid__contains=');
+  queryStr = 'buildrequestid__contains=' + queryStr;
+  rp(builds(queryStr))
+    .then(body => {
+      res.json(body);
+    })
+    .catch(function(err) {
+      res.json({ error: 'oops...something went wrong' });
+    });
 });
 
 //------- BRANCHES END-POINT -------
 
 function builderReq() {
- const builders = {
-  uri: 'https://build.reactos.org/api/v2/builders',
-  resolveWithFullResponse: false,
-  headers: {
-   'User-Agent': 'Request-Promise'
-  },
-  json: true
- };
+  const builders = {
+    uri: 'https://build.reactos.org/api/v2/builders',
+    resolveWithFullResponse: false,
+    headers: {
+      'User-Agent': 'Request-Promise'
+    },
+    json: true
+  };
 
- return builders;
+  return builders;
 }
 
 app.get('/api/builders', (req, res) => {
- rp(builderReq())
-  .then(body => {
-   res.json(body);
-  })
-  .catch(function(err) {
-   res.json({ error: 'oops...something went wrong' });
-  });
+  rp(builderReq())
+    .then(body => {
+      res.json(body);
+    })
+    .catch(function(err) {
+      res.json({ error: 'oops...something went wrong' });
+    });
 });
 
 if (!dev) {
- app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
- });
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  });
 }
 
 app.listen(PORT, () => {
- console.log('server started');
+  console.log('server started');
 });

@@ -12,16 +12,16 @@ import pullStateReducer from './pullStateReducer';
 import buildStatusReducer from './buildStatusReducer';
 
 const rootReducer = combineReducers({
- isLoading: loadingReducer,
- commits: commitsReducer,
- error: errorReducer,
- branches: branchReducer,
- builders: builderReducer,
- branch: selectedBranchReducer,
- pulls: pullsReducer,
- pullState: pullStateReducer,
- page: pageReducer,
- build: buildStatusReducer
+  isLoading: loadingReducer,
+  commits: commitsReducer,
+  error: errorReducer,
+  branches: branchReducer,
+  builders: builderReducer,
+  branch: selectedBranchReducer,
+  pulls: pullsReducer,
+  pullState: pullStateReducer,
+  page: pageReducer,
+  build: buildStatusReducer
 });
 
 export default rootReducer;

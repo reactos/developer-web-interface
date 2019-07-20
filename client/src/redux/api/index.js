@@ -40,7 +40,7 @@ export const fetchBuilders = async () => {
  if (response.status >= 400) {
   throw new Error(data.errors);
  }
- return data;
+ return data.builders;
 };
 
 export const fetchBranches = async () => {

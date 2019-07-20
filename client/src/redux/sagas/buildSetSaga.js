@@ -46,8 +46,6 @@ function* handleBuildsLoad() {
       fetchBuildReq,
       getBuildReqQString(commits, buildSetsRaw)
     );
-
-    console.log(buildReqsRaw);
     const buildsRaw = yield call(fetchBuilds, getBuildQString(buildReqsRaw));
 
     const buildsBySha = {};

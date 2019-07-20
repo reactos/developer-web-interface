@@ -20,7 +20,7 @@ if (!dev) {
 //------- COMMITS END-POINT -------
 
 function commitReq(sha, page) {
- var commits = {
+ const commits = {
   uri: 'https://api.github.com/repos/reactos/reactos/commits',
   resolveWithFullResponse: true,
   qs: {
@@ -60,7 +60,7 @@ app.get('/api/commits', (req, res) => {
 //------- BRANCHES END-POINT -------
 
 function branchReq() {
- var branches = {
+ const branches = {
   uri: 'https://api.github.com/repos/reactos/reactos/branches',
   resolveWithFullResponse: false,
   qs: {
@@ -89,7 +89,7 @@ app.get('/api/branches', (req, res) => {
 //------- PR'S END-POINT -------
 
 function pullReq(state, page) {
- var pulls = {
+ const pulls = {
   uri: 'https://api.github.com/repos/reactos/reactos/pulls',
   resolveWithFullResponse: true,
   qs: {
@@ -129,7 +129,7 @@ app.get('/api/pulls', (req, res) => {
 //------- BUILD-SET END-POINT -------
 
 function buildSetReq() {
- var buildSets = {
+ const buildSets = {
   uri:
    'https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=200',
   headers: {
@@ -154,7 +154,7 @@ app.get('/api/buildsets', (req, res) => {
 //------- BUILD-REQUEST END-POINT -------
 
 function buildReq(str) {
- var buildReq = {
+ const buildReq = {
   uri: `https://build.reactos.org/api/v2/buildrequests?${str}&field=buildsetid&field=buildrequestid&order=-buildsetid`,
   headers: {
    'User-Agent': 'Request-Promise'
@@ -181,7 +181,7 @@ app.get('/api/buildreq', (req, res) => {
 //------- BUILDS END-POINT -------
 
 function builds(str) {
- var builds = {
+ const builds = {
   uri: `https://build.reactos.org/api/v2/builds?${str}&order=-buildrequestid`,
   headers: {
    'User-Agent': 'Request-Promise'
@@ -197,6 +197,31 @@ app.get('/api/builds', (req, res) => {
  let queryStr = f.join('&buildrequestid__contains=');
  queryStr = 'buildrequestid__contains=' + queryStr;
  rp(builds(queryStr))
+  .then(body => {
+   res.json(body);
+  })
+  .catch(function(err) {
+   res.json({ error: 'oops...something went wrong' });
+  });
+});
+
+//------- BRANCHES END-POINT -------
+
+function builderReq() {
+ const builders = {
+  uri: 'https://build.reactos.org/api/v2/builders',
+  resolveWithFullResponse: false,
+  headers: {
+   'User-Agent': 'Request-Promise'
+  },
+  json: true
+ };
+
+ return builders;
+}
+
+app.get('/api/builders', (req, res) => {
+ rp(builderReq())
   .then(body => {
    res.json(body);
   })

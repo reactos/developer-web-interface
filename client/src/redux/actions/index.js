@@ -1,4 +1,4 @@
-import { COMMITS, BRANCHES, PULLS, BUILD_DATA } from '../constants';
+import { COMMITS, BRANCHES, PULLS, BUILD_DATA, BUILDERS } from '../constants';
 
 export const loadCommits = newPage => ({
  type: COMMITS.LOAD,
@@ -50,6 +50,21 @@ export const setBranchesError = error => ({
  type: BRANCHES.LOAD_FAIL,
  error
 });
+
+export const loadBuilders = () => ({
+ type: BUILDERS.LOAD
+});
+
+export const setBuilders = builders => ({
+ type: BUILDERS.LOAD_SUCCESS,
+ builders
+});
+
+export const setBuildersError = error => ({
+ type: BUILDERS.LOAD_FAIL,
+ error
+});
+
 export const currState = pullState => ({
  type: PULLS.CURRENT,
  pullState

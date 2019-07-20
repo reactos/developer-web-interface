@@ -4,6 +4,7 @@ import loadingReducer from './loadingReducer';
 import commitsReducer from './commitsReducer';
 import errorReducer from './errorReducer';
 import branchReducer from './branchReducer';
+import builderReducer from './builderReducer';
 import selectedBranchReducer from './selectedBranchReducer';
 import pullsReducer from './pullsReducer';
 import pageReducer from './pageReducer';
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
  commits: commitsReducer,
  error: errorReducer,
  branches: branchReducer,
+ builders: builderReducer,
  branch: selectedBranchReducer,
  pulls: pullsReducer,
  pullState: pullStateReducer,

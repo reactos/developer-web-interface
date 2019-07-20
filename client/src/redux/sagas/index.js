@@ -7,11 +7,11 @@ import buildersSaga from './buildersSaga';
 import buildSetSaga from './buildSetSaga';
 
 export default function* rootSaga() {
- yield all([
-  commitsSaga(),
-  branchesSaga(),
-  pullsSaga(),
-  buildersSaga(),
-  buildSetSaga()
- ]);
+  yield all([
+    commitsSaga(),
+    branchesSaga(),
+    pullsSaga(),
+    buildersSaga(),
+    buildSetSaga()
+  ]);
 }

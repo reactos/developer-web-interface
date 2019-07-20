@@ -5,7 +5,7 @@ import { setBuildSetsError, setBuilds } from '../actions';
 
 /* These functions are used to build an HTTP query string for
  * filtering data on BuildBot side.
- * see BuildBot API:
+ * see BuildBot API: http://docs.buildbot.net/latest/developer/rest.html#filtering
  */
 function getBuildQString(builds) {
   return builds
@@ -15,10 +15,9 @@ function getBuildQString(builds) {
 
 function getBuildReqQString(commits, buildData) {
   return commits
-    .map(commit =>
+    .flatMap(commit =>
       buildData.filter(bd => bd.sourcestamps[0].revision === commit.sha)
     )
-    .flat()
     .map(bd => 'buildsetid__contains=' + bd.bsid)
     .join('&');
 }
@@ -32,6 +31,7 @@ function getBuildReqQString(commits, buildData) {
  * 3rd step: using all BuildRequest IDs (buildrequestid field), fetch all Builds
  *   which to our BuildRequests
  * PROFIT! Now just construct a proper object from all of this data
+ * See BuildBot API: http://docs.buildbot.net/latest/developer/rest.html#raml-specs
  */
 function* handleBuildsLoad() {
   try {

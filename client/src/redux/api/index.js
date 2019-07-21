@@ -17,12 +17,14 @@ export const fetchBuildSets = async () => {
 };
 
 export const fetchBuildReq = async str => {
-  const response = await fetch(`/api/buildreq?${str}`);
-  const data = await response.json();
-  if (response.status >= 400) {
-    throw new Error(data.errors);
+  if (str) {
+    const response = await fetch(`/api/buildreq?${str}`);
+    const data = await response.json();
+    if (response.status >= 400) {
+      throw new Error(data.errors);
+    }
+    return data.buildrequests;
   }
-  return data.buildrequests;
 };
 
 export const fetchBuilds = async str => {

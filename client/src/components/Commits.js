@@ -14,11 +14,7 @@ class Commits extends React.Component {
   renderCommits = commit => {
     return (
       <div className='panel-margin' key={commit.sha}>
-        <CommitsCard
-          {...commit}
-          builds={this.props.build[commit.sha]}
-          builders={this.props.builders}
-        />
+        <CommitsCard {...commit} builds={this.props.build[commit.sha]} />
       </div>
     );
   };

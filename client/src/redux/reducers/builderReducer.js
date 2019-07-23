@@ -1,8 +1,12 @@
 import { BUILDERS } from '../constants';
 
-const builderReducer = (state = [], action) => {
+const builderReducer = (state = {}, action) => {
   if (action.type === BUILDERS.LOAD_SUCCESS) {
-    return [...action.builders];
+    const builders = {};
+    for (const builder of action.builders) {
+      builders[action.builders.builderid] = builder;
+    }
+    return builders;
   }
   return state;
 };

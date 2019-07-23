@@ -7,6 +7,21 @@ import { setBuildSetsError, setBuilds } from '../actions';
  * filtering data on BuildBot side.
  * see BuildBot API: http://docs.buildbot.net/latest/developer/rest.html#filtering
  */
+
+/* The function convertIsoToUnixTime takes two parameters (committer.data)
+ * first[0] and last commit[9] of the page and converts it to unix time format
+ * and is sent along with  fetchBuildSets, and loads only 20-30 datasets into
+ * the memory,which is easy to process.
+ * +5000 is done to normalize the diffrence between committ date and build triggered.
+ * see BuildBot API: http://docs.buildbot.net/latest/developer/rest.html#filtering
+ */
+
+function convertIsoToUnixTime(isoF, isoL) {
+  let unixF = Date.parse(isoF.commit.committer.date) + 5000 / 1000;
+  let unixL = Date.parse(isoL.commit.committer.date) / 1000;
+  return '&submitted_at__le=' + unixF + '&submitted_at__ge=' + unixL;
+}
+
 function getBuildQString(builds) {
   return builds
     .map(build => 'buildrequestid__contains=' + build.buildrequestid)
@@ -36,7 +51,10 @@ function getBuildReqQString(commits, buildData) {
 function* handleBuildsLoad() {
   try {
     const commits = yield select(state => state.commits);
-    const buildSetsRaw = yield call(fetchBuildSets);
+    const buildSetsRaw = yield call(
+      fetchBuildSets,
+      convertIsoToUnixTime(commits[0], commits[9])
+    );
     if (buildSetsRaw.length === 0) {
       yield put(setBuildSetsError('Nothing returned'));
       return;

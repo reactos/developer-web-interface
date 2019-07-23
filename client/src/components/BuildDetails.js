@@ -1,47 +1,54 @@
 import React from 'react';
-class BuildDetails extends React.Component {
-  renderBuild = build => {
-    return (
-      <React.Fragment key={build.buildid}>
-        <div className='col-sm-3'>
-          <a
-            target='_blank'
-            rel='noreferrer noopener'
-            href={`https://build.reactos.org/#builders/${
-              build.builderid
-            }/builds/${build.number}`}
-          >
-            {this.props.builders[build.builderid - 1].name}
-          </a>
-        </div>
-        <div className='col-sm-3'>
-          {build.state_string}
-          {build.state_string === 'build successful' ? (
-            <i className='fa fa-check' />
-          ) : (
-            <i />
-          )}
-        </div>
-        <div className='col-sm-3'>started_at:{build.started_at}</div>
-        <div className='col-sm-3'>complete_at:{build.complete_at}</div>
-      </React.Fragment>
-    );
-  };
-  render() {
-    return this.props.build ? (
-      <React.Fragment>
-        {this.props.build.length > 0 ? (
-          <div className='row'>{this.props.build.map(this.renderBuild)}</div>
-        ) : (
-          <p>
-            <strong>No data Exists</strong>
-          </p>
-        )}
-      </React.Fragment>
-    ) : (
-      <h6>No data Exists</h6>
-    );
-  }
+import { connect } from 'react-redux';
+
+function Build({builderid, number, builderName, started_at, complete_at, state_string}) {
+  return (<React.Fragment>
+    <div className='col-sm-3'>
+      <a
+        target='_blank'
+        rel='noreferrer noopener'
+        href={`https://build.reactos.org/#builders/${
+          builderid
+        }/builds/${number}`}
+      >
+        {builderName}
+      </a>
+    </div>
+    <div className='col-sm-3'>
+      {state_string}
+      {state_string === 'build successful' ? (
+        <i className='fa fa-check' />
+      ) : (
+        <i />
+      )}
+    </div>
+    <div className='col-sm-3'>started_at:{started_at}</div>
+    <div className='col-sm-3'>complete_at:{complete_at}</div>
+  </React.Fragment>);
 }
 
-export default BuildDetails;
+function renderBuild(props) {
+  return <Build key={props.buildid} {...props} />;
+}
+
+function BuildDetails({builds}) {
+  return (<React.Fragment>
+    {builds.length > 0 ? (
+      <div className='row'>{builds.map(renderBuild)}</div>
+    ) : (
+      <p>
+        <strong>No data Exists</strong>
+      </p>
+    )}
+  </React.Fragment>);
+}
+
+const mapStateToProps = ({ builders }, ownProps) => {
+  return {
+    builds: ownProps.builds.map(
+      build => {...build, builderName: builders[build.builderid].name}
+    )
+  };
+};
+
+export default connect(mapStateToProps)(BuildDetails);

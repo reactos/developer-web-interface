@@ -81,9 +81,9 @@ function CommitsCard(props) {
               </a>
             </div>
           </div>
-          <h5>Build Details:</h5>
           <hr />
-          <BuildDetails build={props.builds} builders={props.builders} />
+          <h5>Build Details:</h5>
+          <BuildDetails builds={props.builds} />
         </CardBody>
       </UncontrolledCollapse>
     </Card>

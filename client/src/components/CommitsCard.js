@@ -83,7 +83,7 @@ function CommitsCard(props) {
           </div>
           <hr />
           <h5>Build Details:</h5>
-          <BuildDetails builds={props.builds} />
+          {props.builds ? <BuildDetails builds={props.builds} /> : <div />}
         </CardBody>
       </UncontrolledCollapse>
     </Card>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 function Build({builderid, number, builderName, started_at, complete_at, state_string}) {
   return (<React.Fragment>
     <div className='col-sm-3'>

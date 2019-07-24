@@ -148,13 +148,6 @@ app.get('/api/buildsets', (req, res) => {
     '&submitted_at__ge=' +
     req.query.submitted_at__ge;
   rp(buildSetReq(q))
-    .then(body => {
-      res.json(body);
-    })
-    .catch(function(err) {
-      res.json({ error: 'oops...something went wrong' });
-    });
-});
 
 //------- BUILD-REQUEST END-POINT -------
 

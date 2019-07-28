@@ -7,80 +7,93 @@ import Loading from './Loading';
 import PullsCard from './PullsCard';
 
 class Pulls extends React.Component {
- componentDidMount() {
-  this.props.loadPulls();
- }
- renderPulls = pull => {
-  return (
-   <div className='panel-margin' key={pull.id}>
-    <PullsCard {...pull} />
-   </div>
-  );
- };
- render() {
-  return (
-   <div className='container margin'>
-    <h2>Latest Pulls</h2>
-    <PullState />
-    {this.props.isLoading.load ? (
-     <Loading text='Fetching latest PRs for you...' />
-    ) : (
-     <div>
-      <div>{this.props.pulls.map(this.renderPulls)}</div>
-      {this.props.error ? (
-       <div className='error'>
-        Unexpected Error occured. Kindly Reload the page
-        <br />
-        Err:{this.props.error}
-       </div>
-      ) : (
-       <div>
-        <button
-         type='button'
-         onClick={() => {
-          this.props.loadPulls(this.props.page.prev);
-         }}
-         className='btn btn-primary '
-         disabled={this.props.page.prev === null || this.props.error !== null}
-        >
-         <i className='fa fa-caret-left' aria-hidden='true' />
-         Previous Page{' '}
-        </button>{' '}
-        <button
-         type='button'
-         onClick={() => {
-          this.props.loadPulls(this.props.page.next);
-         }}
-         className='btn btn-primary'
-         disabled={this.props.page.next === null || this.props.error !== null}
-        >
-         Next Page{'	'}
-         <i className='fa fa-caret-right' aria-hidden='true' />
-        </button>
-        <footer className='blockquote-footer'>
-         Page {this.props.page.next - 1}
-        </footer>
-        <div className='footer-blockquote' />
-       </div>
-      )}
-     </div>
-    )}
-   </div>
-  );
- }
+  componentDidMount() {
+    this.props.loadPulls();
+  }
+  renderPulls = pull => {
+    return (
+      <div className='panel-margin' key={pull.id}>
+        <PullsCard {...pull} builds={this.props.build[pull.number]} />
+      </div>
+    );
+  };
+  render() {
+    return (
+      <div className='container margin'>
+        <h2>Latest Pulls</h2>
+        <PullState />
+        {this.props.isLoading.load ? (
+          <Loading text='Fetching latest PRs for you...' />
+        ) : (
+          <div>
+            <div>{this.props.pulls.map(this.renderPulls)}</div>
+            {this.props.error ? (
+              <div className='error'>
+                Unexpected Error occured. Kindly Reload the page
+                <br />
+                Err:{this.props.error}
+              </div>
+            ) : (
+              <div>
+                <button
+                  type='button'
+                  onClick={() => {
+                    this.props.loadPulls(this.props.page.prev);
+                  }}
+                  className='btn btn-primary '
+                  disabled={
+                    this.props.page.prev === null || this.props.error !== null
+                  }
+                >
+                  <i className='fa fa-caret-left' aria-hidden='true' />
+                  Previous Page{' '}
+                </button>{' '}
+                <button
+                  type='button'
+                  onClick={() => {
+                    this.props.loadPulls(this.props.page.next);
+                  }}
+                  className='btn btn-primary'
+                  disabled={
+                    this.props.page.next === null || this.props.error !== null
+                  }
+                >
+                  Next Page{'	'}
+                  <i className='fa fa-caret-right' aria-hidden='true' />
+                </button>
+                <footer className='blockquote-footer'>
+                  Page {this.props.page.next - 1}
+                </footer>
+                <div className='footer-blockquote' />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = ({ pulls, page, isLoading, error }) => ({
- pulls,
- page,
- isLoading,
- error
+const mapStateToProps = ({
+  pulls,
+  builders,
+  page,
+  isLoading,
+  error,
+  build
+}) => ({
+  pulls,
+  builders,
+  page,
+  isLoading,
+  error,
+  build
 });
 
 const mapDispatchToProps = dispatch => ({
- loadPulls: next => dispatch(loadPulls(next))
+  loadPulls: next => dispatch(loadPulls(next))
 });
 export default connect(
- mapStateToProps,
- mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Pulls);

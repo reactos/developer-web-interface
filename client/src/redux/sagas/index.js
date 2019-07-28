@@ -5,13 +5,14 @@ import branchesSaga from './branchesSaga';
 import pullsSaga from './pullsSaga';
 import buildersSaga from './buildersSaga';
 import buildSetSaga from './buildSetSaga';
-
+import pullsBuildSaga from './pullsBuildSaga';
 export default function* rootSaga() {
   yield all([
     commitsSaga(),
     branchesSaga(),
     pullsSaga(),
     buildersSaga(),
-    buildSetSaga()
+    buildSetSaga(),
+    pullsBuildSaga()
   ]);
 }

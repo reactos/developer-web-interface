@@ -17,7 +17,7 @@ import { setBuildSetsError, setBuilds } from '../actions';
  */
 
 function convertIsoToUnixTime(isoF, isoL) {
-  let unixF = Date.parse(isoF.commit.committer.date) + 5000 / 1000;
+  let unixF = Date.parse(isoF.commit.committer.date) / 1000 + 5000;
   let unixL = Date.parse(isoL.commit.committer.date) / 1000;
   return '&submitted_at__le=' + unixF + '&submitted_at__ge=' + unixL;
 }

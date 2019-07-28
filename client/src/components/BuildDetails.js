@@ -26,7 +26,7 @@ function Build({ build, builderName }) {
       </div>
       <div className='col-sm-3'>Started: {startedDate.toLocaleString()}</div>
       <div className='col-sm-4'>
-        Completed: {completedDate.toLocaleString()}
+        Completed: {build.complete_at ? completedDate.toLocaleString() : <p />}
       </div>
     </React.Fragment>
   );

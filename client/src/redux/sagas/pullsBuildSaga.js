@@ -4,7 +4,7 @@ import { fetchBuildSets, fetchBuildReq, fetchBuilds } from '../api';
 import { setBuildSetsError, setBuilds } from '../actions';
 
 function convertIsoToUnixTime(isoF, isoL) {
-  let unixF = Date.parse(isoF.created_at) / 1000 + 5000;
+  let unixF = Date.parse(isoF.created_at) / 1000 + 30000;
   let unixL = Date.parse(isoL.created_at) / 1000;
   return '&submitted_at__le=' + unixF + '&submitted_at__ge=' + unixL;
 }
@@ -16,15 +16,17 @@ function getBuildQString(builds) {
 }
 
 function getBuildReqQString(pulls, buildSetsRaw) {
-  return pulls
+  var a = pulls
     .flatMap(pull =>
       buildSetsRaw.filter(
         build =>
-          build.sourcestamps[0].branch === `refs/pull/${pull.number}/head`
+          build.sourcestamps[0].branch === `refs/pull/${pull.number}/head` ||
+          build.sourcestamps[0].branch === `refs/pull/${pull.number}/merge`
       )
     )
     .map(bd => 'buildsetid__contains=' + bd.bsid)
     .join('&');
+  return a;
 }
 
 function* handlePullsBuildLoad() {
@@ -49,7 +51,11 @@ function* handlePullsBuildLoad() {
     const buildsByPR = {};
     for (let { number } of pulls) {
       const buildSetIds = buildSetsRaw
-        .filter(bs => bs.sourcestamps[0].branch === `refs/pull/${number}/head`)
+        .filter(
+          bs =>
+            bs.sourcestamps[0].branch === `refs/pull/${number}/head` ||
+            bs.sourcestamps[0].branch === `refs/pull/${number}/merge`
+        )
         .map(bs => bs.bsid);
       const buildReqIds = buildReqsRaw
         .filter(br => buildSetIds.includes(br.buildsetid))

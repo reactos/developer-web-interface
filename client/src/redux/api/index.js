@@ -7,6 +7,27 @@ export const fetchCommits = async (sha, page) => {
   return data;
 };
 
+export const fetchTests = async (startrev, endrev, page) => {
+  let results = [];
+  let keepGoing = true;
+  while (keepGoing) {
+    const response = await fetch(
+      `/api/testman?startrev=${startrev}&endrev=${endrev}&page=${page}`
+    );
+    let data = await response.json();
+    results.push(data.results.result);
+    if (parseInt(data.results.resultcount._text) > 10) {
+      page++;
+    } else {
+      keepGoing = false;
+      return results.flat();
+    }
+    if (response.status >= 400) {
+      throw new Error(data.errors);
+    }
+  }
+};
+
 export const fetchBuildSets = async str => {
   if (str) {
     const response = await fetch(`/api/buildsets?${str}`);

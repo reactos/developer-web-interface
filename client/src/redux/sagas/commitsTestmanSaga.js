@@ -8,7 +8,14 @@ function* handleTestmanLoad() {
     const page = 1;
     const shas = commits.map(commit => commit.sha);
     const testResults = yield call(fetchTests, shas[9], shas[0], page);
-    console.log(testResults);
+    const testBySha = {};
+    for (let { sha } of commits) {
+      const testData = testResults.filter(test =>
+        sha.includes(test.revision._text)
+      );
+      testBySha[sha] = testData;
+    }
+    console.log(testBySha);
   } catch (error) {}
 }
 

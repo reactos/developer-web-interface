@@ -7,6 +7,7 @@ import buildersSaga from './buildersSaga';
 import buildSetSaga from './buildSetSaga';
 import pullsBuildSaga from './pullsBuildSaga';
 import commitsTestmanSaga from './commitsTestmanSaga';
+import pullsTestmanSaga from './pullsTestmanSaga';
 export default function* rootSaga() {
   yield all([
     commitsSaga(),
@@ -15,6 +16,7 @@ export default function* rootSaga() {
     buildersSaga(),
     buildSetSaga(),
     pullsBuildSaga(),
-    commitsTestmanSaga()
+    commitsTestmanSaga(),
+    pullsTestmanSaga()
   ]);
 }

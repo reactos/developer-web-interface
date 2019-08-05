@@ -12,6 +12,7 @@ function PullsCard(props) {
       <CardHeader className='new' type='button' id={tog}>
         <div className='row'>
           <div className='col-sm'>{props.number}</div>
+          <div className='col-sm'>{props.merge_commit_sha.substring(0, 7)}</div>
           <div className='col-sm'>{props.state}</div>
           <div className='col-sm'>{props.user.login}</div>
         </div>

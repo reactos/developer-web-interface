@@ -21,7 +21,8 @@ function getBuildReqQString(pulls, buildSetsRaw) {
       buildSetsRaw.filter(
         build =>
           build.sourcestamps[0].branch === `refs/pull/${pull.number}/head` ||
-          build.sourcestamps[0].branch === `refs/pull/${pull.number}/merge`
+          build.sourcestamps[0].branch === `refs/pull/${pull.number}/merge` ||
+          build.sourcestamps[0].revision === `${pull.merge_commit_sha}`
       )
     )
     .map(bd => 'buildsetid__contains=' + bd.bsid)
@@ -36,6 +37,7 @@ function* handlePullsBuildLoad() {
       fetchBuildSets,
       convertIsoToUnixTime(pulls[0], pulls[9])
     );
+    console.log(buildSetsRaw);
     if (buildSetsRaw.length === 0) {
       yield put(setBuildSetsError('Nothing returned'));
       return;
@@ -49,12 +51,13 @@ function* handlePullsBuildLoad() {
     const buildsRaw = yield call(fetchBuilds, getBuildQString(buildReqsRaw));
 
     const buildsByPR = {};
-    for (let { number } of pulls) {
+    for (let { number, merge_commit_sha } of pulls) {
       const buildSetIds = buildSetsRaw
         .filter(
           bs =>
             bs.sourcestamps[0].branch === `refs/pull/${number}/head` ||
-            bs.sourcestamps[0].branch === `refs/pull/${number}/merge`
+            bs.sourcestamps[0].branch === `refs/pull/${number}/merge` ||
+            bs.sourcestamps[0].revision === `${merge_commit_sha}`
         )
         .map(bs => bs.bsid);
       const buildReqIds = buildReqsRaw

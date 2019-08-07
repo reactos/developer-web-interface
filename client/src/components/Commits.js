@@ -14,7 +14,11 @@ class Commits extends React.Component {
   renderCommits = commit => {
     return (
       <div className='panel-margin' key={commit.sha}>
-        <CommitsCard {...commit} builds={this.props.build[commit.sha]} />
+        <CommitsCard
+          {...commit}
+          builds={this.props.build[commit.sha]}
+          tests={this.props.testData[commit.sha]}
+        />
       </div>
     );
   };
@@ -86,7 +90,8 @@ const mapStateToProps = ({
   error,
   branch,
   page,
-  build
+  build,
+  testData
 }) => ({
   isLoading,
   commits,
@@ -94,7 +99,8 @@ const mapStateToProps = ({
   error,
   branch,
   page,
-  build
+  build,
+  testData
 });
 
 const mapDispatchToProps = dispatch => ({

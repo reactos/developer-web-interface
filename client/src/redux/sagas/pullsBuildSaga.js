@@ -37,7 +37,6 @@ function* handlePullsBuildLoad() {
       fetchBuildSets,
       convertIsoToUnixTime(pulls[0], pulls[9])
     );
-    console.log(buildSetsRaw);
     if (buildSetsRaw.length === 0) {
       yield put(setBuildSetsError('Nothing returned'));
       return;

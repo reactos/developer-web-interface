@@ -13,7 +13,11 @@ class Pulls extends React.Component {
   renderPulls = pull => {
     return (
       <div className='panel-margin' key={pull.id}>
-        <PullsCard {...pull} builds={this.props.build[pull.number]} />
+        <PullsCard
+          {...pull}
+          builds={this.props.build[pull.number]}
+          tests={this.props.testData[pull.merge_commit_sha]}
+        />
       </div>
     );
   };
@@ -80,14 +84,16 @@ const mapStateToProps = ({
   page,
   isLoading,
   error,
-  build
+  build,
+  testData
 }) => ({
   pulls,
   builders,
   page,
   isLoading,
   error,
-  build
+  build,
+  testData
 });
 
 const mapDispatchToProps = dispatch => ({

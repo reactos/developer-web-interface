@@ -1,6 +1,7 @@
 import React from 'react';
 import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
 import BuildDetails from './BuildDetails';
+import TestDetails from './TestDetails';
 
 function PullsCard(props) {
   let tog = 'toggler' + props.id;
@@ -48,6 +49,15 @@ function PullsCard(props) {
           <hr />
           <h5>Build Details:</h5>
           {props.builds ? <BuildDetails builds={props.builds} /> : <div />}
+          <hr />
+          <h5>Test Details:</h5>
+          {props.tests ? (
+            <TestDetails tests={props.tests} />
+          ) : (
+            <p>
+              <strong>No data Exists..</strong>
+            </p>
+          )}
         </CardBody>
       </UncontrolledCollapse>
     </Card>

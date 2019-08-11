@@ -33,7 +33,6 @@ function Build({ builderName, ...build }) {
 }
 
 function renderBuild(props) {
-  console.log(props);
   return <Build key={props.buildid} {...props} />;
 }
 

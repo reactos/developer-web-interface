@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-function Build({ build, builderName }) {
+function Build({ builderName, ...build }) {
   let completedDate = new Date(build.complete_at * 1000);
   let startedDate = new Date(build.started_at * 1000);
   return (
@@ -33,7 +33,8 @@ function Build({ build, builderName }) {
 }
 
 function renderBuild(props) {
-  return <Build key={props.build.buildid} {...props} />;
+  console.log(props);
+  return <Build key={props.buildid} {...props} />;
 }
 
 function BuildDetails({ builds }) {
@@ -53,7 +54,7 @@ function BuildDetails({ builds }) {
 const mapStateToProps = ({ builders }, ownProps) => {
   return {
     builds: ownProps.builds.map(build => ({
-      build,
+      ...build,
       builderName: builders[build.builderid].name
     }))
   };

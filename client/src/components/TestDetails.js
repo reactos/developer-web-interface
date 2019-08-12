@@ -2,7 +2,7 @@ import React from 'react';
 
 function renderTest(test) {
   return (
-    <React.Fragment key={parseInt(test.id._text)}>
+    <React.Fragment key={test.id._text}>
       <div className='col-sm-2'>Test id: {test.id._text}</div>
       <div className='col-sm-4'>
         <a

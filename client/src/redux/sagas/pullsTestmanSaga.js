@@ -11,7 +11,7 @@ function* handleTestmanLoad() {
     const testByPulls = {};
     for (let sha of shas) {
       const testData = testResults.filter(test =>
-        sha.includes(test.revision._text)
+        sha.startsWith(test.revision._text)
       );
       testByPulls[sha] = testData;
     }

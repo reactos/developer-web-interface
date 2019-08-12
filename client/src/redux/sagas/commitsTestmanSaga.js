@@ -12,7 +12,7 @@ function* handleTestmanLoad() {
     const testBySha = {};
     for (let { sha } of commits) {
       const testData = testResults.filter(test =>
-        sha.includes(test.revision._text)
+        sha.startsWith(test.revision._text)
       );
       testBySha[sha] = testData;
     }

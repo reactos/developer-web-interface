@@ -8,9 +8,7 @@ function renderTest(test) {
         <a
           target='_blank'
           rel='noreferrer noopener'
-          href={`https://reactos.org/testman/compare.php?ids=${parseInt(
-            test.id._text
-          )}`}
+          href={`https://reactos.org/testman/compare.php?ids=${test.id._text}`}
         >
           {test.source._text}
         </a>

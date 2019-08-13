@@ -46,7 +46,11 @@ function PullsCard(props) {
           </div>
           <hr />
           <h5>Build Details:</h5>
-          {props.builds ? <BuildDetails builds={props.builds} /> : <div />}
+          {props.builds ? (
+            <BuildDetails builds={props.builds} />
+          ) : (
+            <div>Loading Pulls data...</div>
+          )}
         </CardBody>
       </UncontrolledCollapse>
     </Card>

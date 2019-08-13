@@ -83,7 +83,13 @@ function CommitsCard(props) {
           </div>
           <hr />
           <h5>Build Details:</h5>
-          {props.builds ? <BuildDetails builds={props.builds} /> : <div />}
+          {props.builds ? (
+            <BuildDetails builds={props.builds} />
+          ) : (
+            <div>
+              <strong>Loading Build Data ...</strong>
+            </div>
+          )}
         </CardBody>
       </UncontrolledCollapse>
     </Card>

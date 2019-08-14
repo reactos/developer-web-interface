@@ -84,10 +84,22 @@ function CommitsCard(props) {
           </div>
           <hr />
           <h5>Build Details:</h5>
-          {props.builds ? <BuildDetails builds={props.builds} /> : <div />}
+          {props.builds ? (
+            <BuildDetails builds={props.builds} />
+          ) : (
+            <div>
+              <strong>Loading Builds ...</strong>
+            </div>
+          )}
           <hr />
           <h5>Test Details:</h5>
-          {props.tests ? <TestDetails tests={props.tests} /> : <div />}
+          {props.tests ? (
+            <TestDetails tests={props.tests} />
+          ) : (
+            <div>
+              <strong>No data Exists</strong>
+            </div>
+          )}
         </CardBody>
       </UncontrolledCollapse>
     </Card>

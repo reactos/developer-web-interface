@@ -48,14 +48,18 @@ function PullsCard(props) {
           </div>
           <hr />
           <h5>Build Details:</h5>
-          {props.builds ? <BuildDetails builds={props.builds} /> : <div />}
+          {props.builds ? (
+            <BuildDetails builds={props.builds} />
+          ) : (
+            <div>Loading Builds ...</div>
+          )}
           <hr />
           <h5>Test Details:</h5>
           {props.tests ? (
             <TestDetails tests={props.tests} />
           ) : (
             <p>
-              <strong>No data Exists..</strong>
+              <strong>No data Exists...</strong>
             </p>
           )}
         </CardBody>

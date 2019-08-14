@@ -2,19 +2,19 @@ import React from 'react';
 
 function renderTest(test) {
   return (
-    <React.Fragment key={test.id._text}>
-      <div className='col-sm-2'>Test id: {test.id._text}</div>
+    <React.Fragment key={test.id}>
+      <div className='col-sm-2'>Test id: {test.id}</div>
       <div className='col-sm-4'>
         <a
           target='_blank'
           rel='noreferrer noopener'
-          href={`https://reactos.org/testman/compare.php?ids=${test.id._text}`}
+          href={`https://reactos.org/testman/compare.php?ids=${test.id}`}
         >
-          {test.source._text}
+          {test.source}
         </a>
       </div>
-      <div className='col-sm-3'>Count: {test.count._text}</div>
-      <div className='col-sm-3'>Failures: {test.failures._text}</div>
+      <div className='col-sm-3'>Count: {test.count}</div>
+      <div className='col-sm-3'>Failures: {test.failures}</div>
     </React.Fragment>
   );
 }

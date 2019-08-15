@@ -88,7 +88,7 @@ function CommitsCard(props) {
             <BuildDetails builds={props.builds} />
           ) : (
             <div>
-              <strong>Loading Builds ...</strong>
+              <strong>Loading Builds...</strong>
             </div>
           )}
           <hr />
@@ -97,7 +97,7 @@ function CommitsCard(props) {
             <TestDetails tests={props.tests} />
           ) : (
             <div>
-              <strong>No data Exists</strong>
+              <strong>Loading Tests...</strong>
             </div>
           )}
         </CardBody>

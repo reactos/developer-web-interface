@@ -13,7 +13,7 @@ function* handleTestmanLoad() {
       const testData = testResults.filter(test =>
         sha.startsWith(test.revision._text)
       );
-      testByPulls[sha] = testData;
+      testByPulls[sha] = testData || [];
     }
     yield put(setTestman(testByPulls));
   } catch (error) {

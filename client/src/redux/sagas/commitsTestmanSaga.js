@@ -14,7 +14,7 @@ function* handleTestmanLoad() {
       const testData = testResults.filter(test =>
         sha.startsWith(test.revision._text)
       );
-      testBySha[sha] = testData;
+      testBySha[sha] = testData || [];
     }
     yield put(setTestman(testBySha));
   } catch (error) {

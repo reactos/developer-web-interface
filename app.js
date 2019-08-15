@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const rp = require('request-promise');
+const convert = require('xml-js');
 const app = express();
 //app.disable('query parser');
 dotenv.config();
@@ -82,7 +83,7 @@ app.get('/api/branches', (req, res) => {
       res.json(body);
     })
     .catch(function(err) {
-      res.json({ error: 'oops...something went wrong' });
+      res.json({ error: 'oops...something went wrong' + err });
     });
 });
 
@@ -122,7 +123,7 @@ app.get('/api/pulls', (req, res) => {
       res.json(dataAndPage);
     })
     .catch(function(err) {
-      res.json({ error: 'oops...something went wrong' });
+      res.json({ error: 'oops...something went wrong' + err });
     });
 });
 
@@ -152,7 +153,7 @@ app.get('/api/buildsets', (req, res) => {
       res.json(body);
     })
     .catch(function(err) {
-      res.json({ error: 'oops...something went wrong' });
+      res.json({ error: 'oops...something went wrong' + err });
     });
 });
 
@@ -179,7 +180,7 @@ app.get('/api/buildreq', (req, res) => {
       res.json(body);
     })
     .catch(function(err) {
-      res.json({ error: 'oops...something went wrong' });
+      res.json({ error: 'oops...something went wrong' + err });
     });
 });
 
@@ -206,11 +207,11 @@ app.get('/api/builds', (req, res) => {
       res.json(body);
     })
     .catch(function(err) {
-      res.json({ error: 'oops...something went wrong' });
+      res.json({ error: 'oops...something went wrong' + err });
     });
 });
 
-//------- BRANCHES END-POINT -------
+//------- BUILDERS END-POINT -------
 
 function builderReq() {
   const builders = {
@@ -231,7 +232,32 @@ app.get('/api/builders', (req, res) => {
       res.json(body);
     })
     .catch(function(err) {
-      res.json({ error: 'oops...something went wrong' });
+      res.json({ error: 'oops...something went wrong' + err });
+    });
+});
+
+//------- TESTMAN END-POINT -------
+
+function testReq(startrev, endrev, page) {
+  const tests = {
+    uri: `https://reactos.org/testman/ajax-search.php?startrev=${startrev}&endrev=${endrev}&page=${page}&resultlist=0&requesttype=2`,
+    resolveWithFullResponse: false,
+    headers: {
+      'User-Agent': 'Request-Promise'
+    }
+  };
+
+  return tests;
+}
+
+app.get('/api/testman', (req, res) => {
+  rp(testReq(req.query.startrev, req.query.endrev, req.query.page))
+    .then(body => {
+      const result = convert.xml2json(body, { compact: true, spaces: 2 });
+      res.send(result);
+    })
+    .catch(function(err) {
+      res.json({ error: 'oops...something went wrong' + err });
     });
 });
 

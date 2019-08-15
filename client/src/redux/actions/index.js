@@ -1,4 +1,11 @@
-import { COMMITS, BRANCHES, PULLS, BUILD_DATA, BUILDERS } from '../constants';
+import {
+  COMMITS,
+  BRANCHES,
+  PULLS,
+  BUILD_DATA,
+  BUILDERS,
+  TESTMAN_DATA
+} from '../constants';
 
 export const loadCommits = newPage => ({
   type: COMMITS.LOAD,
@@ -25,6 +32,19 @@ export const setBuilds = build => ({
 
 export const setBuildSetsError = error => ({
   type: BUILD_DATA.LOAD_FAIL,
+  error
+});
+
+export const loadTestman = () => ({
+  type: TESTMAN_DATA.LOAD
+});
+export const setTestman = tests => ({
+  type: TESTMAN_DATA.LOAD_SUCCESS,
+  tests
+});
+
+export const setTestmanError = error => ({
+  type: TESTMAN_DATA.LOAD_FAIL,
   error
 });
 

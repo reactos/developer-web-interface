@@ -10,6 +10,7 @@ import pullsReducer from './pullsReducer';
 import pageReducer from './pageReducer';
 import pullStateReducer from './pullStateReducer';
 import buildStatusReducer from './buildStatusReducer';
+import testmanReducer from './testmanReducer';
 
 const rootReducer = combineReducers({
   isLoading: loadingReducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   pulls: pullsReducer,
   pullState: pullStateReducer,
   page: pageReducer,
-  build: buildStatusReducer
+  build: buildStatusReducer,
+  testData: testmanReducer
 });
 
 export default rootReducer;

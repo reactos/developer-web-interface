@@ -25,6 +25,7 @@
   "path": "^0.12.7",
   "react-router-dom": "^5.0.1",
   "request": "^2.88.0",
-  "request-promise": "^4.2.4"
+  "request-promise": "^4.2.4",
+  "xml-js": "^1.6.11"
  }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
 import BuildDetails from './BuildDetails';
+import TestDetails from './TestDetails';
 
 function CommitsCard(props) {
   let tog = 'toggler' + props.sha;
@@ -87,7 +88,16 @@ function CommitsCard(props) {
             <BuildDetails builds={props.builds} />
           ) : (
             <div>
-              <strong>Loading Build Data ...</strong>
+              <strong>Loading Builds...</strong>
+            </div>
+          )}
+          <hr />
+          <h5>Test Details:</h5>
+          {props.tests ? (
+            <TestDetails tests={props.tests} />
+          ) : (
+            <div>
+              <strong>No data Exists</strong>
             </div>
           )}
         </CardBody>

@@ -59,7 +59,7 @@ function PullsCard(props) {
             <TestDetails tests={props.tests} />
           ) : (
             <p>
-              <strong>Loading Tests...</strong>
+              <strong>No data Exists</strong>
             </p>
           )}
         </CardBody>

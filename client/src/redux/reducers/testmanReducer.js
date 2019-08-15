@@ -2,23 +2,18 @@ import { TESTMAN_DATA } from '../constants';
 const testmanReducer = (state = {}, action) => {
   if (action.type === TESTMAN_DATA.LOAD_SUCCESS) {
     let cleanedTestmanData = {};
-    for (const sha in action.tests) {
-      if (action.tests[sha].length > 0) {
-        const dataPerSha = [];
-        for (const testArray of action.tests[sha]) {
-          let reducedKeyVal = {};
-          for (const key in testArray) {
-            reducedKeyVal[key] = testArray[key]._text;
-          }
-          dataPerSha.push(reducedKeyVal);
+    for (const [sha, tests] of Object.entries(action.tests)) {
+      cleanedTestmanData[sha] = tests.map(t => {
+        let reducedKeyVal = {};
+        for (const [k, v] of Object.entries(t)) {
+          reducedKeyVal[k] = v._text;
         }
-        cleanedTestmanData[sha] = dataPerSha;
-      } else {
-        cleanedTestmanData[sha] = [];
-      }
+        return reducedKeyVal;
+      })
     }
-    return { ...cleanedTestmanData };
+    return cleanedTestmanData;
   }
+
   return state;
 };
 

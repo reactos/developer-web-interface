@@ -10,10 +10,9 @@ function* handleTestmanLoad() {
     const testResults = yield call(fetchTests, shas[9], shas[0], 1);
     const testByPulls = {};
     for (let sha of shas) {
-      const testData = testResults.filter(test =>
+      testByPulls[sha] = testResults.filter(test =>
         sha.startsWith(test.revision._text)
       );
-      testByPulls[sha] = testData || [];
     }
     yield put(setTestman(testByPulls));
   } catch (error) {

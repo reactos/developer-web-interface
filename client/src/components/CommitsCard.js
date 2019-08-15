@@ -97,7 +97,7 @@ function CommitsCard(props) {
             <TestDetails tests={props.tests} />
           ) : (
             <div>
-              <strong>Loading Tests...</strong>
+              <strong>No data Exists</strong>
             </div>
           )}
         </CardBody>

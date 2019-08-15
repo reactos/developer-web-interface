@@ -6,15 +6,13 @@ import { setTestman, setTestmanError } from '../actions';
 function* handleTestmanLoad() {
   try {
     const commits = yield select(state => state.commits);
-    const page = 1;
     const shas = commits.map(commit => commit.sha);
-    const testResults = yield call(fetchTests, shas[9], shas[0], page);
+    const testResults = yield call(fetchTests, shas[9], shas[0], 1);
     const testBySha = {};
-    for (let { sha } of commits) {
-      const testData = testResults.filter(test =>
+    for (let sha of shas) {
+      testBySha[sha] = testResults.filter(test =>
         sha.startsWith(test.revision._text)
       );
-      testBySha[sha] = testData || [];
     }
     yield put(setTestman(testBySha));
   } catch (error) {

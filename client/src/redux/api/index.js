@@ -7,13 +7,15 @@ export const fetchCommits = async (sha, page) => {
   return data;
 };
 
-export const fetchBuildSets = async () => {
-  const response = await fetch('/api/buildsets');
-  const data = await response.json();
-  if (response.status >= 400) {
-    throw new Error(data.errors);
+export const fetchBuildSets = async str => {
+  if (str) {
+    const response = await fetch(`/api/buildsets?${str}`);
+    const data = await response.json();
+    if (response.status >= 400) {
+      throw new Error(data.errors);
+    }
+    return data.buildsets;
   }
-  return data.buildsets;
 };
 
 export const fetchBuildReq = async str => {

@@ -128,10 +128,10 @@ app.get('/api/pulls', (req, res) => {
 
 //------- BUILD-SET END-POINT -------
 
-function buildSetReq() {
+function buildSetReq(str) {
+  //https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=200
   const buildSets = {
-    uri:
-      'https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=200',
+    uri: `https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&field=submitted_at&order=-bsid${str}`,
     headers: {
       'User-Agent': 'Request-Promise'
     },
@@ -142,7 +142,12 @@ function buildSetReq() {
 }
 
 app.get('/api/buildsets', (req, res) => {
-  rp(buildSetReq())
+  let q =
+    '&submitted_at__le=' +
+    req.query.submitted_at__le +
+    '&submitted_at__ge=' +
+    req.query.submitted_at__ge;
+  rp(buildSetReq(q))
     .then(body => {
       res.json(body);
     })

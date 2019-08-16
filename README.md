@@ -26,8 +26,7 @@ Project Implementation can be viewed [here](https://developer-interface-ros.hero
 | Commits Tab                                                               | PRs Tab                                                                    |
 | ------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | <img src="https://github.com/ayushsnha/hellow-world/blob/master/c1.PNG"/> | <img src="https://github.com/ayushsnha/hellow-world/blob/master/c3.PNG" /> |
-
-Panels Expanded  
+| Commits panel                                                             | PRs panel                                                                  |
 | <img src="https://github.com/ayushsnha/hellow-world/blob/master/c2.PNG"/> | <img src="https://github.com/ayushsnha/hellow-world/blob/master/c4.PNG" /> |
 
 > Features yet to be Added

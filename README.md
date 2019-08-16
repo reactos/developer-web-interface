@@ -1,6 +1,6 @@
-<img src="https://github.com/ayushsnha/hellow-world/blob/master/68747470733a2f2f6d75736573636f72652e6f72672f73697465732f6d75736573636f72652e6f72672f66696c65732f4361707475726525323064253237652543432538316372616e253230323031362d30332d303125323030392e34382e31315f302e706e.png" align="center"/>
+# <img src="https://github.com/ayushsnha/hellow-world/blob/master/68747470733a2f2f6d75736573636f72652e6f72672f73697465732f6d75736573636f72652e6f72672f66696c65732f4361707475726525323064253237652543432538316372616e253230323031362d30332d303125323030392e34382e31315f302e706e.png" align="center"/>
 
-# Developer Web Interface for ReactOS (GSOC 2019) By Ayush Kumar Sinha
+## Developer Web Interface for ReactOS (GSOC 2019) By Ayush Kumar Sinha
 
 ### This Branch contains all work done By Ayush Kumar Sinha during Google Summer of Code 2019
 

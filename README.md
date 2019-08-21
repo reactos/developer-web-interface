@@ -6,6 +6,10 @@
 
 [Go to project page on GSoC website](https://summerofcode.withgoogle.com/projects/#5078102332407808 'Developer interface for ReactOS')
 
+[Official Blog on ReactOS website](https://reactos.org/blog/56126 'Developer interface for ReactOS')
+
+[Final GSoC Report on ReactOS website](https://reactos.org/blogs/gsoc-2019-developer-web-interface-reactos-final-report 'Developer interface for ReactOS')
+
 [Link to commits](https://github.com/reactos/developer-web-interface/commits/GSoC_2019?author=ayushsnha 'GSoC commits')
 
 Project Implementation can be viewed [here](https://developer-interface-ros.herokuapp.com 'Developer interface')

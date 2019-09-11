@@ -6,8 +6,11 @@ import { setTestman, setTestmanError } from '../actions';
 function* handleTestmanLoad() {
   try {
     const commits = yield select(state => state.commits);
-    const shas = commits.map(commit => commit.sha);
-    const testResults = yield call(fetchTests, shas[9], shas[0], 1);
+    let shas = [];
+    if (commits.length > 0) {
+      shas = [commits[0].sha, ...commits.map(commit => commit.parents[0].sha)];
+    }
+    const testResults = yield call(fetchTests, shas[shas.length - 1], shas[0], 1);
     const testBySha = {};
     for (let sha of shas) {
       testBySha[sha] = testResults.filter(test =>

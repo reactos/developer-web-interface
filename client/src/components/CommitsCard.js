@@ -94,7 +94,7 @@ function CommitsCard(props) {
           <hr />
           <h5>Test Details:</h5>
           {props.tests ? (
-            <TestDetails tests={props.tests} />
+            <TestDetails tests={props.tests} previousTests={props.previousTests} />
           ) : (
             <div>
               <strong>No data Exists</strong>

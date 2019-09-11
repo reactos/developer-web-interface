@@ -5,6 +5,7 @@ import Branches from './Branches';
 import './styles/Commit.css';
 import CommitsCard from './CommitsCard';
 import Loading from './Loading';
+
 class Commits extends React.Component {
   componentDidMount() {
     this.props.loadCommits();
@@ -18,6 +19,7 @@ class Commits extends React.Component {
           {...commit}
           builds={this.props.build[commit.sha]}
           tests={this.props.testData[commit.sha]}
+          previousTests={extractCommitsParentTestsCount(this.props.testData, commit)}
         />
       </div>
     );
@@ -102,6 +104,29 @@ const mapStateToProps = ({
   build,
   testData
 });
+
+/**
+ * Build a object contains parent test type and test's count for commit
+ *
+ * @param testData
+ * @param commit
+ * @returns {{}}
+ */
+function extractCommitsParentTestsCount(testData, commit) {
+  let tests = testData[commit.parents[0].sha];
+
+  if (!tests) {
+    return {};
+  }
+
+  let result = {};
+
+  for (let test of tests) {
+    result[test.source] = test.count
+  }
+
+  return result
+}
 
 const mapDispatchToProps = dispatch => ({
   loadBuildSets: () => dispatch(loadBuildSets()),

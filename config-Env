@@ -1,0 +1,5 @@
+//sample .env file
+/*create .env file with the fields given below 
+/*when setting up this project on local machine
+
+SECRET=<your github api access token>

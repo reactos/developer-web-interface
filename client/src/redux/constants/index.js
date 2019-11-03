@@ -1,3 +1,9 @@
+export const PULL_STATE = {
+    OPEN:   'open',
+    CLOSED: 'closed',
+    ALL:    'all',
+}
+
 export const COMMITS = {
   LOAD: 'COMMITS_LOAD',
   LOAD_SUCCESS: 'COMMITS_LOAD_SUCCESS',

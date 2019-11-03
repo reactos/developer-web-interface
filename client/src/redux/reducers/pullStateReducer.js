@@ -1,17 +1,11 @@
-import { PULLS } from '../constants';
+import { PULLS, PULL_STATE } from '../constants';
 
-const pullStateReducer = (
- state = { pullsState: ['open', 'closed', 'all'], currentPullState: 'all' },
- action
-) => {
- if (action.type === PULLS.CURRENT) {
-  return {
-   ...state,
-   currentPullState: action.pullState
-  };
- }
+const pullStateReducer = (state = PULL_STATE.OPEN, action) => {
+  if (action.type === PULLS.CURRENT) {
+    return action.pullState;
+  }
 
- return state;
+  return state;
 };
 
 export default pullStateReducer;

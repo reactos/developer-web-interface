@@ -54,7 +54,7 @@ const mapStateToProps = ({ builders }, ownProps) => {
   return {
     builds: ownProps.builds.map(build => ({
       ...build,
-      builderName: builders[build.builderid].name
+      builderName: builders[build.builderid] && builders[build.builderid].name
     }))
   };
 };

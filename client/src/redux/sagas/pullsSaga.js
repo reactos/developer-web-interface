@@ -3,7 +3,7 @@ import { PULLS } from '../constants';
 import { fetchPulls } from '../api';
 import { setPulls, setPullsError, setPages } from '../actions';
 const getNewPage = state => parseInt(state.isLoading.newPage, 10);
-const getNewState = state => state.pullState.currentPullState;
+const getNewState = state => state.pullState;
 function* handlePullsLoad() {
  try {
   const newPage = yield select(getNewPage);

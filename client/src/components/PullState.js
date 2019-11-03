@@ -7,6 +7,7 @@ import {
  DropdownItem
 } from 'reactstrap';
 import { currState, loadPulls } from '../redux/actions';
+import {PULL_STATE} from '../redux/constants'
 
 class pullState extends React.Component {
  constructor(props) {
@@ -57,7 +58,7 @@ class pullState extends React.Component {
       }
      }}
     >
-     {this.props.pullState.pullsState.map(this.renderPullsState)}
+     {Object.values(PULL_STATE).map(this.renderPullsState)}
     </DropdownMenu>
    </Dropdown>
   );

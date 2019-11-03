@@ -3,35 +3,25 @@ import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
 import BuildDetails from './BuildDetails';
 import TestDetails from './TestDetails';
 
+
 function PullsCard(props) {
   let tog = 'toggler' + props.id;
   let createdDate = new Date(props.created_at);
   let closedDate = new Date(props.closed_at);
   let mergedDate = new Date(props.merged_at);
+
   return (
     <Card>
       <CardHeader className='new' type='button' id={tog}>
         <div className='row'>
-          <div className='col-sm'>{props.number}</div>
-          <div className='col-sm'>{props.merge_commit_sha.substring(0, 7)}</div>
-          <div className='col-sm'>{props.state}</div>
-          <div className='col-sm'>{props.user.login}</div>
+          <div className='col-sm-1'><a href={props.html_url}>#{props.number}</a></div>
+          <div className='col-sm-9'>{props.title}</div>
+          <div className='col-sm-2'>{props.user.login}</div>
         </div>
       </CardHeader>
       <UncontrolledCollapse toggler={tog}>
         <CardBody className='indent'>
-          <p>
-            <strong>Pull number: </strong>{' '}
-            <a target='_blank' rel='noreferrer noopener' href={props.html_url}>
-              {props.number}
-            </a>
-          </p>
-          <p>
-            <strong>Title:</strong> {props.title}
-          </p>
-          <p>
-            <strong>Body:</strong> {props.body}
-          </p>
+          <p style={{whiteSpace: "pre-line"}}>{props.body}</p>
           <div className='row'>
             <div className='col-sm'>
               <strong>Created at: </strong>

@@ -99,7 +99,4 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => ({
   loadPulls: next => dispatch(loadPulls(next))
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Pulls);
+export default connect(mapStateToProps, mapDispatchToProps)(Pulls);

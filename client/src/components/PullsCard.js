@@ -3,7 +3,6 @@ import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
 import BuildDetails from './BuildDetails';
 import TestDetails from './TestDetails';
 
-
 function PullsCard(props) {
   let tog = 'toggler' + props.id;
   let createdDate = new Date(props.created_at);
@@ -14,14 +13,17 @@ function PullsCard(props) {
     <Card>
       <CardHeader className='new' type='button' id={tog}>
         <div className='row'>
-          <div className='col-sm-1'><a href={props.html_url}>#{props.number}</a></div>
-          <div className='col-sm-9'>{props.title}</div>
+          <div className='col-sm-2'>
+            <a href={props.html_url}>#{props.number}</a>
+          </div>
+          <div className='col-sm-6'>{props.title}</div>
+          <div className='col-sm-2'>{props.state}</div>
           <div className='col-sm-2'>{props.user.login}</div>
         </div>
       </CardHeader>
       <UncontrolledCollapse toggler={tog}>
         <CardBody className='indent'>
-          <p style={{whiteSpace: "pre-line"}}>{props.body}</p>
+          <p style={{ whiteSpace: 'pre-line' }}>{props.body}</p>
           <div className='row'>
             <div className='col-sm'>
               <strong>Created at: </strong>

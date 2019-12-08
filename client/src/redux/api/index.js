@@ -23,6 +23,7 @@ export const fetchTests = async (startrev, endrev, page) => {
       return results.flat();
     }
     if (response.status >= 400) {
+      console.log(response.status);
       throw new Error(data.errors);
     }
   }

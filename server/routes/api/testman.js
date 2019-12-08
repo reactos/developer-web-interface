@@ -11,7 +11,6 @@ function testReq(startrev, endrev, page) {
       'User-Agent': 'Request-Promise'
     }
   };
-
   return tests;
 }
 

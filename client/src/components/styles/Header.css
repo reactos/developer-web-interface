@@ -1,17 +1,25 @@
 img {
- width: 100px;
+  width: 5em;
 }
 .navbar {
- padding: 0px;
+  padding: 0px;
+}
+
+.name {
+  font-size: 1rem;
+  position: relative;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  margin: 0 auto;
 }
 span {
- color: white;
- margin-left: 28%;
+  color: white;
 }
 i {
- margin-right: 4px;
+  margin-right: 4px;
 }
 
 .navbar-brand {
- margin-left: 10px;
+  margin-left: 10px;
 }

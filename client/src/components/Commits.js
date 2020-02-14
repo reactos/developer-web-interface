@@ -22,14 +22,13 @@ class Commits extends React.PureComponent {
 
   renderCommits = commit => {
     return (
-      <div className='panel-margin' key={commit.sha}>
-        <CommitsCard
-          {...commit}
-          builds={this.props.build[commit.sha]}
-          tests={this.props.testData[commit.sha]}
-          previousTests={extractCommitsParentTestsCount(this.props.testData, commit)}
-        />
-      </div>
+      <CommitsCard
+        key={commit.sha}
+        {...commit}
+        builds={this.props.build[commit.sha]}
+        tests={this.props.testData[commit.sha]}
+        previousTests={extractCommitsParentTestsCount(this.props.testData, commit)}
+      />
     );
   };
 

@@ -3,22 +3,31 @@ import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
 import BuildDetails from './BuildDetails';
 import TestDetails from './TestDetails';
 
-function CommitsCard(props) {
-  let tog = 'toggler' + props.sha;
+function firstLineTrimmed(str) {
+  const newStr = str.split('\n', 1)[0]
+  if (newStr.length > 70) {
+    return newStr.substring(0, 70) + '...'
+  }
+  else {
+    return newStr
+  }
+}
+
+function CommitsCard({sha, ...props}) {
+  let tog = 'toggler' + sha;
   let committerDate = new Date(props.commit.committer.date);
   let authorDate = new Date(props.commit.author.date);
   let author = encodeURIComponent(props.commit.author.name);
   let committer = encodeURIComponent(props.commit.committer.name);
   return (
-    <Card>
+    <Card className="mb-1">
       <CardHeader className='new' type='button' id={tog}>
         <div className='row'>
-          <div className='col-sm'>{props.sha.substring(0, 7)}</div>
-          <div className='col-sm'>{props.commit.committer.name}</div>
-          <div className='col-sm'>{committerDate.toLocaleString()}</div>
-          <div className='col-sm'>
-            {props.commit.message.substring(0, 17)}...
+          <div className='col-sm-2'><a href={`https://github.com/reactos/reactos/commit/${sha}`}>{sha.substring(0, 7)}</a></div>
+          <div className='col-sm-8'>
+            {firstLineTrimmed(props.commit.message)}
           </div>
+          <div className='col-sm-2'>{props.author.login}</div>
         </div>
       </CardHeader>
       <UncontrolledCollapse toggler={tog}>
@@ -31,7 +40,7 @@ function CommitsCard(props) {
                 rel='noreferrer noopener'
                 href={props.commit.html_url}
               >
-                {props.sha}
+                {sha}
               </a>
             </p>
             <p>

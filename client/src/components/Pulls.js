@@ -19,13 +19,12 @@ class Pulls extends React.PureComponent {
 
   renderPulls = pull => {
     return (
-      <div className='panel-margin' key={pull.id}>
-        <PullsCard
-          {...pull}
-          builds={this.props.build[pull.number]}
-          tests={this.props.testData[pull.merge_commit_sha]}
-        />
-      </div>
+      <PullsCard
+        key={pull.id}
+        {...pull}
+        builds={this.props.build[pull.number]}
+        tests={this.props.testData[pull.merge_commit_sha]}
+      />
     );
   };
   render() {

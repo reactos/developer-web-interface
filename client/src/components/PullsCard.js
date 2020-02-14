@@ -10,14 +10,14 @@ function PullsCard(props) {
   let mergedDate = new Date(props.merged_at);
 
   return (
-    <Card>
+    <Card className="mb-1">
       <CardHeader className='new' type='button' id={tog}>
         <div className='row'>
-          <div className='col-sm-2'>
+          <div className='col-sm-1'>
             <a href={props.html_url}>#{props.number}</a>
           </div>
-          <div className='col-sm-6'>{props.title}</div>
-          <div className='col-sm-2'>{props.state}</div>
+          <div className='col-sm-8'>{props.title}</div>
+          <div className='col-sm-1'>{props.state}</div>
           <div className='col-sm-2'>{props.user.login}</div>
         </div>
       </CardHeader>

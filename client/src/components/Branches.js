@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Dropdown,
   DropdownToggle,
@@ -9,7 +10,6 @@ import {
 import {
   loadBranches,
   loadCommits,
-  currBranch,
   loadBuilders
 } from '../redux/actions';
 
@@ -27,14 +27,8 @@ class Branches extends React.Component {
 
   renderBranches = branch => {
     return (
-      <DropdownItem
-        onClick={() => {
-          this.props.currBranch(branch.name);
-          this.props.loadCommits(1);
-        }}
-        key={branch.name}
-      >
-        {branch.name}
+      <DropdownItem key={branch.name}>
+        <Link to={`/commits/${branch.name}`}>{branch.name}</Link>
       </DropdownItem>
     );
   };
@@ -55,12 +49,11 @@ class Branches extends React.Component {
   };
 
   render() {
+    const {currentBranch} = this.props;
+
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
-          <i className='fa fa-sitemap' />
-          Branches
-        </DropdownToggle>
+        <DropdownToggle caret><i className='fa fa-code-fork' />{` ${currentBranch}`}</DropdownToggle>
         <DropdownMenu
           modifiers={{
             setMaxHeight: {
@@ -82,10 +75,9 @@ const mapStateToProps = ({ branches }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadCommits: next => dispatch(loadCommits(next)),
+  loadCommits: (branch, next) => dispatch(loadCommits(branch, next)),
   loadBranches: () => dispatch(loadBranches()),
-  loadBuilders: () => dispatch(loadBuilders()),
-  currBranch: branch => dispatch(currBranch(branch))
+  loadBuilders: () => dispatch(loadBuilders())
 });
 
 export default connect(

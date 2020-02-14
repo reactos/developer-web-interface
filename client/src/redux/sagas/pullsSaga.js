@@ -3,12 +3,11 @@ import { PULLS } from '../constants';
 import { fetchPulls } from '../api';
 import { setPulls, setPullsError, setPages } from '../actions';
 const getNewPage = state => parseInt(state.isLoading.newPage, 10);
-const getNewState = state => state.pullState;
-function* handlePullsLoad() {
+
+function* handlePullsLoad(action) {
  try {
   const newPage = yield select(getNewPage);
-  const PullState = yield select(getNewState);
-  let pulls = yield call(fetchPulls, PullState, newPage);
+  let pulls = yield call(fetchPulls, action.state, newPage);
   yield put(setPulls(pulls.pulls.body));
   yield put(
    setPages(

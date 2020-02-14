@@ -38,7 +38,7 @@ class Header extends React.PureComponent {
         <span className="navbar-brand">Developer Interface</span>
 
         <ul className="navbar-nav ml-auto">
-          <NavLink to="/" label="Commits" activeOnlyWhenExact/>
+          <NavLink to="/commits" label="Commits"/>
           <NavLink to="/pulls" label="Pull Requests"/>
         </ul>
 

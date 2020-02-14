@@ -1,15 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { NavLink, useParams } from 'react-router-dom';
 import { loadPulls } from '../redux/actions';
-import PullState from './PullState';
 import './styles/Pulls.css';
 import Loading from './Loading';
 import PullsCard from './PullsCard';
 
-class Pulls extends React.Component {
+class Pulls extends React.PureComponent {
   componentDidMount() {
-    this.props.loadPulls();
+    this.props.loadPulls(this.props.pullState);
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.pullState !== prevProps.pullState) {
+      this.props.loadPulls(this.props.pullState)
+    }
+  }
+
   renderPulls = pull => {
     return (
       <div className='panel-margin' key={pull.id}>
@@ -22,10 +29,27 @@ class Pulls extends React.Component {
     );
   };
   render() {
+    const {pullState, page} = this.props;
+
     return (
-      <div className='container margin'>
-        <h2>Latest Pulls</h2>
-        <PullState />
+      <div className='container mt-2'>
+        <div className="row">
+          <div className="col-sm-8"><h2>Latest Pulls Requests</h2></div>
+          <div className="col-sm-4">
+            <ul className="nav nav-pills justify-content-end">
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/pulls/open">Open</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/pulls/closed">Closed</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/pulls/all">All</NavLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         {this.props.isLoading.load ? (
           <Loading text='Fetching latest PRs for you...' />
         ) : (
@@ -42,11 +66,11 @@ class Pulls extends React.Component {
                 <button
                   type='button'
                   onClick={() => {
-                    this.props.loadPulls(this.props.page.prev);
+                    this.props.loadPulls(pullState, page.prev);
                   }}
                   className='btn btn-primary '
                   disabled={
-                    this.props.page.prev === null || this.props.error !== null
+                    page.prev === null || this.props.error !== null
                   }
                 >
                   <i className='fa fa-caret-left' aria-hidden='true' />
@@ -55,18 +79,18 @@ class Pulls extends React.Component {
                 <button
                   type='button'
                   onClick={() => {
-                    this.props.loadPulls(this.props.page.next);
+                    this.props.loadPulls(pullState, page.next);
                   }}
                   className='btn btn-primary'
                   disabled={
-                    this.props.page.next === null || this.props.error !== null
+                    page.next === null || this.props.error !== null
                   }
                 >
                   Next Page{'	'}
                   <i className='fa fa-caret-right' aria-hidden='true' />
                 </button>
                 <footer className='blockquote-footer'>
-                  Page {this.props.page.next - 1}
+                  Page {page.next - 1}
                 </footer>
                 <div className='footer-blockquote' />
               </div>
@@ -76,6 +100,11 @@ class Pulls extends React.Component {
       </div>
     );
   }
+}
+
+function PullsWrapper(props) {
+  let {pull_state} = useParams()
+  return <Pulls pullState={pull_state} {...props}/>
 }
 
 const mapStateToProps = ({
@@ -97,6 +126,6 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadPulls: next => dispatch(loadPulls(next))
+  loadPulls: (state, next) => dispatch(loadPulls(state, next))
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Pulls);
+export default connect(mapStateToProps, mapDispatchToProps)(PullsWrapper);

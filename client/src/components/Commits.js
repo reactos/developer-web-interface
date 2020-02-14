@@ -1,15 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { loadCommits, loadBuildSets } from '../redux/actions';
 import Branches from './Branches';
 import './styles/Commit.css';
 import CommitsCard from './CommitsCard';
 import Loading from './Loading';
 
-class Commits extends React.Component {
+class Commits extends React.PureComponent {
   componentDidMount() {
-    this.props.loadCommits();
+    this.props.loadCommits(this.props.branch);
     this.props.loadBuildSets();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.branch !== prevProps.branch) {
+      this.props.loadCommits(this.props.branch)
+      this.props.loadBuildSets()
+    }
   }
 
   renderCommits = commit => {
@@ -26,14 +34,20 @@ class Commits extends React.Component {
   };
 
   render() {
+    const {branch, page} = this.props;
+
     return (
-      <div className='container margin'>
-        <Branches />
-        <h6>Current Branch:{this.props.branch}</h6>
-        <h3>Latest Commits</h3>
+      <div className='container mt-2'>
+        <div className="row">
+          <div className="col-sm-8"><h2>Latest Commits</h2></div>
+          <div className="col-sm-4">
+            <div className="d-flex justify-content-end"><Branches currentBranch={branch} /></div>
+          </div>
+        </div>
+        
         {this.props.isLoading.load ? (
           <Loading
-            text={`Fetching latest Commits of ${this.props.branch} for you...`}
+            text={`Fetching latest Commits of ${branch} for you...`}
           />
         ) : (
           <div>
@@ -49,11 +63,11 @@ class Commits extends React.Component {
                 <button
                   type='button'
                   onClick={() => {
-                    this.props.loadCommits(this.props.page.prev);
+                    this.props.loadCommits(branch, page.prev);
                   }}
                   className='btn btn-primary '
                   disabled={
-                    this.props.page.prev === null || this.props.error !== null
+                    page.prev === null || this.props.error !== null
                   }
                 >
                   <i className='fa fa-caret-left' aria-hidden='true' />
@@ -62,18 +76,18 @@ class Commits extends React.Component {
                 <button
                   type='button'
                   onClick={() => {
-                    this.props.loadCommits(this.props.page.next);
+                    this.props.loadCommits(branch, page.next);
                   }}
                   className='btn btn-primary'
                   disabled={
-                    this.props.page.next === null || this.props.error !== null
+                    page.next === null || this.props.error !== null
                   }
                 >
                   Next Page{'	'}
                   <i className='fa fa-caret-right' aria-hidden='true' />
                 </button>
                 <footer className='blockquote-footer'>
-                  Page {this.props.page.next - 1}
+                  Page {page.next - 1}
                 </footer>
                 <div className='footer-blockquote' />
               </div>
@@ -85,12 +99,16 @@ class Commits extends React.Component {
   }
 }
 
+function CommitsWrapper(props) {
+  let {branch} = useParams()
+  return <Commits branch={branch} {...props}/>
+}
+
 const mapStateToProps = ({
   isLoading,
   commits,
   builders,
   error,
-  branch,
   page,
   build,
   testData
@@ -99,7 +117,6 @@ const mapStateToProps = ({
   commits,
   builders,
   error,
-  branch,
   page,
   build,
   testData
@@ -130,10 +147,10 @@ function extractCommitsParentTestsCount(testData, commit) {
 
 const mapDispatchToProps = dispatch => ({
   loadBuildSets: () => dispatch(loadBuildSets()),
-  loadCommits: next => dispatch(loadCommits(next))
+  loadCommits: (branch, next) => dispatch(loadCommits(branch, next))
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Commits);
+)(CommitsWrapper);

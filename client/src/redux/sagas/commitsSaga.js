@@ -2,14 +2,13 @@ import { throttle, call, put, select } from 'redux-saga/effects';
 import { COMMITS } from '../constants';
 import { fetchCommits } from '../api';
 import { setCommits, setCommitsError, setPages } from '../actions';
-export const getBranch = state => state.branch;
+
 export const getNewPage = state => parseInt(state.isLoading.newPage, 10);
 
-function* handleCommitsLoad() {
+function* handleCommitsLoad(action) {
   try {
-    const branch = yield select(getBranch);
     const newPage = yield select(getNewPage);
-    let commits = yield call(fetchCommits, branch, newPage);
+    let commits = yield call(fetchCommits, action.branch, newPage);
     yield put(setCommits(commits.commits.body));
     yield put(
       setPages(

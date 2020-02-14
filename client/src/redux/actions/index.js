@@ -7,9 +7,10 @@ import {
   TESTMAN_DATA
 } from '../constants';
 
-export const loadCommits = newPage => ({
+export const loadCommits = (branch, nextPage) => ({
   type: COMMITS.LOAD,
-  newPage
+  branch,
+  newPage: nextPage
 });
 
 export const setCommits = commits => ({
@@ -61,10 +62,6 @@ export const setBranches = branches => ({
   type: BRANCHES.LOAD_SUCCESS,
   branches
 });
-export const currBranch = branch => ({
-  type: BRANCHES.CURRENT,
-  branch
-});
 
 export const setBranchesError = error => ({
   type: BRANCHES.LOAD_FAIL,
@@ -85,13 +82,10 @@ export const setBuildersError = error => ({
   error
 });
 
-export const currState = pullState => ({
-  type: PULLS.CURRENT,
-  pullState
-});
-export const loadPulls = newPage => ({
+export const loadPulls = (state, nextPage) => ({
   type: PULLS.LOAD,
-  newPage
+  state,
+  newPage: nextPage
 });
 
 export const setPulls = pulls => ({

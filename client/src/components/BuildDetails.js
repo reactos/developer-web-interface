@@ -1,46 +1,50 @@
 import React from 'react';
 import { connect } from 'react-redux';
-function Build({ builderName, ...build }) {
-  let completedDate = new Date(build.complete_at * 1000);
-  let startedDate = new Date(build.started_at * 1000);
+import { JOB_STATUS } from '../redux/constants'
+import { statusElement } from './utils'
+
+
+function bootcdUrl(suffix) {
+  return `https://iso.reactos.org/bootcd/reactos-bootcd-${suffix}.7z`
+}
+
+function livecdUrl(suffix) {
+  return `https://iso.reactos.org/livecd/reactos-livecd-${suffix}.7z`
+}
+
+function Build({buildId, builderId, number, builderName, status, statusText, isoSuffix}) {
   return (
-    <React.Fragment>
-      <div className='col-sm-2'>
+    <div className="row" key={buildId}>
+      <div className='col-sm-1'>
+        {statusElement(status, statusText)}
+      </div>
+      <div className='col-sm-5'>
         <a
           target='_blank'
           rel='noreferrer noopener'
-          href={`https://build.reactos.org/#builders/${
-            build.builderid
-          }/builds/${build.number}`}
+          href={`https://build.reactos.org/#builders/${builderId}/builds/${number}`}
         >
           {builderName}
         </a>
       </div>
-      <div className='col-sm-3'>
-        {build.state_string}
-        {build.state_string === 'build successful' ? (
-          <i className='fa fa-check' />
-        ) : (
-          <i />
-        )}
+      <div className='col-sm-6'>
+        {status === JOB_STATUS.SUCCESS &&
+          <React.Fragment>
+            <a href={bootcdUrl(isoSuffix)}><i className="fa fa-download" />{" bootcd"}</a>
+            {" "}
+            <a href={livecdUrl(isoSuffix)}><i className="fa fa-download" />{" livecd"}</a>
+          </React.Fragment>
+        }        
       </div>
-      <div className='col-sm-3'>Started: {startedDate.toLocaleString()}</div>
-      <div className='col-sm-4'>
-        Completed: {build.complete_at ? completedDate.toLocaleString() : <p />}
-      </div>
-    </React.Fragment>
+    </div>
   );
-}
-
-function renderBuild(props) {
-  return <Build key={props.buildid} {...props} />;
 }
 
 function BuildDetails({ builds }) {
   return (
     <React.Fragment>
       {builds.length > 0 ? (
-        <div className='row'>{builds.map(renderBuild)}</div>
+        builds.map(Build)
       ) : (
         <p>
           <strong>No data Exists</strong>
@@ -54,7 +58,7 @@ const mapStateToProps = ({ builders }, ownProps) => {
   return {
     builds: ownProps.builds.map(build => ({
       ...build,
-      builderName: builders[build.builderid] && builders[build.builderid].name
+      builderName: builders[build.builderId] && builders[build.builderId].name
     }))
   };
 };

@@ -18,12 +18,14 @@ class Pulls extends React.PureComponent {
   }
 
   renderPulls = pull => {
+    const tests = this.props.tests[pull.merge_commit_sha]
+
     return (
       <PullsCard
         key={pull.id}
         {...pull}
-        builds={this.props.build[pull.number]}
-        tests={this.props.testData[pull.merge_commit_sha]}
+        builds={this.props.builds[pull.number]}
+        tests={tests ? Object.values(tests) : []}
       />
     );
   };
@@ -112,16 +114,16 @@ const mapStateToProps = ({
   page,
   isLoading,
   error,
-  build,
-  testData
+  builds,
+  tests
 }) => ({
   pulls,
   builders,
   page,
   isLoading,
   error,
-  build,
-  testData
+  builds,
+  tests
 });
 
 const mapDispatchToProps = dispatch => ({

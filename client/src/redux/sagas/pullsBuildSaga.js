@@ -1,7 +1,7 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { PULLS } from '../constants';
 import { fetchBuildSets, fetchBuildReq, fetchBuilds } from '../api';
-import { setBuildSetsError, setBuilds } from '../actions';
+import { setBuildsError, setBuilds } from '../actions';
 
 function convertIsoToUnixTime(isoF, isoL) {
   let unixF = Date.parse(isoF.created_at) / 1000 + 30000;
@@ -38,7 +38,7 @@ function* handlePullsBuildLoad() {
       convertIsoToUnixTime(pulls[0], pulls[9])
     );
     if (buildSetsRaw.length === 0) {
-      yield put(setBuildSetsError('Nothing returned'));
+      yield put(setBuildsError('Nothing returned'));
       return;
     }
 
@@ -69,7 +69,7 @@ function* handlePullsBuildLoad() {
     }
     yield put(setBuilds(buildsByPR));
   } catch (error) {
-    yield put(setBuildSetsError(error.toString()));
+    yield put(setBuildsError(error.toString()));
   }
 }
 

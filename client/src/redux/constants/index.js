@@ -4,6 +4,17 @@ export const PULL_STATE = {
     ALL:    'all',
 }
 
+export const JOB_STATUS = {
+  SUCCESS: 0,
+  FAILURE: 1,
+  ONGOING: 2
+}
+
+export const BUILDER_TYPE = {
+  BUILDER: 0,
+  TESTER: 1
+}
+
 export const COMMITS = {
   LOAD: 'COMMITS_LOAD',
   LOAD_SUCCESS: 'COMMITS_LOAD_SUCCESS',
@@ -27,6 +38,12 @@ export const BUILD_DATA = {
   LOAD_SUCCESS: 'BUILD_DATA_LOAD_SUCCESS',
   LOAD_FAIL: 'BUILD_DATA_LOAD_FAIL'
 };
+
+export const TEST_DATA = {
+  LOAD: 'TEST_DATA_LOAD',
+  LOAD_SUCCESS: 'TEST_DATA_LOAD_SUCCESS',
+  LOAD_FAIL: 'TEST_DATA_LOAD_FAIL'
+}
 
 export const TESTMAN_DATA = {
   LOAD: 'TESTMAN_DATA_LOAD',

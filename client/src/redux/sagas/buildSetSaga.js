@@ -1,7 +1,7 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects';
-import { COMMITS } from '../constants';
+import { COMMITS, BUILDER_TYPE } from '../constants';
 import { fetchBuildSets, fetchBuildReq, fetchBuilds } from '../api';
-import { setBuildSetsError, setBuilds } from '../actions';
+import { setBuildsError, setBuilds, setTests } from '../actions';
 
 /* These functions are used to build an HTTP query string for
  * filtering data on BuildBot side.
@@ -23,7 +23,8 @@ function convertIsoToUnixTime(isoF, isoL) {
 }
 
 function getBuildQString(builds) {
-  return builds
+  // besides buildRequestId filtering, we need to get a suffix property from a build
+  return "property=suffix&" + builds
     .map(build => 'buildrequestid__contains=' + build.buildrequestid)
     .join('&');
 }
@@ -51,12 +52,14 @@ function getBuildReqQString(commits, buildData) {
 function* handleBuildsLoad() {
   try {
     const commits = yield select(state => state.commits);
+    const builders = yield select(state => state.builders)
+
     const buildSetsRaw = yield call(
       fetchBuildSets,
       convertIsoToUnixTime(commits[0], commits[9])
     );
     if (buildSetsRaw.length === 0) {
-      yield put(setBuildSetsError('Nothing returned'));
+      yield put(setBuildsError('Nothing returned'));
       return;
     }
 
@@ -66,23 +69,38 @@ function* handleBuildsLoad() {
     );
     const buildsRaw = yield call(fetchBuilds, getBuildQString(buildReqsRaw));
 
+    // populate builds with buildSetId
+    for (let b of buildsRaw) {
+      b.bsid = buildReqsRaw.find(br => br.buildrequestid === b.buildrequestid).buildsetid
+    }
+
     const buildsBySha = {};
+    const testsBySha = {}
 
     for (let { sha } of commits) {
       const buildSetIds = buildSetsRaw
         .filter(bs => bs.sourcestamps[0].revision === sha)
         .map(bs => bs.bsid);
-      const buildReqIds = buildReqsRaw
-        .filter(br => buildSetIds.includes(br.buildsetid))
-        .map(br => br.buildrequestid);
-      const builds = buildsRaw.filter(b =>
-        buildReqIds.includes(b.buildrequestid)
-      );
-      buildsBySha[sha] = builds;
+
+      // here we separate "test" builds from "build" builds
+      // because they are processed by different reducers
+      buildsBySha[sha] = buildsRaw.filter(b => 
+        builders[b.builderid].type === BUILDER_TYPE.BUILDER && buildSetIds.includes(b.bsid));
+
+      testsBySha[sha] = buildsRaw.filter(b =>
+        builders[b.builderid].type === BUILDER_TYPE.TESTER && buildSetIds.includes(b.bsid));
+
+      // populate the parent build data
+      for (let t of testsBySha[sha]) {
+        const parentBuildId = buildSetsRaw.find(bs => bs.bsid === t.bsid).parent_buildid
+        t.parentBuild = buildsBySha[sha].find(b => b.buildid === parentBuildId)
+      }
     }
+
     yield put(setBuilds(buildsBySha));
+    yield put(setTests(testsBySha));
   } catch (error) {
-    yield put(setBuildSetsError(error.toString()));
+    yield put(setBuildsError(error.toString()));
   }
 }
 

@@ -7,8 +7,8 @@ import branchReducer from './branchReducer';
 import builderReducer from './builderReducer';
 import pullsReducer from './pullsReducer';
 import pageReducer from './pageReducer';
-import buildStatusReducer from './buildStatusReducer';
-import testmanReducer from './testmanReducer';
+import builds from './builds';
+import tests from './tests'
 
 const rootReducer = combineReducers({
   isLoading: loadingReducer,
@@ -18,8 +18,8 @@ const rootReducer = combineReducers({
   builders: builderReducer,
   pulls: pullsReducer,
   page: pageReducer,
-  build: buildStatusReducer,
-  testData: testmanReducer
+  builds,
+  tests
 });
 
 export default rootReducer;

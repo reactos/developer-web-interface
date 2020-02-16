@@ -3,6 +3,7 @@ import {
   BRANCHES,
   PULLS,
   BUILD_DATA,
+  TEST_DATA,
   BUILDERS,
   TESTMAN_DATA
 } from '../constants';
@@ -23,25 +24,46 @@ export const setCommitsError = error => ({
   error
 });
 
-export const loadBuildSets = () => ({
+// builds
+
+export const loadBuilds = () => ({
   type: BUILD_DATA.LOAD
 });
-export const setBuilds = build => ({
+
+export const setBuilds = builds => ({
   type: BUILD_DATA.LOAD_SUCCESS,
-  build
+  builds
 });
 
-export const setBuildSetsError = error => ({
+export const setBuildsError = error => ({
   type: BUILD_DATA.LOAD_FAIL,
   error
 });
 
+// tests
+
+export const loadTests = () => ({
+  type: TEST_DATA.LOAD
+});
+
+export const setTests = tests => ({
+  type: TEST_DATA.LOAD_SUCCESS,
+  tests
+});
+
+export const setTestsError = error => ({
+  type: TEST_DATA.LOAD_FAIL,
+  error
+});
+
+// testman data
+
 export const loadTestman = () => ({
   type: TESTMAN_DATA.LOAD
 });
-export const setTestman = tests => ({
+export const setTestman = testmanTests => ({
   type: TESTMAN_DATA.LOAD_SUCCESS,
-  tests
+  testmanTests
 });
 
 export const setTestmanError = error => ({

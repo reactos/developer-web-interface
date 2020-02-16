@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { loadCommits, loadBuildSets } from '../redux/actions';
+import { loadCommits, loadBuilds } from '../redux/actions';
 import Branches from './Branches';
 import './styles/Commit.css';
 import CommitsCard from './CommitsCard';
@@ -10,24 +10,26 @@ import Loading from './Loading';
 class Commits extends React.PureComponent {
   componentDidMount() {
     this.props.loadCommits(this.props.branch);
-    this.props.loadBuildSets();
+    this.props.loadBuilds();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.branch !== prevProps.branch) {
       this.props.loadCommits(this.props.branch)
-      this.props.loadBuildSets()
+      this.props.loadBuilds()
     }
   }
 
   renderCommits = commit => {
+    const tests = this.props.tests[commit.sha]
+
     return (
       <CommitsCard
         key={commit.sha}
         {...commit}
-        builds={this.props.build[commit.sha]}
-        tests={this.props.testData[commit.sha]}
-        previousTests={extractCommitsParentTestsCount(this.props.testData, commit)}
+        builds={this.props.builds[commit.sha]}
+        tests={tests ? Object.values(tests) : []}
+        previousTests={extractCommitsParentTestsCount(this.props.tests, commit)}
       />
     );
   };
@@ -109,16 +111,16 @@ const mapStateToProps = ({
   builders,
   error,
   page,
-  build,
-  testData
+  builds,
+  tests
 }) => ({
   isLoading,
   commits,
   builders,
   error,
   page,
-  build,
-  testData
+  builds,
+  tests
 });
 
 /**
@@ -137,7 +139,7 @@ function extractCommitsParentTestsCount(testData, commit) {
 
   let result = {};
 
-  for (let test of tests) {
+  for (let test of Object.values(tests)) {
     result[test.source] = test.count
   }
 
@@ -145,7 +147,7 @@ function extractCommitsParentTestsCount(testData, commit) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  loadBuildSets: () => dispatch(loadBuildSets()),
+  loadBuilds: () => dispatch(loadBuilds()),
   loadCommits: (branch, next) => dispatch(loadCommits(branch, next))
 });
 

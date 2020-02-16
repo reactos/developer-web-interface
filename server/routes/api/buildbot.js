@@ -7,7 +7,7 @@ const rp = require('request-promise');
 function buildSetReq(str) {
   //https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&order=-bsid&offset=0&limit=200
   const buildSets = {
-    uri: `https://build.reactos.org/api/v2/buildsets?field=bsid&field=sourcestamps&field=submitted_at&order=-bsid${str}`,
+    uri: `https://build.reactos.org/api/v2/buildsets?field=parent_buildid&field=bsid&field=sourcestamps&field=submitted_at&order=-bsid${str}`,
     headers: {
       'User-Agent': 'Request-Promise'
     },
@@ -76,7 +76,7 @@ function builds(str) {
 router.get('/builds', (req, res) => {
   let f = req.query.buildrequestid__contains;
   let queryStr = f.join('&buildrequestid__contains=');
-  queryStr = 'buildrequestid__contains=' + queryStr;
+  queryStr = 'property=suffix&buildrequestid__contains=' + queryStr;
   rp(builds(queryStr))
     .then(body => {
       res.json(body);

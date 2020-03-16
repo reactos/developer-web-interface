@@ -7,11 +7,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import {
-  loadBranches,
-  loadCommits,
-  loadBuilders
-} from '../redux/actions';
+import { loadBranches, loadCommits } from '../redux/actions';
 
 class Branches extends React.Component {
   constructor(props) {
@@ -21,7 +17,6 @@ class Branches extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.loadBuilders();
     this.props.loadBranches();
   }
 
@@ -76,8 +71,7 @@ const mapStateToProps = ({ branches }) => ({
 
 const mapDispatchToProps = dispatch => ({
   loadCommits: (branch, next) => dispatch(loadCommits(branch, next)),
-  loadBranches: () => dispatch(loadBranches()),
-  loadBuilders: () => dispatch(loadBuilders())
+  loadBranches: () => dispatch(loadBranches())
 });
 
 export default connect(

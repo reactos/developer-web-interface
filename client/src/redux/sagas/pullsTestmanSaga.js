@@ -9,7 +9,11 @@ function* handleTestmanLoad() {
     const shas = pulls.map(pull => pull.merge_commit_sha);
     const testResults = yield call(fetchTests, shas[9], shas[0], 1);
     const testByPulls = {};
+    console.log(shas)
     for (let sha of shas) {
+      // some pulls don't have merge_commit_sha
+      if (!sha) continue
+
       testByPulls[sha] = testResults.filter(test =>
         sha.startsWith(test.revision._text)
       );

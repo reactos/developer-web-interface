@@ -7,7 +7,15 @@ export const PULL_STATE = {
 export const JOB_STATUS = {
   SUCCESS: 0,
   FAILURE: 1,
-  ONGOING: 2
+  ONGOING: 2,
+  NO_DATA: 3
+}
+
+export const LOAD_STATE = {
+  NOT_LOADED: 0,
+  LOADING: 1,
+  LOADED: 2,
+  ERROR: 3
 }
 
 export const BUILDER_TYPE = {

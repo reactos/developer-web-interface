@@ -10,6 +10,8 @@ export function statusElement(status, statusText) {
       return <span className="text-warning" title={statusText}><i className="fa fa-hourglass" /></span>
     case JOB_STATUS.FAILURE:
       return <span className="text-danger" title={statusText}><i className="fa fa-times" /></span>
+    case JOB_STATUS.NO_DATA:
+      return <span title={statusText}><i className="fa fa-question" /></span>
     default:
       return null
   }

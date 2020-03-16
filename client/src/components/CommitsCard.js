@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
 import BuildDetails from './BuildDetails';
 import TestDetails from './TestDetails';
-import { JOB_STATUS } from '../redux/constants'
+import { JOB_STATUS, LOAD_STATE } from '../redux/constants'
 import { statusElement } from './utils'
 
 function firstLineTrimmed(str) {
@@ -16,7 +17,7 @@ function firstLineTrimmed(str) {
 }
 
 function getTotalStatus(jobs) {
-  if (!jobs.length) return null
+  if (!jobs || !jobs.length) return JOB_STATUS.NO_DATA
 
   let ret = JOB_STATUS.SUCCESS
 
@@ -30,31 +31,31 @@ function getTotalStatus(jobs) {
   return ret
 }
 
-function CommitsCard({sha, ...props}) {
+function CommitsCard({sha, author, commit, loadStatus, ...props}) {
   let tog = 'toggler' + sha;
-  let committerDate = new Date(props.commit.committer.date);
-  let authorDate = new Date(props.commit.author.date);
-  let author = encodeURIComponent(props.commit.author.name);
-  let committer = encodeURIComponent(props.commit.committer.name);
+  let committerDate = new Date(commit.committer.date);
+  let authorDate = new Date(commit.author.date);
+  const author_login = author ? author.login : commit.author.name
+  const builds = props.builds ? props.builds : []
+  const tests = props.tests ? props.tests : []
+
   return (
     <Card className="mb-1">
       <CardHeader className='new' type='button' id={tog}>
         <div className='row'>
           <div className='col-sm-9'>
             <a className="text-monospace" href={`https://github.com/reactos/reactos/commit/${sha}`}>{sha.substring(0, 7)}</a>
-            {" "}{firstLineTrimmed(props.commit.message)}
+            {" "}{firstLineTrimmed(commit.message)}
           </div>
-          <div className='col-sm-2'>{props.author.login}</div>
+          <div className='col-sm-2'>{author_login}</div>
           <div className="col-sm-1">
-            {props.builds &&
-              props.builds.length > 0
-                ? statusElement(getTotalStatus(props.builds), "Build status")
-                : <span title="Loading results"><i className="fa fa-refresh fa-spin" /></span> }
+            {loadStatus.buildBot === LOAD_STATE.LOADING
+              ? <span title="Loading results"><i className="fa fa-refresh fa-spin" /></span>
+              : statusElement(getTotalStatus(props.builds), "Build status") }
             {" "}
-            {props.tests &&
-              props.tests.length > 0
-                ? statusElement(getTotalStatus(props.tests), "Test status")
-                : <span title="Loading results"><i className="fa fa-refresh fa-spin" /></span> }
+            {loadStatus.buildBot === LOAD_STATE.LOADING
+              ? <span title="Loading results"><i className="fa fa-refresh fa-spin" /></span>
+              : statusElement(getTotalStatus(props.tests), "Test status") }
           </div>
         </div>
       </CardHeader>
@@ -66,13 +67,13 @@ function CommitsCard({sha, ...props}) {
               <a
                 target='_blank'
                 rel='noreferrer noopener'
-                href={props.commit.html_url}
+                href={commit.html_url}
               >
                 {sha}
               </a>
             </p>
             <p>
-              <strong>Commit Msg:</strong> {props.commit.message}
+              <strong>Commit Msg:</strong> {commit.message}
             </p>
           </div>
           <div className='row'>
@@ -81,11 +82,11 @@ function CommitsCard({sha, ...props}) {
               <a
                 target='_blank'
                 rel='noreferrer noopener'
-                href={`https://git.reactos.org/?p=reactos.git;a=search;s=${author};st=author`}
+                href={`https://git.reactos.org/?p=reactos.git;a=search;s=${encodeURIComponent(commit.author.name)};st=author`}
               >
-                {props.commit.author.name}
+                {commit.author.name}
               </a>
-              {` <${props.commit.author.email}>`}
+              {` <${commit.author.email}>`}
             </div>
             <div className='col-sm'>
               <strong>Author Date: </strong>
@@ -98,11 +99,11 @@ function CommitsCard({sha, ...props}) {
               <a
                 target='_blank'
                 rel='noreferrer noopener'
-                href={`https://git.reactos.org/?p=reactos.git;a=search;s=${committer};st=committer`}
+                href={`https://git.reactos.org/?p=reactos.git;a=search;s=${encodeURIComponent(commit.committer.name)};st=committer`}
               >
-                {props.commit.committer.name}
+                {commit.committer.name}
               </a>
-              {` <${props.commit.committer.email}>`}
+              {` <${commit.committer.email}>`}
             </div>
             <div className='col-sm'>
               <strong>Committer Date: </strong>
@@ -113,23 +114,15 @@ function CommitsCard({sha, ...props}) {
           <div className="row">
             <div className="col-md-5">
               <h5>Build Details:</h5>
-              {props.builds ? (
-                <BuildDetails builds={props.builds} />
-              ) : (
-                <div>
-                  <strong>Loading Builds...</strong>
-                </div>
-              )}
+              {loadStatus.buildBot === LOAD_STATE.LOADING
+                ? <strong>Loading builds data...</strong>
+                : <BuildDetails builds={builds} /> }
             </div>
             <div className="col-md-7">
               <h5>Test Details:</h5>
-              {props.tests ? (
-                <TestDetails tests={props.tests} previousTests={props.previousTests} />
-              ) : (
-                <div>
-                  <strong>No data Exists</strong>
-                </div>
-              )}
+              {loadStatus.buildBot === LOAD_STATE.LOADING
+                ? <strong>Loading tests data...</strong>
+                : <TestDetails tests={tests} previousTests={props.previousTests} /> }
             </div>
           </div>
         </CardBody>
@@ -137,4 +130,9 @@ function CommitsCard({sha, ...props}) {
     </Card>
   );
 }
-export default CommitsCard;
+
+function mapStateToProps(state, ownProps) {
+  return {...ownProps, loadStatus: state.isLoading.byCommit[ownProps.sha]}
+}
+
+export default connect(mapStateToProps)(CommitsCard);

@@ -71,11 +71,8 @@ export const setTestmanError = error => ({
   error
 });
 
-export const setPages = (next, prev) => ({
-  type: 'PAGE_LOAD_SUCCESS',
-  next,
-  prev
-});
+// branches
+
 export const loadBranches = () => ({
   type: BRANCHES.LOAD
 });

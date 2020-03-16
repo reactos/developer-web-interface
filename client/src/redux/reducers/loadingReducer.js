@@ -1,45 +1,89 @@
-import { COMMITS, BRANCHES, PULLS, BUILD_DATA, BUILDERS } from '../constants';
+import { COMMITS, BRANCHES, PULLS, BUILD_DATA, TEST_DATA, BUILDERS, LOAD_STATE } from '../constants';
 
-const loadingReducer = (state = { newPage: 1, load: false }, action) => {
+const defaultState = {
+  byCommit: {},
+  buildersDataState: LOAD_STATE.NOT_LOADED,
+  commitsLoadInfo: {lastState: LOAD_STATE.NOT_LOADED, currentPage: 1, loadedPages: []},
+  pullsLoadInfo: {lastState: LOAD_STATE.NOT_LOADED, currentPage: 1, loadedPages: []},
+  buildBotLoadInfo: {lastState: LOAD_STATE.NOT_LOADED},
+  testManLoadInfo: {lastState: LOAD_STATE.NOT_LOADED}
+}
+
+function loadingReducer(state = defaultState, action) {
   switch (action.type) {
-    case COMMITS.LOAD:
-      return { newPage: action.newPage, load: true };
-
     case BUILDERS.LOAD:
-      return { ...state, load: true };
-
-    case PULLS.LOAD:
-      return { newPage: action.newPage, load: true };
-
-    case BRANCHES.LOAD:
-      return { newPage: action.newPage, load: true };
-
-    case BUILD_DATA.LOAD:
-      return { newPage: action.newPage, load: true };
-
-    case COMMITS.LOAD_SUCCESS:
-      return { ...state, load: false };
+      return { ...state, buildersDataState: LOAD_STATE.LOADING }
 
     case BUILDERS.LOAD_SUCCESS:
-      return { ...state, load: true };
+      return { ...state, buildersDataState: LOAD_STATE.LOADED }
 
-    case PULLS.LOAD_SUCCESS:
-      return { ...state, load: false };
+    case COMMITS.LOAD: {
+      const commitsLoadInfo = {
+        ...state.commitsLoadInfo,
+        lastState: LOAD_STATE.LOADING,
+        lastPage: action.newPage
+      }
 
-    case BRANCHES.LOAD_SUCCESS:
-      return { newPage: action.newPage, load: true };
+      return { ...state, commitsLoadInfo}
+    }
+    case COMMITS.LOAD_SUCCESS: {
+      const byCommit = {...state.byCommit}
 
-    case BUILD_DATA.LOAD_SUCCESS:
-      return { load: false };
+      const commitsLoadInfo = {
+        ...state.commitsLoadInfo,
+        lastState: LOAD_STATE.LOADED,
+        currentPage: state.commitsLoadInfo.lastPage,
+        loadedPages: state.commitsLoadInfo.loadedPages.concat([state.commitsLoadInfo.lastPage])
+      }
 
-    case COMMITS.LOAD_FAIL:
-      return { ...state, load: false };
+      for(let commit of Object.values(action.commits))
+      {
+        byCommit[commit.sha] = {buildBot: LOAD_STATE.LOADING, tests: LOAD_STATE.LOADING}
+      }
 
-    case PULLS.LOAD_FAIL:
-      return { ...state, load: false };
+      return { ...state, byCommit, commitsLoadInfo}
+    }
+    case BUILD_DATA.LOAD: {
+      const byCommit = {...state.byCommit}
+      for(let sha of Object.keys(byCommit))
+      {
+        byCommit[sha] = {buildBot: LOAD_STATE.LOADING, tests: byCommit[sha].tests}
+      }
 
+      return {...state, byCommit };
+    }
+    case PULLS.LOAD: {
+      const pullsLoadInfo = {
+        ...state.pullsLoadInfo,
+        lastState: LOAD_STATE.LOADING,
+        lastPage: action.newPage
+      }
+
+      return { ...state, pullsLoadInfo}
+    }
+    case PULLS.LOAD_SUCCESS: {
+      const pullsLoadInfo = {
+        ...state.pullsLoadInfo,
+        lastState: LOAD_STATE.LOADED,
+        currentPage: state.pullsLoadInfo.lastPage,
+        loadedPages: state.pullsLoadInfo.loadedPages.concat([state.pullsLoadInfo.lastPage])
+      }
+
+      return { ...state, pullsLoadInfo }
+    }
+    case BUILD_DATA.LOAD_SUCCESS: {
+      const byCommit = {...state.byCommit}
+      for(let [sha, build] of Object.entries(action.builds))
+      {
+        if (byCommit[sha]) {
+          byCommit[sha] = {buildBot: LOAD_STATE.LOADED, tests: byCommit[sha].tests}
+        }
+      }
+
+      return { ...state, byCommit };
+    }
     default:
-      return { ...state, load: false };
+      return state
   }
 };
 

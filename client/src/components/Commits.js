@@ -6,17 +6,15 @@ import Branches from './Branches';
 import './styles/Commit.css';
 import CommitsCard from './CommitsCard';
 import Loading from './Loading';
+import Pagination from './Pagination'
+import { LOAD_STATE } from '../redux/constants'
+
 
 class Commits extends React.PureComponent {
   componentDidMount() {
-    this.props.loadCommits(this.props.branch);
-    this.props.loadBuilds();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.branch !== prevProps.branch) {
-      this.props.loadCommits(this.props.branch)
-      this.props.loadBuilds()
+    if (this.props.firstLoad) {
+      this.props.loadCommits(this.props.branch, 1); // TODO: remove the hack
+      this.props.loadBuilds();
     }
   }
 
@@ -35,7 +33,7 @@ class Commits extends React.PureComponent {
   };
 
   render() {
-    const {branch, page} = this.props;
+    const { branch, currentPage } = this.props
 
     return (
       <div className='container mt-2'>
@@ -46,7 +44,7 @@ class Commits extends React.PureComponent {
           </div>
         </div>
         
-        {this.props.isLoading.load ? (
+        {this.props.isLoading ? (
           <Loading
             text={`Fetching latest Commits of ${branch} for you...`}
           />
@@ -60,38 +58,10 @@ class Commits extends React.PureComponent {
                 Err:{this.props.error}
               </div>
             ) : (
-              <div>
-                <button
-                  type='button'
-                  onClick={() => {
-                    this.props.loadCommits(branch, page.prev);
-                  }}
-                  className='btn btn-primary '
-                  disabled={
-                    page.prev === null || this.props.error !== null
-                  }
-                >
-                  <i className='fa fa-caret-left' aria-hidden='true' />
-                  Previous Page{' '}
-                </button>{' '}
-                <button
-                  type='button'
-                  onClick={() => {
-                    this.props.loadCommits(branch, page.next);
-                  }}
-                  className='btn btn-primary'
-                  disabled={
-                    page.next === null || this.props.error !== null
-                  }
-                >
-                  Next Page{'	'}
-                  <i className='fa fa-caret-right' aria-hidden='true' />
-                </button>
-                <footer className='blockquote-footer'>
-                  Page {page.next - 1}
-                </footer>
-                <div className='footer-blockquote' />
-              </div>
+              <Pagination
+                currentPage={currentPage}
+                nextPage={() => this.props.loadCommits(branch, currentPage + 1)}
+                prevPage={() => this.props.loadCommits(branch, currentPage - 1)} />
             )}
           </div>
         )}
@@ -110,15 +80,15 @@ const mapStateToProps = ({
   commits,
   builders,
   error,
-  page,
   builds,
   tests
 }) => ({
-  isLoading,
+  isLoading: isLoading.commitsLoadInfo.lastState !== LOAD_STATE.LOADED,
+  firstLoad: !isLoading.commitsLoadInfo.loadedPages.includes(1), //if we need to load first page
+  currentPage: isLoading.commitsLoadInfo.currentPage,
   commits,
   builders,
   error,
-  page,
   builds,
   tests
 });

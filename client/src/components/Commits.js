@@ -18,6 +18,13 @@ class Commits extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.branch !== prevProps.branch) {
+      this.props.loadCommits(this.props.branch, 1)
+      this.props.loadBuilds()
+    }
+  }
+
   renderCommits = commit => {
     const tests = this.props.tests[commit.sha]
 

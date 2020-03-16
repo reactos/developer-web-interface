@@ -15,6 +15,12 @@ class Pulls extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.pullState !== prevProps.pullState) {
+      this.props.loadPulls(this.props.pullState, 1)
+    }
+  }
+
   renderPulls = pull => {
     const tests = this.props.tests[pull.merge_commit_sha]
 

@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
-import BuildDetails from './BuildDetails';
-import TestDetails from './TestDetails';
-import { JOB_STATUS, LOAD_STATE } from '../redux/constants'
+
+import { JOB_STATUS, LOAD_STATE } from 'redux/constants'
+import BuildDetails from './BuildDetails'
+import TestDetails from './TestDetails'
 import { statusElement } from './utils'
 
 function firstLineTrimmed(str) {

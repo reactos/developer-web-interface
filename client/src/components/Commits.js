@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { loadCommits, loadBuilds } from '../redux/actions';
-import Branches from './Branches';
-import './styles/Commit.css';
-import CommitsCard from './CommitsCard';
-import Loading from './Loading';
+
+import { loadCommits, loadBuilds } from 'redux/actions'
+import { LOAD_STATE } from 'redux/constants'
+import Branches from './Branches'
+import CommitsCard from './CommitsCard'
+import Loading from './Loading'
 import Pagination from './Pagination'
-import { LOAD_STATE } from '../redux/constants'
 
 
 class Commits extends React.PureComponent {

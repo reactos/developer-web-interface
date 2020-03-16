@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { JOB_STATUS } from '../redux/constants'
+
+import { JOB_STATUS } from 'redux/constants'
 import { statusElement } from './utils'
 
 

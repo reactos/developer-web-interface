@@ -1,0 +1,11 @@
+/* For card headers */
+.new {
+  background-color: white;
+}
+
+.error {
+  background: lightsalmon;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid tomato;
+}

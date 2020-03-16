@@ -7,13 +7,14 @@ import {
   Redirect
 } from "react-router-dom";
 import { connect } from 'react-redux'
-import Header from './components/Header';
-import Commits from './components/Commits';
-import Pulls from './components/Pulls';
-import Loading from './components/Loading'
-import configureStore from './redux/store';
-import { loadBuilders } from './redux/actions'
-import { LOAD_STATE } from './redux/constants'
+
+import configureStore from 'redux/store'
+import { loadBuilders } from 'redux/actions'
+import { LOAD_STATE } from 'redux/constants'
+import Header from 'components/Header'
+import Commits from 'components/Commits'
+import Pulls from 'components/Pulls'
+import Loading from 'components/Loading'
 
 
 const store = configureStore();

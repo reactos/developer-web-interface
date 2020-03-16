@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
-import { loadPulls } from '../redux/actions';
-import './styles/Pulls.css';
-import Loading from './Loading';
+
+import { loadPulls } from 'redux/actions'
+import { LOAD_STATE } from 'redux/constants'
+import Loading from './Loading'
 import Pagination from './Pagination'
-import PullsCard from './PullsCard';
-import { LOAD_STATE } from '../redux/constants'
+import PullsCard from './PullsCard'
+
 
 class Pulls extends React.PureComponent {
   componentDidMount() {

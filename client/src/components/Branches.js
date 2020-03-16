@@ -7,7 +7,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import { loadBranches, loadCommits } from '../redux/actions';
+import { loadBranches, loadCommits } from 'redux/actions'
 
 class Branches extends React.Component {
   constructor(props) {

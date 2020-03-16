@@ -1,7 +1,9 @@
 import React from 'react';
 import { UncontrolledCollapse, CardBody, Card, CardHeader } from 'reactstrap';
-import BuildDetails from './BuildDetails';
-import TestDetails from './TestDetails';
+
+import BuildDetails from './BuildDetails'
+import TestDetails from './TestDetails'
+
 
 function PullsCard(props) {
   let tog = 'toggler' + props.id;

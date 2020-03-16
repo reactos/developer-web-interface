@@ -1,5 +1,6 @@
 import React from 'react'
-import { JOB_STATUS } from '../redux/constants'
+
+import { JOB_STATUS } from 'redux/constants'
 
 
 export function statusElement(status, statusText) {

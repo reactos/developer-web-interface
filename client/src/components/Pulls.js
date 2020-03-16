@@ -50,7 +50,7 @@ class Pulls extends React.PureComponent {
         </div>
 
         {this.props.isLoading ? (
-          <Loading text='Fetching latest PRs for you...' />
+          <Loading>Fetching latest PRs for you...</Loading>
         ) : (
           <div>
             <div>{this.props.pulls.map(this.renderPulls)}</div>

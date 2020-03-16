@@ -37,7 +37,7 @@ class App extends React.PureComponent {
             <Route path="/commits"><Redirect to="/commits/master"/></Route>
             <Route path="/"><Redirect to="/commits/master"/></Route>
           </Switch>
-        : <Loading text="Loading basic data..." />}
+        : <Loading>Loading basic data...</Loading>}
       </React.Fragment>)
   }
 }

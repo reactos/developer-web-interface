@@ -45,9 +45,7 @@ class Commits extends React.PureComponent {
         </div>
         
         {this.props.isLoading ? (
-          <Loading
-            text={`Fetching latest Commits of ${branch} for you...`}
-          />
+          <Loading>{`Fetching latest Commits of ${branch} for you...`}</Loading>
         ) : (
           <div>
             <div>{this.props.commits.map(this.renderCommits)}</div>
